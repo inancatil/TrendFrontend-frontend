@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import "./styles/common.scss";
 
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
