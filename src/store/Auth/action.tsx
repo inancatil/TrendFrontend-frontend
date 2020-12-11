@@ -9,6 +9,11 @@ export const login = (loginData: ILogin): AppThunk => {
       .post("/api/users/login", {
         email: loginData.username,
         password: loginData.password,
+      }
+      ,{
+        headers:{
+          "Content-Type":"application/json"
+        }
       })
       .then((res: AxiosResponse<ILoginResponse>) => {
         dispatch({
