@@ -9,17 +9,17 @@ export interface IRoutesProps {}
 
 export default function Routes(props: IRoutesProps) {
   return (
-    <Switch>
+    <>
       <Route exact path="/">
         <Home />
       </Route>
       <Route path="/login">
         <Login />
       </Route>
-      <AdminRoutes />
+      <Route path="/admin" component={AdminRoutes} />
       <Route>
         <NotFound />
       </Route>
-    </Switch>
+    </>
   );
 }

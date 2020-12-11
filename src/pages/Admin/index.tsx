@@ -6,39 +6,16 @@ import Categories from "./Categories/Categories";
 import Home from "./Home/Home";
 import { useSelector } from "../../store";
 
-export default function AdminRoutes() {
+export default function AdminRoutes({ match }) {
   const { token } = useSelector((state) => state.authReducer);
 
   return token !== "" ? (
-    <Route
-      path="/admin"
-      render={({ match: { url } }) => (
-        <Switch>
-          <Route
-            path={`${url}/`}
-            exact
-            render={(props) => (
-              <Admin {...props}>
-                <Home />
-              </Admin>
-            )}
-          />
-          <Route
-            path={`${url}/categories`}
-            render={(props) => (
-              <Admin {...props}>
-                <Categories />
-              </Admin>
-            )}
-          />
-          <Route>
-            <Admin>
-              <NotFound />
-            </Admin>
-          </Route>
-        </Switch>
-      )}
-    />
+    <Admin>
+      <Switch>
+        <Route path={`${match.url}/`} component={Home} exact />
+        <Route path={`${match.url}/categories`} component={Categories} />
+      </Switch>
+    </Admin>
   ) : (
     <Redirect to={"/login"} />
   );
