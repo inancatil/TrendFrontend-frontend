@@ -12,7 +12,7 @@ import StarBorder from "@material-ui/icons/StarBorder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon, SvgIcon } from "@material-ui/core";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
-import { usePrevious } from "../../../../tools/utils";
+import { usePrevious } from "../../../../../tools/utils";
 import { Link, useRouteMatch } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>

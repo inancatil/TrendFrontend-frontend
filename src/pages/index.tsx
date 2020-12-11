@@ -3,23 +3,15 @@ import { Switch, Route } from "react-router-dom";
 import Home from "./Home/Home";
 import AdminRoutes from "./Admin/index";
 import NotFound from "./Fallback/NotFound/NotFound";
-import Login from "./Login/Login";
+import LoginRoutes from "./Login";
 
-export interface IRoutesProps {}
-
-export default function Routes(props: IRoutesProps) {
+export default function Routes() {
   return (
     <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route path="/login">
-        <Login />
-      </Route>
+      <Route exact path="/" component={Home} />
+      <Route path="/login" component={LoginRoutes} />
       <Route path="/admin" component={AdminRoutes} />
-      <Route>
-        <NotFound />
-      </Route>
+      <Route component={NotFound} />
     </Switch>
   );
 }

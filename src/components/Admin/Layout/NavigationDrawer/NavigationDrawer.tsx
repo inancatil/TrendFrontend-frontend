@@ -18,6 +18,10 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import CustomList from "./List/CustomList";
+import { Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import * as authActions from "../../../../store/Auth/action";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: 36,
+    },
+    title: {
+      flexGrow: 1,
     },
     hide: {
       display: "none",
@@ -85,6 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function NavigationDrawer(props: any) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -95,6 +103,10 @@ export default function NavigationDrawer(props: any) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const logoutHandler = () => {
+    dispatch(authActions.logout());
   };
 
   return (
@@ -118,9 +130,12 @@ export default function NavigationDrawer(props: any) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Mini variant drawer
+          <Typography variant="h6" noWrap className={classes.title}>
+            Admin Page
           </Typography>
+          <Button color="inherit" onClick={logoutHandler}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

@@ -16,6 +16,9 @@ import { useDispatch } from "react-redux";
 import * as loginActions from "../../store/Auth/action";
 import styles from "./Login.module.scss";
 import { useStyles } from "./LoginCss";
+import useHttpAuth from "../../hooks/useHttpAuth";
+import { ILoginResponse } from "../../store/Auth/types";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -53,13 +56,22 @@ function Copyright() {
 export default function Login() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const httpAuth = useHttpAuth();
+  const history = useHistory();
 
   const authSubmitHandler = async (event: any) => {
     event.preventDefault();
     const username = event.target[0].value;
     const password = event.target[2].value;
 
-    dispatch(loginActions.login({ username, password }));
+    httpAuth
+      .login({ username, password })
+      .then((res: ILoginResponse | null) => {
+        if (res) {
+          dispatch(loginActions.login(res));
+          history.push("/admin");
+        }
+      });
   };
 
   return (

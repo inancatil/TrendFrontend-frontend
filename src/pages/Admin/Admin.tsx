@@ -1,5 +1,5 @@
 import React from "react";
-import NavigationDrawer from "../../components/Layout/NavigationDrawer/NavigationDrawer";
+import NavigationDrawer from "../../components/Admin/Layout/NavigationDrawer/NavigationDrawer";
 
 export interface IAdminProps {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { IAuth, IAuthActions, LOGIN } from "./types";
+import { IAuth, IAuthActions, LOGIN, LOGOUT } from "./types";
 
 const initialState: IAuth = {
   userData: {
@@ -18,6 +18,18 @@ const login = (state = initialState, action: AnyAction) => {
   return newState;
 };
 
+const logout = (state = initialState, action: AnyAction) => {
+  const newState = {
+    userData: {
+      userId: "",
+      name: "",
+      email: "",
+    },
+    token: "",
+  };
+  return newState;
+};
+
 export const authReducer = (
   state = initialState,
   action: IAuthActions
@@ -25,6 +37,8 @@ export const authReducer = (
   switch (action.type) {
     case LOGIN:
       return login(state, action);
+    case LOGOUT:
+      return logout(state, action);
     default:
       return state;
   }

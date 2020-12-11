@@ -1,28 +1,17 @@
-import { ILogin, ILoginResponse, LOGIN } from "./types";
-import axios from "../../config/axios-config";
-import { AxiosResponse } from "axios";
-import { AppThunk } from "..";
+import { ILoginResponse, LOGIN, LOGOUT } from "./types";
 
-export const login = (loginData: ILogin): AppThunk => {
-  return (dispatch) => {
-    axios
-      .post("/api/users/login", {
-        email: loginData.username,
-        password: loginData.password,
-      }
-      ,{
-        headers:{
-          "Content-Type":"application/json"
-        }
-      })
-      .then((res: AxiosResponse<ILoginResponse>) => {
-        dispatch({
-          type: LOGIN,
-          payload: {
-            userData: res.data.userData,
-            token: res.data.token,
-          },
-        });
-      });
+export const login = (res: ILoginResponse) => {
+  return {
+    type: LOGIN,
+    payload: {
+      userData: res.userData,
+      token: res.token,
+    },
+  };
+};
+
+export const logout = () => {
+  return {
+    type: LOGOUT,
   };
 };
