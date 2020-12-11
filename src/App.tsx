@@ -6,12 +6,15 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
 import { store, persistor } from "./store";
-import Login from "./pages/Login/Login";
+import Routes from "./pages";
+import { BrowserRouter } from "react-router-dom";
 export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Login />
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
       </PersistGate>
     </Provider>
   );

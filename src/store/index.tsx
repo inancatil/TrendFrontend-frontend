@@ -5,6 +5,7 @@ import thunk, { ThunkAction } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { authReducer } from "./Auth/reducer";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import { createSelectorHook } from "react-redux";
 
 const persistConfig = {
   key: "root",
@@ -17,7 +18,7 @@ const rootReducer = combineReducers({
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
-
+export const useSelector = createSelectorHook<RootState>();
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
