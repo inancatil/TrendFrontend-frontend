@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Icon, SvgIcon } from "@material-ui/core";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { usePrevious } from "../../../../tools/utils";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +34,7 @@ interface ICustomListProps {
 export default function CustomList(props: ICustomListProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const { url } = useRouteMatch();
 
   const handleClick = () => {
     if (props.isDrawerOpen) setOpen(!open);
@@ -66,17 +67,17 @@ export default function CustomList(props: ICustomListProps) {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItem button className={classes.nested}>
-            <Link to="/admin/posts" replace>
+            <Link to={`${url}/posts`}>
               <ListItemText primary="All Posts" />
             </Link>
           </ListItem>
           <ListItem button className={classes.nested}>
-            <Link to="/admin/newpost" replace>
+            <Link to={`${url}/newpost`}>
               <ListItemText primary="Add New" />
             </Link>
           </ListItem>
           <ListItem button className={classes.nested}>
-            <Link to="/admin/categories" replace>
+            <Link to={`${url}/categories`}>
               <ListItemText primary="Categories" />
             </Link>
           </ListItem>

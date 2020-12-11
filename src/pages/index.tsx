@@ -9,7 +9,7 @@ export interface IRoutesProps {}
 
 export default function Routes(props: IRoutesProps) {
   return (
-    <>
+    <Switch>
       <Route exact path="/">
         <Home />
       </Route>
@@ -20,6 +20,6 @@ export default function Routes(props: IRoutesProps) {
       <Route>
         <NotFound />
       </Route>
-    </>
+    </Switch>
   );
 }
