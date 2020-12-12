@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
   createStyles,
@@ -26,6 +26,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Button, CssBaseline } from "@material-ui/core";
 import NewCategoryModal from "./NewCategoryModal/NewCategoryModal";
+import useHttpCategory from "../../../hooks/useHttpCategory";
 
 interface Data {
   name: string;
@@ -36,19 +37,19 @@ function createData(name: string, numOfPosts: number): Data {
   return { name, numOfPosts };
 }
 
-const rows = [
-  createData("Cupcake", 305),
-  createData("Donut", 452),
-  createData("Eclair", 262),
-  createData("Gingerbread", 356),
-  createData("Honeycomb", 408),
-  createData("Jelly Bean", 375),
-  createData("KitKat", 518),
-  createData("Lollipop", 392),
-  createData("Marshmallow", 318),
-  createData("Nougat", 360),
-  createData("Oreo", 437),
-];
+// const rows = [
+//   createData("Cupcake", 305),
+//   createData("Donut", 452),
+//   createData("Eclair", 262),
+//   createData("Gingerbread", 356),
+//   createData("Honeycomb", 408),
+//   createData("Jelly Bean", 375),
+//   createData("KitKat", 518),
+//   createData("Lollipop", 392),
+//   createData("Marshmallow", 318),
+//   createData("Nougat", 360),
+//   createData("Oreo", 437),
+// ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -272,6 +273,21 @@ export default function Categories() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
+  const httpCategory = useHttpCategory();
+  const [rows, setRows] = useState<Data[]>([]);
+
+  useEffect(() => {
+    httpCategory.getAllCategories().then((res: any) => {
+      const categories = res.categories.map((category) => {
+        return {
+          name: category.name,
+          numOfPosts: category.blogPosts.length,
+        };
+      });
+      console.log(categories);
+      setRows(categories);
+    });
+  }, []);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,

@@ -22,6 +22,7 @@ export default function useHttpAuth() {
               userData: res.data.userData,
               token: res.data.token,
             };
+
             setError("");
           })
           .catch((err) => {
