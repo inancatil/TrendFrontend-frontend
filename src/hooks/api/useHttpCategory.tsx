@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { useState, useCallback } from "react";
-import axios from "../config/axios-config";
-import { useSelector } from "../store";
+import axios from "../../config/axios-config";
+import { useSelector } from "../../store";
 
 export default function useHttpCategory() {
   const [isLoading, setIsLoading] = useState<boolean>(false);

@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch } from "react-redux";
 import * as loginActions from "../../store/Auth/action";
-import useHttpAuth from "../../hooks/useHttpAuth";
+import useHttpAuth from "../../hooks/api/useHttpAuth";
 import { ILoginResponse } from "../../store/Auth/types";
 import { useHistory } from "react-router-dom";
 

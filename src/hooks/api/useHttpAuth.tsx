@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { useState, useCallback } from "react";
-import axios from "../config/axios-config";
-import { ILogin, ILoginResponse } from "../store/Auth/types";
+import axios from "../../config/axios-config";
+import { ILogin, ILoginResponse } from "../../store/Auth/types";
 
 export default function useHttpAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(false);

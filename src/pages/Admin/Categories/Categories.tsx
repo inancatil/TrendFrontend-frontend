@@ -26,7 +26,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { Button, CssBaseline } from "@material-ui/core";
 import NewCategoryModal from "./NewCategoryModal/NewCategoryModal";
-import useHttpCategory from "../../../hooks/useHttpCategory";
+import useHttpCategory from "../../../hooks/api/useHttpCategory";
 
 interface Data {
   name: string;
