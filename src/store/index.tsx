@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers, createStore, applyMiddleware, Action } from "redux";
 import thunk, { ThunkAction } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { authReducer } from "./Auth/reducer";
+import { userReducer } from "./User/reducer";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { createSelectorHook } from "react-redux";
 
@@ -14,7 +14,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  authReducer,
+  userReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

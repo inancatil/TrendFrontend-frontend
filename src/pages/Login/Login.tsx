@@ -13,10 +13,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useDispatch } from "react-redux";
-import * as loginActions from "../../store/Auth/action";
+import * as loginActions from "../../store/User/action";
 import useHttpAuth from "../../hooks/api/useHttpAuth";
-import { ILoginResponse } from "../../store/Auth/types";
 import { useHistory } from "react-router-dom";
+import { IUser } from "../../types";
 
 function Copyright() {
   return (
@@ -62,14 +62,12 @@ export default function Login() {
     const username = event.target[0].value;
     const password = event.target[2].value;
 
-    httpAuth
-      .login({ username, password })
-      .then((res: ILoginResponse | null) => {
-        if (res) {
-          dispatch(loginActions.login(res));
-          history.push("/admin");
-        }
-      });
+    httpAuth.login(username, password).then((res: IUser | null) => {
+      if (res) {
+        dispatch(loginActions.login(res));
+        history.push("/admin");
+      }
+    });
   };
 
   return (

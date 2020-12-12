@@ -9,9 +9,8 @@ const instance = axios.create({
 instance.defaults.headers.post["Content-Type"] = "application/json";
 
 instance.interceptors.request.use(function (config) {
-  const token = store.getState().authReducer.token;
+  const token = store.getState().userReducer.token;
   config.headers.common["Authorization"] = `Bearer ${token}`;
-
   return config;
 });
 

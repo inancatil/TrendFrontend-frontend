@@ -9,7 +9,7 @@ import NewPost from "./NewPost/NewPost";
 export default function AdminRoutes() {
   const { path } = useRouteMatch();
 
-  const { token } = useSelector((state) => state.authReducer);
+  const { token } = useSelector((state) => state.userReducer);
 
   return token !== "" ? (
     <Admin>

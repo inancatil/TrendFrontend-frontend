@@ -1,28 +1,27 @@
 import { AxiosResponse } from "axios";
 import { useState, useCallback } from "react";
 import axios from "../../config/axios-config";
-import { ILogin, ILoginResponse } from "../../store/Auth/types";
+import { IUser } from "../../types";
 
 export default function useHttpAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const login = useCallback(
-    async (loginData: ILogin): Promise<ILoginResponse | null> => {
+    async (email: string, password: string): Promise<IUser | null> => {
       setIsLoading(true);
-      let response: ILoginResponse | null = null;
+      let response: IUser | null = null;
       try {
         await axios
           .post("/api/users/login", {
-            email: loginData.username,
-            password: loginData.password,
+            email,
+            password,
           })
-          .then((res: AxiosResponse<ILoginResponse>) => {
+          .then((res: AxiosResponse<IUser>) => {
             response = {
               userData: res.data.userData,
               token: res.data.token,
             };
-
             setError("");
           })
           .catch((err) => {

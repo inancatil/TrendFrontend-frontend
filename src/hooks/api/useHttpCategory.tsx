@@ -1,7 +1,11 @@
 import { AxiosResponse } from "axios";
 import { useState, useCallback } from "react";
 import axios from "../../config/axios-config";
-import { useSelector } from "../../store";
+import {
+  ICategory,
+  ICreateCategoryResponse,
+  IGetAllCategoriesResponse,
+} from "../../types";
 
 export default function useHttpCategory() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -9,14 +13,14 @@ export default function useHttpCategory() {
 
   const addNewCategory = useCallback(async (name: string) => {
     setIsLoading(true);
-    let response = null;
+    let response: ICreateCategoryResponse | null = null;
 
     try {
       await axios
         .post("/api/categories", {
           name: name,
         })
-        .then((res: AxiosResponse<any>) => {
+        .then((res: AxiosResponse<ICreateCategoryResponse | null>) => {
           response = res.data;
           setError("");
         })
@@ -34,12 +38,12 @@ export default function useHttpCategory() {
 
   const getAllCategories = useCallback(async () => {
     setIsLoading(true);
-    let response = null;
+    let response: IGetAllCategoriesResponse | null = null;
 
     try {
       await axios
         .get("/api/categories")
-        .then((res: AxiosResponse<any>) => {
+        .then((res: AxiosResponse<IGetAllCategoriesResponse | null>) => {
           response = res.data;
           setError("");
         })
