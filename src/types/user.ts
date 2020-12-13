@@ -1,10 +1,8 @@
-export interface IUser {
-  userData: IUserData;
-  token: string;
-}
+import { IBlogPost } from ".";
 
-export interface IUserData {
-  userId: string;
+export interface IUser {
+  id: string;
   name: string;
   email: string;
+  blogPosts: IBlogPost[];
 }

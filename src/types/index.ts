@@ -4,10 +4,14 @@ export type {
   IGetAllCategoriesResponse,
 } from "./category";
 
-export type { IUser, IUserData } from "./user";
+export type { IUser } from "./user";
 
 export type {
   IBlogPost,
   ICreateBlogPostResponse,
   IGetAllBlogPostsResponse,
 } from "./blogPost";
+
+export type {
+  IAuth
+} from "./auth"

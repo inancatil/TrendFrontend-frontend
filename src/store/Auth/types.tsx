@@ -1,15 +1,15 @@
-import { IUser } from "../../types";
+import { IAuth } from "../../types";
 
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 
 interface ILoginAction {
   type: typeof LOGIN;
-  payload: IUser;
+  payload: Omit<IAuth, "isLoggedIn">;
 }
 
 interface ILogoutAction {
   type: typeof LOGOUT;
 }
 
-export type IUserActions = ILoginAction | ILogoutAction;
+export type IAuthActions = ILoginAction | ILogoutAction;

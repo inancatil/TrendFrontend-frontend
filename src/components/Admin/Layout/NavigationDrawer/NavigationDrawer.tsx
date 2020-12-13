@@ -20,7 +20,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CustomList from "./List/CustomList";
 import { Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import * as authActions from "../../../../store/User/action";
+import * as authActions from "../../../../store/Auth/action";
 
 const drawerWidth = 240;
 

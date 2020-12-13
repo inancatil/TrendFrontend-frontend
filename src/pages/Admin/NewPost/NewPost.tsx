@@ -9,10 +9,10 @@ import { ICategory } from "../../../types";
 export default function NewPost() {
   const httpCategory = useHttpCategory();
   const httpBlogPost = useHttpBlogPost();
-  const userReducer = useSelector((state) => state.userReducer);
+  const authReducer = useSelector((state) => state.authReducer);
   const [categories, setCategories] = useState<any>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null
+    ""
   );
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
@@ -34,7 +34,7 @@ export default function NewPost() {
         title: title,
         content: editorContent,
         imageUrl: "imgurl",
-        author: userReducer.userData.userId,
+        author: authReducer.userId,
         date: "dumydate",
         tags: ["dummytag"],
         categoryId: selectedCategoryId,
