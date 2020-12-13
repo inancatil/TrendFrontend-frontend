@@ -2,19 +2,24 @@
 import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers, createStore, applyMiddleware, Action } from "redux";
 import thunk, { ThunkAction } from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+//import { composeWithDevTools } from "redux-devtools-extension";
+
+import { composeWithDevTools } from "remote-redux-devtools";
 import { userReducer } from "./User/reducer";
+import { categoryReducer } from "./Category/reducer";
+
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { createSelectorHook } from "react-redux";
 
 const persistConfig = {
   key: "root",
   storage,
-  //blacklist: ["cardStackReducer", "historyReducer"],
+  blacklist: ["categoryReducer"],
 };
 
 const rootReducer = combineReducers({
   userReducer,
+  categoryReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -27,8 +32,15 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const composeEnhancers = composeWithDevTools({
+  realtime: true,
+  name: "TrendFrontend",
+  hostname: "localhost",
+  port: 8000, // the port your remotedev server is running at
+});
+
 const middlewares = [thunk];
-const middleWareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
+const middleWareEnhancer = composeEnhancers(applyMiddleware(...middlewares));
 const store: any = createStore(persistedReducer, middleWareEnhancer);
 const persistor: any = persistStore(store);
 

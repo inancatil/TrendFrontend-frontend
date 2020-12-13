@@ -20,36 +20,23 @@ import Paper from "@material-ui/core/Paper";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { Button, CssBaseline } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import NewCategoryModal from "./NewCategoryModal/NewCategoryModal";
 import useHttpCategory from "../../../hooks/api/useHttpCategory";
+import { useDispatch } from "react-redux";
+import { ICategory } from "../../../types";
+import * as categoryActions from "../../../store/Category/action";
 
 interface Data {
+  id: string;
   name: string;
   numOfPosts: number;
 }
 
-function createData(name: string, numOfPosts: number): Data {
-  return { name, numOfPosts };
+function createData(id: string, name: string, numOfPosts: number): Data {
+  return { id, name, numOfPosts };
 }
-
-// const rows = [
-//   createData("Cupcake", 305),
-//   createData("Donut", 452),
-//   createData("Eclair", 262),
-//   createData("Gingerbread", 356),
-//   createData("Honeycomb", 408),
-//   createData("Jelly Bean", 375),
-//   createData("KitKat", 518),
-//   createData("Lollipop", 392),
-//   createData("Marshmallow", 318),
-//   createData("Nougat", 360),
-//   createData("Oreo", 437),
-// ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -266,6 +253,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Categories() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
@@ -277,14 +265,15 @@ export default function Categories() {
   const [rows, setRows] = useState<Data[]>([]);
 
   useEffect(() => {
-    httpCategory.getAllCategories().then((res: any) => {
-      const categories = res.categories.map((category) => {
-        return {
-          name: category.name,
-          numOfPosts: category.blogPosts.length,
-        };
+    httpCategory.getAllCategories().then((res: ICategory[] | undefined) => {
+      const categories = res!.map((category) => {
+        return createData(
+          category.id,
+          category.name,
+          category.blogPosts.length
+        );
       });
-      console.log(categories);
+      dispatch(categoryActions.getAllCategories(res!));
       setRows(categories);
     });
   }, []);

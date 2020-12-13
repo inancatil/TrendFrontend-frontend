@@ -11,7 +11,10 @@ export default function useHttpBlogPost() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const addNewBlogPost = useCallback(async (post: IBlogPost) => {
+  /* Omit<IBlogPost, "id"> 
+  id prop unu interfaceten çıkarıp öyle type check yapar
+  */
+  const addNewBlogPost = useCallback(async (post: Omit<IBlogPost, "id">) => {
     setIsLoading(true);
     let response: ICreateBlogPostResponse | null = null;
 

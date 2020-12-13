@@ -38,13 +38,14 @@ export default function useHttpCategory() {
 
   const getAllCategories = useCallback(async () => {
     setIsLoading(true);
-    let response: IGetAllCategoriesResponse | null = null;
+    let response: ICategory[] | undefined = undefined;
 
     try {
       await axios
         .get("/api/categories")
-        .then((res: AxiosResponse<IGetAllCategoriesResponse | null>) => {
-          response = res.data;
+        .then((res: AxiosResponse<IGetAllCategoriesResponse | undefined>) => {
+          response = res.data?.categories;
+          console.log(res.data);
           setError("");
         })
         .catch((err) => {

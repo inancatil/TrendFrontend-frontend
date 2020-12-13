@@ -4,18 +4,21 @@ import TextEditor from "../../../components/Admin/TextEditor/TextEditor";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import useHttpCategory from "../../../hooks/api/useHttpCategory";
 import { useSelector } from "../../../store";
+import { ICategory } from "../../../types";
 
 export default function NewPost() {
   const httpCategory = useHttpCategory();
   const httpBlogPost = useHttpBlogPost();
   const userReducer = useSelector((state) => state.userReducer);
-  const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [categories, setCategories] = useState<any>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
   useEffect(() => {
-    httpCategory.getAllCategories().then((res: any) => {
-      const allCategories = res.categories.map((category) => {
+    httpCategory.getAllCategories().then((res: ICategory[] | undefined) => {
+      const allCategories = res!.map((category) => {
         return {
           id: category.id,
           name: category.name,
