@@ -12,11 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useDispatch } from "react-redux";
-import * as authActions from "../../store/Auth/action";
 import useHttpAuth from "../../hooks/api/useHttpAuth";
 import { useHistory } from "react-router-dom";
-import { IAuthResponse } from "../../types/auth";
 
 function Copyright() {
   return (
@@ -53,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const httpAuth = useHttpAuth();
   const history = useHistory();
 
@@ -62,11 +58,8 @@ export default function Login() {
     const username = event.target[0].value;
     const password = event.target[2].value;
 
-    httpAuth.login(username, password).then((res: IAuthResponse | null) => {
-      if (res) {
-        dispatch(authActions.login(res.authData));
-        history.push("/admin");
-      }
+    httpAuth.login(username, password).then(async (res) => {
+      res && history.push("/admin");
     });
   };
 

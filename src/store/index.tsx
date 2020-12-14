@@ -5,9 +5,10 @@ import thunk, { ThunkAction } from "redux-thunk";
 //import { composeWithDevTools } from "redux-devtools-extension";
 
 import { composeWithDevTools } from "remote-redux-devtools";
-import { authReducer } from "./Auth/reducer";
+import { userReducer } from "./User/reducer";
 import { categoryReducer } from "./Category/reducer";
 import { blogPostReducer } from "./BlogPost/reducer";
+import { alertReducer } from "./Alert/reducer";
 
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { createSelectorHook } from "react-redux";
@@ -19,7 +20,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  authReducer,
+  userReducer,
+  alertReducer,
   categoryReducer,
   blogPostReducer,
 });

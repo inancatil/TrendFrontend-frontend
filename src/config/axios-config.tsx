@@ -7,9 +7,9 @@ const instance = axios.create({
 });
 
 instance.defaults.headers.post["Content-Type"] = "application/json";
-
+instance.defaults.withCredentials = true;
 instance.interceptors.request.use(function (config) {
-  const token = store.getState().authReducer.token;
+  const token = store.getState().userReducer.jwtToken;
   config.headers.common["Authorization"] = `Bearer ${token}`;
   return config;
 });

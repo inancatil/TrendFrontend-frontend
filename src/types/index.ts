@@ -15,3 +15,5 @@ export type {
 export type {
   IAuth
 } from "./auth"
+
+export type { IAlert } from "./alert"

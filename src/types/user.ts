@@ -5,4 +5,6 @@ export interface IUser {
   name: string;
   email: string;
   blogPosts: IBlogPost[];
+  isLoggedIn: boolean;
+  jwtToken: string
 }

@@ -9,9 +9,7 @@ import NewPost from "./NewPost/NewPost";
 export default function AdminRoutes() {
   const { path } = useRouteMatch();
 
-  const { token } = useSelector((state) => state.authReducer);
-
-  return token !== "" ? (
+  return (
     <Admin>
       <Switch>
         <Route path={path} component={Home} exact />
@@ -19,7 +17,5 @@ export default function AdminRoutes() {
         <Route path={`${path}/newpost`} component={NewPost} />
       </Switch>
     </Admin>
-  ) : (
-    <Redirect to={"/login"} />
   );
 }

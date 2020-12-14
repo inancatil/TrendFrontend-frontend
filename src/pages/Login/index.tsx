@@ -5,7 +5,7 @@ import Login from "./Login";
 
 export default function LoginRoutes() {
   const { path } = useRouteMatch();
-  const { isLoggedIn } = useSelector((state) => state.authReducer);
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
 
   return !isLoggedIn ? (
     <Route path={path} component={Login} exact />

@@ -1,12 +1,18 @@
+import { IBlogPost } from ".";
 import { IUser } from "./user";
 
 export interface IAuth {
-    userId: string;
-    token: string;
-    isLoggedIn: boolean;
+    jwtToken: string;
 }
 
 export interface IAuthResponse {
-    userData: IUser,
-    authData: Omit<IAuth, "isLoggedIn">,
+    id: string;
+    name: string;
+    email: string;
+    blogPosts: IBlogPost[];
+    jwtToken: string
+}
+
+export interface IAuthResponseError {
+    message: string
 }

@@ -20,7 +20,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CustomList from "./List/CustomList";
 import { Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import * as authActions from "../../../../store/Auth/action";
+import * as authActions from "../../../../store/User/action";
+import useHttpAuth from "../../../../hooks/api/useHttpAuth";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -96,7 +98,8 @@ export default function NavigationDrawer(props: any) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const httpAuth = useHttpAuth();
+  const history = useHistory();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -106,7 +109,9 @@ export default function NavigationDrawer(props: any) {
   };
 
   const logoutHandler = () => {
-    dispatch(authActions.logout());
+    httpAuth.logout().then(() => {
+      history.push("/login");
+    });
   };
 
   return (
