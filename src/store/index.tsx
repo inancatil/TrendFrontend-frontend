@@ -45,7 +45,7 @@ const composeEnhancers = composeWithDevTools({
 
 const middlewares = [thunk];
 const middleWareEnhancer = composeEnhancers(applyMiddleware(...middlewares));
-const store: any = createStore(persistedReducer, middleWareEnhancer);
-const persistor: any = persistStore(store);
+const store = createStore(persistedReducer, middleWareEnhancer);
+const persistor = persistStore(store);
 
 export { store, persistor };

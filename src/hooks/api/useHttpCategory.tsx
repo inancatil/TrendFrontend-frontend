@@ -26,7 +26,7 @@ export default function useHttpCategory() {
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err);
+          console.log(err.response.data.message);
           //setError(err.response.data.message);
         });
     } catch (err) {
@@ -45,12 +45,11 @@ export default function useHttpCategory() {
         .get("/api/categories")
         .then((res: AxiosResponse<IGetAllCategoriesResponse | undefined>) => {
           response = res.data?.categories;
-          console.log(res.data);
           setError("");
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err);
+          console.log(err.response);
           //setError(err.response.data.message);
         });
     } catch (err) {

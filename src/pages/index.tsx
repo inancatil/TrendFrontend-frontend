@@ -5,9 +5,15 @@ import AdminRoutes from "./Admin/index";
 import NotFound from "./Fallback/NotFound/NotFound";
 import LoginRoutes from "./Login";
 import { useSelector } from "../store";
+import useHttpAuth from "../hooks/api/useHttpAuth";
 
 export default function Routes() {
   const { isLoggedIn } = useSelector((state) => state.userReducer);
+  const alertReducer = useSelector((state) => state.alertReducer);
+  const httpAuth = useHttpAuth();
+  if (alertReducer.message.includes("Auth") || !isLoggedIn)
+    httpAuth.refreshToken();
+
   return (
     <Switch>
       <Route exact path="/" component={Home} />

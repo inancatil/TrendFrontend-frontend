@@ -20,7 +20,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CustomList from "./List/CustomList";
 import { Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import * as authActions from "../../../../store/User/action";
 import useHttpAuth from "../../../../hooks/api/useHttpAuth";
 import { useHistory } from "react-router-dom";
 
@@ -109,8 +108,9 @@ export default function NavigationDrawer(props: any) {
   };
 
   const logoutHandler = () => {
-    httpAuth.logout().then(() => {
-      history.push("/login");
+    httpAuth.logout().then((res) => {
+      console.log(res);
+      res && history.push("/login");
     });
   };
 

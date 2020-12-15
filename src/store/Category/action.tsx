@@ -1,4 +1,4 @@
-import { ICategory } from "../../types";
+import { IBlogPost, ICategory } from "../../types";
 import {
   CREATE_CATEGORY,
   DELETE_CATEGORY,
@@ -6,12 +6,7 @@ import {
   ICategoryActions,
 } from "./types";
 
-export const createCategory = (id: string, name: string): ICategoryActions => {
-  const category: ICategory = {
-    id,
-    name,
-    blogPosts: [],
-  };
+export const createCategory = (category: ICategory): ICategoryActions => {
   return {
     type: CREATE_CATEGORY,
     payload: category,

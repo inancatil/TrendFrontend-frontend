@@ -6,6 +6,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useHttpCategory from "../../../../hooks/api/useHttpCategory";
+import * as categoryActions from "../../../../store/Category/action";
+import { useDispatch } from "react-redux";
 
 interface INewCategoryModalProps {
   open: boolean;
@@ -18,6 +20,7 @@ export default function NewCategoryModal({
 }: INewCategoryModalProps) {
   const [categoryName, setCategoryName] = useState<string>("");
   const httpCategory = useHttpCategory();
+  const dispatch = useDispatch();
   const handleClose = () => {
     setOpen(false);
   };
@@ -25,7 +28,8 @@ export default function NewCategoryModal({
   const onSubmit = () => {
     httpCategory.addNewCategory(categoryName).then((res) => {
       if (res) {
-        console.log("Success!!!:  " + res);
+        //console.log(res);
+        dispatch(categoryActions.createCategory(res!));
         setOpen(false);
       }
     });

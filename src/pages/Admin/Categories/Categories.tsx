@@ -27,6 +27,7 @@ import useHttpCategory from "../../../hooks/api/useHttpCategory";
 import { useDispatch } from "react-redux";
 import { ICategory } from "../../../types";
 import * as categoryActions from "../../../store/Category/action";
+import { useSelector } from "../../../store";
 
 interface Data {
   id: string;
@@ -252,8 +253,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const convertToTableData = (data: ICategory[]) => {
+  return data.map((category) => {
+    return createData(category.id, category.name, category.blogPosts.length);
+  });
+};
+
 export default function Categories() {
   const dispatch = useDispatch();
+  const categoryReducer = useSelector((state) => state.categoryReducer);
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
@@ -262,19 +270,15 @@ export default function Categories() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
   const httpCategory = useHttpCategory();
-  const [rows, setRows] = useState<Data[]>([]);
+  const [rows, setRows] = useState<Data[]>(convertToTableData(categoryReducer));
 
   useEffect(() => {
     httpCategory.getAllCategories().then((res: ICategory[] | undefined) => {
-      const categories = res!.map((category) => {
-        return createData(
-          category.id,
-          category.name,
-          category.blogPosts.length
-        );
-      });
-      dispatch(categoryActions.getAllCategories(res!));
-      setRows(categories);
+      if (res) {
+        const categories = convertToTableData(res);
+        dispatch(categoryActions.getAllCategories(res!));
+        setRows(categories);
+      }
     });
   }, []);
 

@@ -35,12 +35,14 @@ export default function useHttpAuth() {
   }, []);
 
   const logout = useCallback(async () => {
+    let isSuccesfull = false;
     try {
       await axios
         .post("/api/users/revoke-token")
         .then((res: AxiosResponse<any>) => {
           stopRefreshTokenTimer();
           dispatch(userActions.logout());
+          isSuccesfull = true;
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -50,6 +52,7 @@ export default function useHttpAuth() {
     } catch (err) {
       console.log("Unknown Error");
     }
+    return isSuccesfull;
   }, []);
 
   const refreshToken = useCallback(async () => {
