@@ -14,6 +14,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import useHttpAuth from "../../hooks/api/useHttpAuth";
 import { useHistory } from "react-router-dom";
+import { Alert } from "react-bootstrap";
+import { useSelector } from "../../store";
 
 function Copyright() {
   return (
@@ -52,6 +54,7 @@ export default function Login() {
   const classes = useStyles();
   const httpAuth = useHttpAuth();
   const history = useHistory();
+  const alertReducer = useSelector((state) => state.alertReducer);
 
   const authSubmitHandler = async (event: any) => {
     event.preventDefault();
@@ -73,6 +76,9 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {alertReducer.message !== "" && (
+          <Alert variant={"danger"}>{alertReducer.message}</Alert>
+        )}
         <form className={classes.form} noValidate onSubmit={authSubmitHandler}>
           <TextField
             variant="outlined"

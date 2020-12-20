@@ -10,3 +10,8 @@ export interface ICreateCategoryResponse {
 export interface IGetAllCategoriesResponse {
   categories: ICategory[];
 }
+
+export interface IDeleteCategoryResponse {
+  message: string;
+  category: ICategory;
+}

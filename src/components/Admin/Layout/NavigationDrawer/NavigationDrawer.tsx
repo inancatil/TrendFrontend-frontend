@@ -19,7 +19,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 import CustomList from "./List/CustomList";
 import { Button } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import useHttpAuth from "../../../../hooks/api/useHttpAuth";
 import { useHistory } from "react-router-dom";
 
@@ -93,7 +92,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function NavigationDrawer(props: any) {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);

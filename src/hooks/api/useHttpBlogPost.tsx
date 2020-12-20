@@ -39,7 +39,7 @@ export default function useHttpBlogPost() {
     return response;
   }, []);
 
-  const getAllCategories = useCallback(async () => {
+  const getAllBlogPosts = useCallback(async () => {
     setIsLoading(true);
     let response: IGetAllBlogPostsResponse | null = null;
 
@@ -62,5 +62,5 @@ export default function useHttpBlogPost() {
     return response;
   }, []);
 
-  return { isLoading, error, addNewBlogPost };
+  return { isLoading, error, addNewBlogPost, getAllBlogPosts };
 }

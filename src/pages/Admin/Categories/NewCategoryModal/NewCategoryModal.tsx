@@ -20,16 +20,15 @@ export default function NewCategoryModal({
 }: INewCategoryModalProps) {
   const [categoryName, setCategoryName] = useState<string>("");
   const httpCategory = useHttpCategory();
-  const dispatch = useDispatch();
   const handleClose = () => {
     setOpen(false);
+    setCategoryName("");
   };
 
   const onSubmit = () => {
     httpCategory.addNewCategory(categoryName).then((res) => {
       if (res) {
-        //console.log(res);
-        dispatch(categoryActions.createCategory(res!));
+        setCategoryName("");
         setOpen(false);
       }
     });

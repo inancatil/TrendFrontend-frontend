@@ -2,6 +2,7 @@ export type {
   ICategory,
   ICreateCategoryResponse,
   IGetAllCategoriesResponse,
+  IDeleteCategoryResponse,
 } from "./category";
 
 export type { IUser } from "./user";
@@ -12,8 +13,6 @@ export type {
   IGetAllBlogPostsResponse,
 } from "./blogPost";
 
-export type {
-  IAuth
-} from "./auth"
+export type { IAuth } from "./auth";
 
-export type { IAlert } from "./alert"
+export type { IAlert } from "./alert";

@@ -5,14 +5,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Icon, SvgIcon } from "@material-ui/core";
-import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
-import { usePrevious } from "../../../../../tools/utils";
+import { SvgIcon } from "@material-ui/core";
 import { Link, useRouteMatch } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>

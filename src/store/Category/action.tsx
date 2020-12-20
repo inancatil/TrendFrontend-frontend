@@ -1,4 +1,4 @@
-import { IBlogPost, ICategory } from "../../types";
+import { ICategory } from "../../types";
 import {
   CREATE_CATEGORY,
   DELETE_CATEGORY,

@@ -9,6 +9,22 @@ import * as alertActions from "../../store/Alert/action";
 export default function useHttpAuth() {
   const dispatch = useDispatch();
 
+  const refreshTokenTimeout = useRef<any>(null);
+
+  const startRefreshTokenTimer = useCallback((tkn: string) => {
+    // parse json object from base64 encoded jwt token
+    const jwtToken = JSON.parse(atob(tkn.split(".")[1]));
+
+    // set a timeout to refresh the token a minute before it expires
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - Date.now() - 60 * 1000;
+    refreshTokenTimeout.current = setTimeout(() => refreshToken(), timeout);
+  }, []);
+
+  function stopRefreshTokenTimer() {
+    clearTimeout(refreshTokenTimeout.current);
+  }
+
   const login = useCallback(async (email: string, password: string) => {
     let isSuccesfull = false;
     try {
@@ -56,12 +72,14 @@ export default function useHttpAuth() {
   }, []);
 
   const refreshToken = useCallback(async () => {
+    let response: any = null;
     try {
       await axios
         .post("/api/users/refresh-token")
         .then((res: AxiosResponse<IAuthResponse>) => {
           dispatch(userActions.login(res.data));
           startRefreshTokenTimer(res.data!.jwtToken);
+          response = res.data!.jwtToken;
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -70,23 +88,8 @@ export default function useHttpAuth() {
     } catch (err) {
       console.log("Unknown Error");
     }
+    return response;
   }, []);
-
-  const refreshTokenTimeout = useRef<any>(null);
-
-  function startRefreshTokenTimer(tkn: string) {
-    // parse json object from base64 encoded jwt token
-    const jwtToken = JSON.parse(atob(tkn.split(".")[1]));
-
-    // set a timeout to refresh the token a minute before it expires
-    const expires = new Date(jwtToken.exp * 1000);
-    const timeout = expires.getTime() - Date.now() - 60 * 1000;
-    refreshTokenTimeout.current = setTimeout(() => refreshToken(), timeout);
-  }
-
-  function stopRefreshTokenTimer() {
-    clearTimeout(refreshTokenTimeout.current);
-  }
 
   return { login, logout, refreshToken };
 }

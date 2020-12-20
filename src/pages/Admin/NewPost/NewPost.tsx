@@ -10,6 +10,7 @@ export default function NewPost() {
   const httpCategory = useHttpCategory();
   const httpBlogPost = useHttpBlogPost();
   const userReducer = useSelector((state) => state.userReducer);
+  const categoryReducer = useSelector((state) => state.categoryReducer);
   const [categories, setCategories] = useState<any>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     ""
@@ -27,6 +28,16 @@ export default function NewPost() {
       setCategories(allCategories);
     });
   }, []);
+
+  useEffect(() => {
+    const allCategories = categoryReducer!.map((category) => {
+      return {
+        id: category.id,
+        name: category.name,
+      };
+    });
+    setCategories(allCategories);
+  }, [categoryReducer]);
 
   const onSubmit = () => {
     httpBlogPost

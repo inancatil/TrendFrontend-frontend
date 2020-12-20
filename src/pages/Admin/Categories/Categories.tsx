@@ -184,6 +184,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 );
 
 interface EnhancedTableToolbarProps {
+  onDelete: () => void;
   numSelected: number;
 }
 
@@ -218,7 +219,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 && (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" onClick={props.onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -254,13 +255,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const convertToTableData = (data: ICategory[]) => {
+  //Kontrol et. Birkaç kez çalışıyor.
+
+  if (data.length === 0) return [];
   return data.map((category) => {
     return createData(category.id, category.name, category.blogPosts.length);
   });
 };
 
 export default function Categories() {
-  const dispatch = useDispatch();
   const categoryReducer = useSelector((state) => state.categoryReducer);
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
@@ -270,16 +273,10 @@ export default function Categories() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
   const httpCategory = useHttpCategory();
-  const [rows, setRows] = useState<Data[]>(convertToTableData(categoryReducer));
-
+  //const [rows, setRows] = useState<Data[]>([]);
+  const rows = convertToTableData(categoryReducer);
   useEffect(() => {
-    httpCategory.getAllCategories().then((res: ICategory[] | undefined) => {
-      if (res) {
-        const categories = convertToTableData(res);
-        dispatch(categoryActions.getAllCategories(res!));
-        setRows(categories);
-      }
-    });
+    httpCategory.getAllCategories();
   }, []);
 
   const handleRequestSort = (
@@ -300,22 +297,23 @@ export default function Categories() {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected: string[] = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(id); //newSelected.concat(selected, id);  !!Multiple Selection
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
     }
+    //  else if (selectedIndex > 0) {
+    //   newSelected = newSelected.concat(
+    //     selected.slice(0, selectedIndex),
+    //     selected.slice(selectedIndex + 1)
+    //   );
+    // }
 
     setSelected(newSelected);
   };
@@ -336,6 +334,11 @@ export default function Categories() {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const onDelete = () => {
+    httpCategory.deleteCategoryById(selected[0]);
+    setSelected([]);
+  };
+
   return (
     <div className={classes.root}>
       <Button
@@ -346,7 +349,10 @@ export default function Categories() {
         Add New
       </Button>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          onDelete={onDelete}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -367,17 +373,17 @@ export default function Categories() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
