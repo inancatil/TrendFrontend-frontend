@@ -20,7 +20,7 @@ import { createSelectorHook } from "react-redux";
 const syncConfig = {
   // TOGGLE_TODO will not be triggered in other tabs
   //blacklist: ["persist/PERSIST", "persist/REHYDRATE"],
-  whitelist: ["CREATE_CATEGORY"],
+  whitelist: ["CREATE_CATEGORY", "DELETE_CATEGORY"],
 };
 
 const persistConfig = {

@@ -8,8 +8,9 @@ import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { SvgIcon } from "@material-ui/core";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 
+import CustomListItem from "./CustomListItem";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ICustomListProps {
   isDrawerOpen: boolean;
 }
+
 export default function CustomList(props: ICustomListProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -61,24 +63,26 @@ export default function CustomList(props: ICustomListProps) {
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <Link to={`${url}/posts`}>
-              <ListItemText primary="All Posts" />
-            </Link>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Link to={`${url}/newpost`}>
-              <ListItemText primary="Add New" />
-            </Link>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Link to={`${url}/categories`}>
-              <ListItemText primary="Categories" />
-            </Link>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemText primary="Tags" />
-          </ListItem>
+          <CustomListItem
+            style={classes.nested}
+            to={`${url}/posts`}
+            primary="All Posts"
+          />
+          <CustomListItem
+            style={classes.nested}
+            to={`${url}/newpost`}
+            primary="Add New"
+          />
+          <CustomListItem
+            style={classes.nested}
+            to={`${url}/categories`}
+            primary="Categories"
+          />
+          <CustomListItem
+            style={classes.nested}
+            to={`${url}/tags`}
+            primary="Tags"
+          />
         </List>
       </Collapse>
     </List>
