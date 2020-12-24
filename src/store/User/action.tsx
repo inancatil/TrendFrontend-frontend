@@ -1,5 +1,5 @@
 import { IAuthResponse } from "../../types/auth";
-import { IUserActions, LOGIN, LOGOUT } from "./types";
+import { IUserActions, LOGIN, LOGOUT, REFRESH_TOKEN } from "./types";
 
 export const login = (res: IAuthResponse): IUserActions => {
   return {
@@ -11,5 +11,12 @@ export const login = (res: IAuthResponse): IUserActions => {
 export const logout = (): IUserActions => {
   return {
     type: LOGOUT,
+  };
+};
+
+export const refreshToken = (jwtToken: string): IUserActions => {
+  return {
+    type: REFRESH_TOKEN,
+    payload: { jwtToken },
   };
 };

@@ -35,9 +35,8 @@ export default function useHttpAuth() {
         })
         .then((res: AxiosResponse<IAuthResponse>) => {
           isSuccesfull = true;
-          startRefreshTokenTimer(res.data.jwtToken);
+          //startRefreshTokenTimer(res.data.jwtToken);
           dispatch(userActions.login(res.data!));
-          dispatch(alertActions.alertClear());
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -56,7 +55,7 @@ export default function useHttpAuth() {
       await axios
         .post("/api/users/revoke-token")
         .then((res: AxiosResponse<any>) => {
-          stopRefreshTokenTimer();
+          // stopRefreshTokenTimer();
           dispatch(userActions.logout());
           isSuccesfull = true;
         })
@@ -78,7 +77,7 @@ export default function useHttpAuth() {
         .post("/api/users/refresh-token")
         .then((res: AxiosResponse<IAuthResponse>) => {
           dispatch(userActions.login(res.data));
-          startRefreshTokenTimer(res.data!.jwtToken);
+          //startRefreshTokenTimer(res.data!.jwtToken);
           response = res.data!.jwtToken;
         })
         .catch((err) => {

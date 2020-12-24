@@ -1,5 +1,5 @@
 import { IUser } from "../../types";
-import { IUserActions, LOGIN, LOGOUT } from "./types";
+import { IUserActions, LOGIN, LOGOUT, REFRESH_TOKEN } from "./types";
 
 const initialState: IUser = {
   id: "",
@@ -30,6 +30,14 @@ const logout = (): IUser => {
   return newState;
 };
 
+const refreshToken = (state: IUser, payload: { jwtToken: string }): IUser => {
+  const newAuth: IUser = {
+    ...state,
+    jwtToken: payload.jwtToken,
+  };
+  return newAuth;
+};
+
 export const userReducer = (
   state = initialState,
   action: IUserActions
@@ -39,6 +47,8 @@ export const userReducer = (
       return login(action.payload);
     case LOGOUT:
       return logout();
+    case REFRESH_TOKEN:
+      return refreshToken(state, action.payload);
     default:
       return state;
   }
