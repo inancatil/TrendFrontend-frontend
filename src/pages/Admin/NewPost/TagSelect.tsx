@@ -25,11 +25,31 @@ export default function TagSelect({
   });
   return (
     <CreatableSelect
+
       isClearable
       isMulti
       options={convertedOptions}
       value={selectedTags}
       onChange={(e: IDropdown[]) => setSelectedTags(e)}
+      placeholder={'Select Tag(s)...'}
+    styles={{
+      valueContainer: base => ({
+        ...base,
+        width: "100%",
+        height: 50,
+        padding: "0px 12px",
+
+      }),
+      control: (base) => ({
+        ...base,
+       backgroundColor:"#fafafa"
+      }),
+
+      placeholder: base => ({
+        ...base,
+        fontSize: '16px',
+      }),
+    }}
     />
   );
 }

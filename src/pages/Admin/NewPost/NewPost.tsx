@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select, TextField } from "@material-ui/core";
+import { Button, FormControl, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import ProcessButton from "../../../components/Admin/ProcessButton/ProcessButton";
 import TextEditor from "../../../components/Admin/TextEditor/TextEditor";
@@ -9,7 +9,21 @@ import { ICategory } from "../../../types";
 import TagSelect from "./TagSelect";
 import useHttpTag from "./../../../hooks/api/useHttpTag";
 import { ITag } from "./../../../types/tag";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(2),
+    },
+  },
+  formControl: {
+    margin: theme.spacing(2),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 
+}));
 export default function NewPost() {
   const httpCategory = useHttpCategory();
   const httpBlogPost = useHttpBlogPost();
@@ -24,6 +38,8 @@ export default function NewPost() {
   );
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
+
+  const classes = useStyles();
   useEffect(() => {
     httpCategory.getAllCategories().then((res: ICategory[] | undefined) => {
       const allCategories = res!.map((category) => {
@@ -74,49 +90,61 @@ export default function NewPost() {
       });
   };
   return (
-    <div>
-      <TextField
-        id="outlined-full-width"
-        label="Title"
-        style={{ margin: 8 }}
-        placeholder="Title..."
-        fullWidth
-        margin="normal"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        variant="outlined"
-        value={title}
-        onChange={(v) => setTitle(v.currentTarget.value)}
-      />
-      Select Category{" "}
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        style={{ width: 200 }}
-        value={selectedCategoryId}
-        onChange={(e) => setSelectedCategoryId(e.target.value as string)}
-      >
-        {categories.map((category: any) => (
-          <MenuItem key={category.id} value={category.id}>
-            {category.name}
-          </MenuItem>
-        ))}
-      </Select>
-      <TagSelect
-        options={tags}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-      />
+
+    <form className={classes.root} noValidate autoComplete="off">
+      <FormControl fullWidth variant="outlined" className={classes.formControl}>
+        <TextField
+          id="outlined-full-width"
+          label="Title"
+          placeholder="Title..."
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          variant="outlined"
+          value={title}
+          onChange={(v) => setTitle(v.currentTarget.value)}
+        />
+      </FormControl>
+
+      <FormControl fullWidth variant="outlined" className={classes.formControl}>
+        <InputLabel>Categories</InputLabel>
+        <Select
+          onChange={(e) => setSelectedCategoryId(e.target.value as string)}
+          label="Categories"
+          value={selectedCategoryId}
+        >
+          {categories.map((category: any) => (
+            <MenuItem key={category.id} value={category.id}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+ 
+      <FormControl fullWidth className={classes.formControl}>
+        <TagSelect
+          options={tags}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+        />
+      </FormControl>
+
+      <FormControl fullWidth className={classes.formControl}>
       <TextEditor
         editorContent={editorContent}
         setEditorContent={setEditorContent}
       />
+      </FormControl>
+
       <ProcessButton
         isLoading={httpBlogPost.isLoading}
         btnText={"Submit"}
         onClick={onSubmit}
       />
-    </div>
+    </form>
+
   );
 }
