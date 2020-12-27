@@ -39,13 +39,13 @@ export default function useHttpBlogPost() {
     return response;
   }, []);
 
+
   const getAllBlogPosts = useCallback(async () => {
     setIsLoading(true);
     let response: IGetAllBlogPostsResponse | null = null;
-
     try {
       await axios
-        .get("/api/categories")
+        .get("/api/blogPosts")
         .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
           response = res.data;
           setError("");
