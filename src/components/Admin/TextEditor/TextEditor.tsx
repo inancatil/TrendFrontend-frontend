@@ -1,3 +1,4 @@
+import zIndex from "@material-ui/core/styles/zIndex";
 import React from "react";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
@@ -11,11 +12,13 @@ export default function TextEditor({
   setEditorContent,
 }: ITextEditorProps) {
   return (
-    <SunEditor
-      setContents={editorContent}
-      onChange={setEditorContent}
-      placeholder="Please type here..."
-      autoFocus
-    />
+    <div style={{ zIndex: 0 }}>
+      <SunEditor
+        setContents={editorContent}
+        onChange={setEditorContent}
+        placeholder="Please type here..."
+        autoFocus
+      />
+    </div>
   );
 }

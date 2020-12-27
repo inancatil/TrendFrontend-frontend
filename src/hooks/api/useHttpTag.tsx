@@ -1,32 +1,26 @@
 import { AxiosResponse } from "axios";
 import { useState, useCallback } from "react";
 import axios from "../../config/axios-config";
-import {
-  ICategory,
-  ICreateCategoryResponse,
-  IGetAllCategoriesResponse,
-  IDeleteCategoryResponse,
-} from "../../types";
-import * as categoryActions from "../../store/Category/action";
+import { ITag } from "../../types";
 import { useDispatch } from "react-redux";
-
-export default function useHttpCategory() {
+import * as tagActions from "../../store/Tag/action";
+export default function useHttpTag() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const addNewCategory = useCallback(async (name: string) => {
+  const addNewTag = useCallback(async (tags: string[]) => {
     setIsLoading(true);
-    let response: ICategory | undefined = undefined;
+    let response: ITag | undefined = undefined;
 
     try {
       await axios
-        .post("/api/categories", {
-          name: name,
+        .post("/api/tags", {
+          tags,
         })
-        .then((res: AxiosResponse<ICreateCategoryResponse>) => {
+        .then((res: AxiosResponse<any>) => {
           response = res.data.category;
-          dispatch(categoryActions.createCategory(response!));
+          dispatch(tagActions.createTag(response!));
           setError("");
         })
         .catch((err) => {
@@ -41,16 +35,16 @@ export default function useHttpCategory() {
     return response;
   }, []);
 
-  const getAllCategories = useCallback(async () => {
+  const getAllTags = useCallback(async () => {
     setIsLoading(true);
-    let response: ICategory[] | undefined = undefined;
+    let response: ITag[] | undefined = undefined;
 
     try {
       await axios
-        .get("/api/categories")
-        .then((res: AxiosResponse<IGetAllCategoriesResponse>) => {
-          response = res.data.categories;
-          dispatch(categoryActions.getAllCategories(response));
+        .get("/api/tags")
+        .then((res: AxiosResponse<any>) => {
+          response = res.data.tags;
+          dispatch(tagActions.getAllTags(response!));
           setError("");
         })
         .catch((err) => {
@@ -65,16 +59,16 @@ export default function useHttpCategory() {
     return response;
   }, []);
 
-  const deleteCategoryById = useCallback(async (id: string) => {
+  const deleteTagById = useCallback(async (id: string) => {
     setIsLoading(true);
-    let response: ICategory | undefined = undefined;
+    let response: ITag | undefined = undefined;
 
     try {
       await axios
-        .delete(`/api/categories/${id}`)
-        .then((res: AxiosResponse<IDeleteCategoryResponse>) => {
+        .delete(`/api/tags/${id}`)
+        .then((res: AxiosResponse<any>) => {
           response = res.data.category;
-          dispatch(categoryActions.deleteCategoryById(id));
+          dispatch(tagActions.deleteTagById(id));
           setError("");
         })
         .catch((err) => {
@@ -92,8 +86,8 @@ export default function useHttpCategory() {
   return {
     isLoading,
     error,
-    addNewCategory,
-    getAllCategories,
-    deleteCategoryById,
+    addNewTag,
+    getAllTags,
+    deleteTagById,
   };
 }

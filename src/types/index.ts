@@ -16,3 +16,5 @@ export type {
 export type { IAuth } from "./auth";
 
 export type { IAlert } from "./alert";
+
+export type { ITag } from "./tag";

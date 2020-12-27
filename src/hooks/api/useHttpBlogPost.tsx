@@ -23,7 +23,7 @@ export default function useHttpBlogPost() {
         .post("/api/blogPosts", {
           ...post,
         })
-        .then((res: AxiosResponse<ICreateBlogPostResponse | null>) => {
+        .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
           response = res.data;
           setError("");
         })
@@ -46,7 +46,7 @@ export default function useHttpBlogPost() {
     try {
       await axios
         .get("/api/categories")
-        .then((res: AxiosResponse<IGetAllBlogPostsResponse | null>) => {
+        .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
           response = res.data;
           setError("");
         })
