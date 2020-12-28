@@ -12,6 +12,7 @@ import {
 import { userReducer } from "./User/reducer";
 import { categoryReducer } from "./Category/reducer";
 import { blogPostReducer } from "./BlogPost/reducer";
+import { tagReducer } from "./Tag/reducer";
 import { alertReducer } from "./Alert/reducer";
 
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
@@ -26,7 +27,12 @@ const syncConfig = {
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["categoryReducer", "blogPostReducer", "alertReducer"],
+  blacklist: [
+    "categoryReducer",
+    "blogPostReducer",
+    "tagReducer",
+    "alertReducer",
+  ],
 };
 
 const rootReducer = combineReducers({
@@ -34,6 +40,7 @@ const rootReducer = combineReducers({
   alertReducer,
   categoryReducer,
   blogPostReducer,
+  tagReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

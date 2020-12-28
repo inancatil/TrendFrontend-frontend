@@ -1,14 +1,18 @@
 import { AxiosResponse } from "axios";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import axios from "../../config/axios-config";
-import { IAuthResponse } from "../../types/auth";
+import { IAuthResponse, IAuthResponseError } from "../../types/auth";
 import { useDispatch } from "react-redux";
 import * as userActions from "../../store/User/action";
 import * as alertActions from "../../store/Alert/action";
 
 export default function useHttpAuth() {
+  const [authData, setauthData] = useState<IAuthResponse>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const dispatch = useDispatch();
 
+  //#region refresh token
   const refreshTokenTimeout = useRef<any>(null);
 
   const startRefreshTokenTimer = useCallback((tkn: string) => {
@@ -24,9 +28,10 @@ export default function useHttpAuth() {
   function stopRefreshTokenTimer() {
     clearTimeout(refreshTokenTimeout.current);
   }
+  //#endregion
 
   const login = useCallback(async (email: string, password: string) => {
-    let isSuccesfull = false;
+    setIsLoading(true);
     try {
       await axios
         .post("/api/users/authenticate", {
@@ -34,40 +39,44 @@ export default function useHttpAuth() {
           password,
         })
         .then((res: AxiosResponse<IAuthResponse>) => {
-          isSuccesfull = true;
+          setauthData(res.data);
           //startRefreshTokenTimer(res.data.jwtToken);
           dispatch(userActions.login(res.data!));
         })
         .catch((err) => {
-          //Backend tarafındaki custom errors
-          //console.log(err.response.data.message);
+          console.log(err.response.data.message);
+          setError(err.response.data.message);
           dispatch(alertActions.alertError(err.response.data.message));
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
-      console.log("Unknown Error");
+      setError("Unknown Error");
     }
-    return isSuccesfull;
   }, []);
 
   const logout = useCallback(async () => {
-    let isSuccesfull = false;
+    setIsLoading(true);
     try {
       await axios
         .post("/api/users/revoke-token")
         .then((res: AxiosResponse<any>) => {
           // stopRefreshTokenTimer();
           dispatch(userActions.logout());
-          isSuccesfull = true;
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
           //console.log(err.response.data.message);
           dispatch(alertActions.alertSuccess(err.response.data.message));
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
-      console.log("Unknown Error");
+      setError("Unknown Error");
     }
-    return isSuccesfull;
   }, []);
 
   const refreshToken = useCallback(async () => {
@@ -90,5 +99,5 @@ export default function useHttpAuth() {
     return response;
   }, []);
 
-  return { login, logout, refreshToken };
+  return { login, logout, refreshToken, authData, error, isLoading };
 }

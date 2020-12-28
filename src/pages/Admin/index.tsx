@@ -11,7 +11,6 @@ import Posts from "./Posts/Posts";
 export default function AdminRoutes() {
   const { path } = useRouteMatch();
   const { isLoggedIn } = useSelector((state) => state.userReducer);
-
   return (
     <>
       {isLoggedIn ? (

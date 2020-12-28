@@ -26,11 +26,9 @@ export default function NewCategoryModal({
   };
 
   const onSubmit = () => {
-    httpCategory.addNewCategory(categoryName).then((res) => {
-      if (res) {
-        setCategoryName("");
-        setOpen(false);
-      }
+    httpCategory.addNewCategory(categoryName).finally(() => {
+      setCategoryName("");
+      setOpen(false);
     });
   };
   return (

@@ -9,8 +9,9 @@ export default function Routes() {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/login" component={LoginRoutes} />
-      <Route path="/admin" component={AdminRoutes} />
+      {/*strict is to remove extra backslahses */}
+      <Route strict path="/login" component={LoginRoutes} />{" "}
+      <Route strict path="/admin" component={AdminRoutes} />
       <Route component={NotFound} />
     </Switch>
   );

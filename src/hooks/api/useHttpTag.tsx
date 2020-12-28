@@ -11,76 +11,67 @@ export default function useHttpTag() {
 
   const addNewTag = useCallback(async (tags: string[]) => {
     setIsLoading(true);
-    let response: ITag | undefined = undefined;
-
     try {
       await axios
         .post("/api/tags", {
           tags,
         })
         .then((res: AxiosResponse<any>) => {
-          response = res.data.category;
-          dispatch(tagActions.createTag(response!));
-          setError("");
+          dispatch(tagActions.createTag(res.data.category));
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err.response.data.message);
-          //setError(err.response.data.message);
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log(err);
     }
-    setIsLoading(false);
-    return response;
   }, []);
 
   const getAllTags = useCallback(async () => {
     setIsLoading(true);
-    let response: ITag[] | undefined = undefined;
-
     try {
       await axios
         .get("/api/tags")
         .then((res: AxiosResponse<any>) => {
-          response = res.data.tags;
-          dispatch(tagActions.getAllTags(response!));
-          setError("");
+          dispatch(tagActions.getAllTags(res.data.tags));
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err.response);
-          //setError(err.response.data.message);
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log(err);
     }
-    setIsLoading(false);
-    return response;
   }, []);
 
   const deleteTagById = useCallback(async (id: string) => {
     setIsLoading(true);
-    let response: ITag | undefined = undefined;
-
     try {
       await axios
         .delete(`/api/tags/${id}`)
         .then((res: AxiosResponse<any>) => {
-          response = res.data.category;
           dispatch(tagActions.deleteTagById(id));
-          setError("");
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err.response);
-          //setError(err.response.data.message);
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log(err);
     }
-    setIsLoading(false);
-    return response;
   }, []);
 
   return {

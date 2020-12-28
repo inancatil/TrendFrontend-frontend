@@ -1,4 +1,12 @@
-import { Button, FormControl, InputLabel, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import ProcessButton from "../../../components/Admin/ProcessButton/ProcessButton";
 import TextEditor from "../../../components/Admin/TextEditor/TextEditor";
@@ -11,7 +19,7 @@ import useHttpTag from "./../../../hooks/api/useHttpTag";
 import { ITag } from "./../../../types/tag";
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& > *': {
+    "& > *": {
       margin: theme.spacing(2),
     },
   },
@@ -22,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
-
 }));
 export default function NewPost() {
   const httpCategory = useHttpCategory();
@@ -30,67 +37,33 @@ export default function NewPost() {
   const httpTag = useHttpTag();
   const userReducer = useSelector((state) => state.userReducer);
   const categoryReducer = useSelector((state) => state.categoryReducer);
-  const [categories, setCategories] = useState<any>([]);
-  const [tags, setTags] = useState<ITag[]>([]);
+  const tagReducer = useSelector((state) => state.tagReducer);
   const [selectedTags, setSelectedTags] = useState<any[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     ""
   );
   const [editorContent, setEditorContent] = useState("");
   const [title, setTitle] = useState("");
-
   const classes = useStyles();
-  useEffect(() => {
-    httpCategory.getAllCategories().then((res: ICategory[] | undefined) => {
-      const allCategories = res!.map((category) => {
-        return {
-          id: category.id,
-          name: category.name,
-        };
-      });
-      setCategories(allCategories);
-    });
 
-    httpTag.getAllTags().then((res: ITag[] | undefined) => {
-      const allTags = res!.map((tag: any) => {
-        console.log(tag);
-        return {
-          id: tag.id,
-          value: tag.name,
-        };
-      });
-      setTags(allTags);
-    });
+  useEffect(() => {
+    httpCategory.getAllCategories();
+    httpTag.getAllTags();
   }, []);
-
-  useEffect(() => {
-    const allCategories = categoryReducer!.map((category) => {
-      return {
-        id: category.id,
-        name: category.name,
-      };
-    });
-    setCategories(allCategories);
-  }, [categoryReducer]);
 
   const onSubmit = () => {
     console.log(selectedTags);
-    httpBlogPost
-      .addNewBlogPost({
-        title: title,
-        content: editorContent,
-        imageUrl: "imgurl",
-        author: userReducer.id,
-        date: "dumydate",
-        tags: selectedTags,
-        categoryId: selectedCategoryId,
-      })
-      .then((res: any) => {
-        if (res) console.log("Success!!!: " + res);
-      });
+    httpBlogPost.addNewBlogPost({
+      title: title,
+      content: editorContent,
+      imageUrl: "imgurl",
+      author: userReducer.id,
+      date: "dumydate",
+      tags: selectedTags,
+      categoryId: selectedCategoryId,
+    });
   };
   return (
-
     <form className={classes.root} noValidate autoComplete="off">
       <FormControl fullWidth variant="outlined" className={classes.formControl}>
         <TextField
@@ -115,7 +88,7 @@ export default function NewPost() {
           label="Categories"
           value={selectedCategoryId}
         >
-          {categories.map((category: any) => (
+          {categoryReducer.map((category: any) => (
             <MenuItem key={category.id} value={category.id}>
               {category.name}
             </MenuItem>
@@ -123,20 +96,19 @@ export default function NewPost() {
         </Select>
       </FormControl>
 
- 
       <FormControl fullWidth className={classes.formControl}>
         <TagSelect
-          options={tags}
+          options={tagReducer}
           selectedTags={selectedTags}
           setSelectedTags={setSelectedTags}
         />
       </FormControl>
 
       <FormControl fullWidth className={classes.formControl}>
-      <TextEditor
-        editorContent={editorContent}
-        setEditorContent={setEditorContent}
-      />
+        <TextEditor
+          editorContent={editorContent}
+          setEditorContent={setEditorContent}
+        />
       </FormControl>
 
       <ProcessButton
@@ -145,6 +117,5 @@ export default function NewPost() {
         onClick={onSubmit}
       />
     </form>
-
   );
 }

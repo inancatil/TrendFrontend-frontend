@@ -2,7 +2,6 @@ import { AxiosResponse } from "axios";
 import { useState, useCallback } from "react";
 import axios from "../../config/axios-config";
 import {
-  ICategory,
   ICreateCategoryResponse,
   IGetAllCategoriesResponse,
   IDeleteCategoryResponse,
@@ -17,76 +16,67 @@ export default function useHttpCategory() {
 
   const addNewCategory = useCallback(async (name: string) => {
     setIsLoading(true);
-    let response: ICategory | undefined = undefined;
-
     try {
       await axios
         .post("/api/categories", {
           name: name,
         })
         .then((res: AxiosResponse<ICreateCategoryResponse>) => {
-          response = res.data.category;
-          dispatch(categoryActions.createCategory(response!));
-          setError("");
+          dispatch(categoryActions.createCategory(res.data.category));
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err.response.data.message);
-          //setError(err.response.data.message);
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log(err);
     }
-    setIsLoading(false);
-    return response;
   }, []);
 
   const getAllCategories = useCallback(async () => {
     setIsLoading(true);
-    let response: ICategory[] | undefined = undefined;
-
     try {
       await axios
         .get("/api/categories")
         .then((res: AxiosResponse<IGetAllCategoriesResponse>) => {
-          response = res.data.categories;
-          dispatch(categoryActions.getAllCategories(response));
-          setError("");
+          dispatch(categoryActions.getAllCategories(res.data.categories));
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err.response);
-          //setError(err.response.data.message);
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log(err);
     }
-    setIsLoading(false);
-    return response;
   }, []);
 
   const deleteCategoryById = useCallback(async (id: string) => {
     setIsLoading(true);
-    let response: ICategory | undefined = undefined;
-
     try {
       await axios
         .delete(`/api/categories/${id}`)
         .then((res: AxiosResponse<IDeleteCategoryResponse>) => {
-          response = res.data.category;
           dispatch(categoryActions.deleteCategoryById(id));
-          setError("");
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          console.log(err.response);
-          //setError(err.response.data.message);
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log(err);
     }
-    setIsLoading(false);
-    return response;
   }, []);
 
   return {

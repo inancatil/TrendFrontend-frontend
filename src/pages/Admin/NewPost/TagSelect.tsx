@@ -16,46 +16,38 @@ export default function TagSelect({
   selectedTags,
   setSelectedTags,
 }: Props) {
-  const convertedOptions = options.map((opt: ITag) => {
-    console.log(opt);
+  const convertedOptions = options.map((opt: any) => {
     return {
-      label: opt.value,
-      value: opt.value,
+      label: opt.name,
+      value: opt.name,
+      __isNew__: false,
     };
   });
   return (
     <CreatableSelect
-
       isClearable
       isMulti
       options={convertedOptions}
       value={selectedTags}
       onChange={(e: IDropdown[]) => setSelectedTags(e)}
-      placeholder={'Select Tag(s)...'}
-    styles={{
-      valueContainer: base => ({
-        ...base,
-        width: "100%",
-        height: 50,
-        padding: "0px 12px",
+      placeholder={"Select Tag(s)..."}
+      styles={{
+        valueContainer: (base) => ({
+          ...base,
+          width: "100%",
+          height: 50,
+          padding: "0px 12px",
+        }),
+        control: (base) => ({
+          ...base,
+          backgroundColor: "#fafafa",
+        }),
 
-      }),
-      control: (base) => ({
-        ...base,
-       backgroundColor:"#fafafa"
-      }),
-
-      placeholder: base => ({
-        ...base,
-        fontSize: '16px',
-      }),
-    }}
+        placeholder: (base) => ({
+          ...base,
+          fontSize: "16px",
+        }),
+      }}
     />
   );
 }
-
-// const options: IDropdown[] = [
-//   { value: "chocolate", label: "Chocolate" },
-//   { value: "strawberry", label: "Strawberry" },
-//   { value: "vanilla", label: "Vanilla" },
-// ];

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -52,18 +52,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const httpAuth = useHttpAuth();
+  const { authData, error, login } = useHttpAuth();
   const history = useHistory();
-  const alertReducer = useSelector((state) => state.alertReducer);
+
+  useEffect(() => {
+    authData && history.push("/admin");
+  }, [history, authData]);
 
   const authSubmitHandler = async (event: any) => {
     event.preventDefault();
     const username = event.target[0].value;
     const password = event.target[2].value;
-
-    httpAuth.login(username, password).then(async (res) => {
-      res && history.push("/admin");
-    });
+    login(username, password);
   };
 
   return (
@@ -76,9 +76,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {alertReducer.message !== "" && (
-          <Alert variant={"danger"}>{alertReducer.message}</Alert>
-        )}
+        {error !== "" && <Alert variant={"danger"}>{error}</Alert>}
         <form className={classes.form} noValidate onSubmit={authSubmitHandler}>
           <TextField
             variant="outlined"

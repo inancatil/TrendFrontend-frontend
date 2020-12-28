@@ -95,7 +95,7 @@ export default function NavigationDrawer(props: any) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const httpAuth = useHttpAuth();
+  const { logout } = useHttpAuth();
   const history = useHistory();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -106,9 +106,8 @@ export default function NavigationDrawer(props: any) {
   };
 
   const logoutHandler = () => {
-    httpAuth.logout().then((res) => {
-      console.log(res);
-      res && history.push("/login");
+    logout().finally(() => {
+      history.push("/login");
     });
   };
 
