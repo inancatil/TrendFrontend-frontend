@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import {
   createStyles,
@@ -95,7 +95,7 @@ export default function NavigationDrawer(props: any) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const { logout } = useHttpAuth();
+  const { logout, isLoggedIn } = useHttpAuth();
   const history = useHistory();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,11 +105,9 @@ export default function NavigationDrawer(props: any) {
     setOpen(false);
   };
 
-  const logoutHandler = () => {
-    logout().finally(() => {
-      history.push("/login");
-    });
-  };
+  useEffect(() => {
+    !isLoggedIn && history.push("/login");
+  }, [history, isLoggedIn]);
 
   return (
     <div className={classes.root}>
@@ -135,7 +133,7 @@ export default function NavigationDrawer(props: any) {
           <Typography variant="h6" noWrap className={classes.title}>
             Admin Page
           </Typography>
-          <Button color="inherit" onClick={logoutHandler}>
+          <Button color="inherit" onClick={logout}>
             Logout
           </Button>
         </Toolbar>

@@ -1,13 +1,13 @@
 import { AxiosResponse } from "axios";
 import { useCallback, useRef, useState } from "react";
 import axios from "../../config/axios-config";
-import { IAuthResponse, IAuthResponseError } from "../../types/auth";
+import { IAuthResponse } from "../../types/auth";
 import { useDispatch } from "react-redux";
 import * as userActions from "../../store/User/action";
-import * as alertActions from "../../store/Alert/action";
+import { useSelector } from "../../store";
 
 export default function useHttpAuth() {
-  const [authData, setauthData] = useState<IAuthResponse>();
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const dispatch = useDispatch();
@@ -39,14 +39,12 @@ export default function useHttpAuth() {
           password,
         })
         .then((res: AxiosResponse<IAuthResponse>) => {
-          setauthData(res.data);
           //startRefreshTokenTimer(res.data.jwtToken);
           dispatch(userActions.login(res.data!));
         })
         .catch((err) => {
           console.log(err.response.data.message);
           setError(err.response.data.message);
-          dispatch(alertActions.alertError(err.response.data.message));
         })
         .finally(() => {
           setIsLoading(false);
@@ -67,8 +65,6 @@ export default function useHttpAuth() {
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          //console.log(err.response.data.message);
-          dispatch(alertActions.alertSuccess(err.response.data.message));
           setError(err.response.data.message);
         })
         .finally(() => {
@@ -80,24 +76,22 @@ export default function useHttpAuth() {
   }, []);
 
   const refreshToken = useCallback(async () => {
-    let response: any = null;
     try {
       await axios
         .post("/api/users/refresh-token")
         .then((res: AxiosResponse<IAuthResponse>) => {
           dispatch(userActions.login(res.data));
           //startRefreshTokenTimer(res.data!.jwtToken);
-          response = res.data!.jwtToken;
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          //console.log(err.response.data.message);
+          setError(err.response.data.message);
         });
     } catch (err) {
+      setError("Unknown Error");
       console.log("Unknown Error");
     }
-    return response;
   }, []);
 
-  return { login, logout, refreshToken, authData, error, isLoading };
+  return { login, logout, refreshToken, isLoggedIn, error, isLoading };
 }

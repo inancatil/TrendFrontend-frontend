@@ -3,7 +3,6 @@ import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import { useSelector } from "../../../store";
 import { IBlogPost } from "../../../types";
 import CarbonFrame from "./CarbonFrame";
-//const CarbonFrame = React.lazy(() => import("./CarbonFrame"));
 
 export default function Posts() {
   const blogPostReducer = useSelector((state) => state.blogPostReducer);
@@ -13,8 +12,5 @@ export default function Posts() {
     getAllBlogPosts();
   }, []);
 
-  useEffect(() => {
-    console.log(blogPostReducer);
-  });
   return <div>{isLoading}</div>;
 }
