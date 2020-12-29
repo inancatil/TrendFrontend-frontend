@@ -13,7 +13,7 @@ export default function useHttpCategory(isFetchNeeded: boolean = false) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  console.log("cat hok");
+
   const addNewCategory = useCallback(
     async (name: string) => {
       setIsLoading(true);

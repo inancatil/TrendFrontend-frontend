@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import { useSelector } from "../../../store";
 import { DataGrid, ColDef } from "@material-ui/data-grid";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { IBlogPost } from "../../../types";
 
 const columns: ColDef[] = [
@@ -13,10 +14,6 @@ export default function Posts() {
   const blogPostReducer = useSelector((state) => state.blogPostReducer);
   const { isLoading } = useHttpBlogPost(true);
 
-  useEffect(() => {
-    console.log(blogPostReducer.length);
-  });
-
   const rows = blogPostReducer.map((post: IBlogPost) => {
     return {
       id: post.id,
@@ -25,9 +22,16 @@ export default function Posts() {
     };
   });
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        height: "90vh",
+        alignItems: `${isLoading ? "center" : ""}`,
+        justifyContent: "center",
+      }}
+    >
       {!isLoading ? (
-        <div style={{ height: "90vh", width: "100%" }}>
+        <div style={{ width: "100%" }}>
           <DataGrid
             rows={rows}
             columns={columns}
@@ -36,8 +40,8 @@ export default function Posts() {
           />
         </div>
       ) : (
-        <div>Loading</div>
+        <CircularProgress />
       )}
-    </>
+    </div>
   );
 }
