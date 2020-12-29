@@ -13,6 +13,7 @@ export default function Routes() {
   const { jwtToken, isLoggedIn } = useSelector((state) => state.userReducer);
   const refreshTokenTimeout = React.useRef<any>(null);
 
+  //Refreshes token every 15 min
   useEffect(() => {
     const startRefreshTokenTimer = () => {
       // parse json object from base64 encoded jwt token
