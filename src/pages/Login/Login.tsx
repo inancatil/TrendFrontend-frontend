@@ -15,7 +15,6 @@ import Container from "@material-ui/core/Container";
 import useHttpAuth from "../../hooks/api/useHttpAuth";
 import { useHistory } from "react-router-dom";
 import { Alert } from "react-bootstrap";
-import { useSelector } from "../../store";
 
 function Copyright() {
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import {
   createStyles,
@@ -24,9 +24,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Button } from "@material-ui/core";
 import NewCategoryModal from "./NewCategoryModal/NewCategoryModal";
 import useHttpCategory from "../../../hooks/api/useHttpCategory";
-import { useDispatch } from "react-redux";
 import { ICategory } from "../../../types";
-import * as categoryActions from "../../../store/Category/action";
 import { useSelector } from "../../../store";
 
 interface Data {
@@ -272,12 +270,9 @@ export default function Categories() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
-  const httpCategory = useHttpCategory();
+  const httpCategory = useHttpCategory(true);
   //const [rows, setRows] = useState<Data[]>([]);
   const rows = convertToTableData(categoryReducer);
-  useEffect(() => {
-    httpCategory.getAllCategories();
-  }, []);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,

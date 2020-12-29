@@ -1,5 +1,4 @@
 import {
-  Button,
   FormControl,
   InputLabel,
   makeStyles,
@@ -13,10 +12,8 @@ import TextEditor from "../../../components/Admin/TextEditor/TextEditor";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import useHttpCategory from "../../../hooks/api/useHttpCategory";
 import { useSelector } from "../../../store";
-import { ICategory } from "../../../types";
-import TagSelect from "./TagSelect";
 import useHttpTag from "./../../../hooks/api/useHttpTag";
-import { ITag } from "./../../../types/tag";
+import CustomCreatableSelect from "./CustomCreatableSelect";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -32,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function NewPost() {
-  const httpCategory = useHttpCategory();
+  //???
+  useHttpCategory(true);
+  useHttpTag(true);
   const httpBlogPost = useHttpBlogPost();
-  const httpTag = useHttpTag();
   const userReducer = useSelector((state) => state.userReducer);
   const categoryReducer = useSelector((state) => state.categoryReducer);
   const tagReducer = useSelector((state) => state.tagReducer);
@@ -46,13 +44,7 @@ export default function NewPost() {
   const [title, setTitle] = useState("");
   const classes = useStyles();
 
-  useEffect(() => {
-    httpCategory.getAllCategories();
-    httpTag.getAllTags();
-  }, []);
-
   const onSubmit = () => {
-    console.log(selectedTags);
     httpBlogPost.addNewBlogPost({
       title: title,
       content: editorContent,
@@ -63,18 +55,24 @@ export default function NewPost() {
       categoryId: selectedCategoryId,
     });
   };
+
+  useEffect(() => {
+    if (httpBlogPost.isSuccessfull) {
+      setSelectedTags([]);
+      setSelectedCategoryId("");
+      setEditorContent("");
+      setTitle("");
+    }
+  }, [httpBlogPost.isSuccessfull]);
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <FormControl fullWidth variant="outlined" className={classes.formControl}>
         <TextField
           id="outlined-full-width"
           label="Title"
-          placeholder="Title..."
           fullWidth
           margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
           variant="outlined"
           value={title}
           onChange={(v) => setTitle(v.currentTarget.value)}
@@ -97,8 +95,8 @@ export default function NewPost() {
       </FormControl>
 
       <FormControl fullWidth className={classes.formControl}>
-        <TagSelect
-          options={tagReducer}
+        <CustomCreatableSelect
+          allTags={tagReducer}
           selectedTags={selectedTags}
           setSelectedTags={setSelectedTags}
         />

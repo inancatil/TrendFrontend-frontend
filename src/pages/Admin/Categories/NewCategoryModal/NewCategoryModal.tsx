@@ -6,8 +6,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useHttpCategory from "../../../../hooks/api/useHttpCategory";
-import * as categoryActions from "../../../../store/Category/action";
-import { useDispatch } from "react-redux";
 
 interface INewCategoryModalProps {
   open: boolean;
