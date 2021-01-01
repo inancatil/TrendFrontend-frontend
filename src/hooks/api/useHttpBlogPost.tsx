@@ -2,12 +2,18 @@ import { AxiosResponse } from "axios";
 import { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "../../config/axios-config";
-import {
-  IBlogPost,
-  ICreateBlogPostResponse,
-  IGetAllBlogPostsResponse,
-} from "../../types";
+import { ICreateBlogPostResponse, IGetAllBlogPostsResponse } from "../../types";
 import * as blogPostActions from "../../store/BlogPost/action";
+
+interface INewBlogPost {
+  title: string;
+  content: string;
+  imageUrl: string;
+  author: string;
+  date: string;
+  tags: string[];
+  categoryId: string | null;
+}
 
 export default function useHttpBlogPost(isFetchNeeded: boolean = false) {
   const dispatch = useDispatch();
@@ -16,7 +22,7 @@ export default function useHttpBlogPost(isFetchNeeded: boolean = false) {
   const [isSuccessfull, setIsSuccessfull] = useState(false);
 
   const addNewBlogPost = useCallback(
-    async (post: Omit<IBlogPost, "id">) => {
+    async (post: INewBlogPost) => {
       setIsLoading(true);
       setIsSuccessfull(false);
 
@@ -51,6 +57,7 @@ export default function useHttpBlogPost(isFetchNeeded: boolean = false) {
         .get("/api/blogPosts")
         .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
           dispatch(blogPostActions.getAllBlogPosts(res.data.blogPosts));
+          console.log(res.data.blogPosts);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors

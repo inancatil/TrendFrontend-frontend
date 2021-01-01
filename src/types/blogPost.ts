@@ -3,10 +3,19 @@ export interface IBlogPost {
   title: string;
   content: string;
   imageUrl: string;
-  author: string;
+  author: {
+    id: string;
+    name: string;
+  };
   date: string;
-  tags: string[];
-  categoryId: string | null;
+  tags: {
+    id: string;
+    name: string;
+  }[];
+  categoryId: {
+    id: string;
+    name: string;
+  } | null;
 }
 
 export interface ICreateBlogPostResponse {
