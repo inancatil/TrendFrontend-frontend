@@ -51,8 +51,21 @@ export default function Posts() {
     };
   });
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
+    <div
+      style={{
+        display: "flex",
+        height: "90vh",
+        alignItems: `${isLoading ? "center" : ""}`,
+        justifyContent: "center",
+      }}
+    >
+      {!isLoading ? (
+        <div style={{ width: "100%" }}>
+          <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+        </div>
+      ) : (
+        <CircularProgress />
+      )}
     </div>
   );
 }
