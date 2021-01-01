@@ -75,7 +75,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {error !== "" && <Alert variant={"danger"}>{error}</Alert>}
+        {error.length > 0 && <Alert variant={"danger"}>{error}</Alert>}
         <form className={classes.form} noValidate onSubmit={authSubmitHandler}>
           <TextField
             variant="outlined"

@@ -12,7 +12,7 @@ export interface IBlogPost {
     id: string;
     name: string;
   }[];
-  categoryId: {
+  category: {
     id: string;
     name: string;
   } | null;

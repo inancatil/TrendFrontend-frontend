@@ -46,7 +46,7 @@ export default function Posts() {
     return {
       id: post.id,
       title: post.title,
-      category: post.categoryId?.name,
+      category: post.category?.name,
       author: post.author.name,
     };
   });
@@ -59,8 +59,11 @@ export default function Posts() {
         justifyContent: "center",
       }}
     >
+      {/*PERFORMANS PROBLEMINDEN DOLAYI ABSOLUTE. 
+      https://github.com/mui-org/material-ui-x/issues/799
+      */}
       {!isLoading ? (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "85%", position: "absolute", height: "90vh" }}>
           <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
         </div>
       ) : (

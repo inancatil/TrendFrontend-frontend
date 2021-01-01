@@ -57,7 +57,6 @@ export default function useHttpBlogPost(isFetchNeeded: boolean = false) {
         .get("/api/blogPosts")
         .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
           dispatch(blogPostActions.getAllBlogPosts(res.data.blogPosts));
-          console.log(res.data.blogPosts);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors

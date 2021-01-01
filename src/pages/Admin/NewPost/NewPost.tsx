@@ -66,54 +66,64 @@ export default function NewPost() {
   }, [httpBlogPost.isSuccessfull]);
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <FormControl fullWidth variant="outlined" className={classes.formControl}>
-        <TextField
-          id="outlined-full-width"
-          label="Title"
+    <>
+      <form className={classes.root} noValidate autoComplete="off">
+        <FormControl
           fullWidth
-          margin="normal"
           variant="outlined"
-          value={title}
-          onChange={(v) => setTitle(v.currentTarget.value)}
-        />
-      </FormControl>
-
-      <FormControl fullWidth variant="outlined" className={classes.formControl}>
-        <InputLabel>Categories</InputLabel>
-        <Select
-          onChange={(e) => setSelectedCategoryId(e.target.value as string)}
-          label="Categories"
-          value={selectedCategoryId}
+          className={classes.formControl}
         >
-          {categoryReducer.map((category: any) => (
-            <MenuItem key={category.id} value={category.id}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          <TextField
+            id="outlined-full-width"
+            label="Title"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            value={title}
+            onChange={(v) => setTitle(v.currentTarget.value)}
+          />
+        </FormControl>
 
-      <FormControl fullWidth className={classes.formControl}>
-        <CustomCreatableSelect
-          allTags={tagReducer}
-          selectedTags={selectedTags}
-          setSelectedTags={setSelectedTags}
+        <FormControl
+          fullWidth
+          variant="outlined"
+          className={classes.formControl}
+        >
+          <InputLabel>Categories</InputLabel>
+          <Select
+            onChange={(e) => setSelectedCategoryId(e.target.value as string)}
+            label="Categories"
+            value={selectedCategoryId}
+          >
+            {categoryReducer.map((category: any) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth className={classes.formControl}>
+          <CustomCreatableSelect
+            allTags={tagReducer}
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
+          />
+        </FormControl>
+
+        <FormControl fullWidth className={classes.formControl}>
+          <TextEditor
+            editorContent={editorContent}
+            setEditorContent={setEditorContent}
+          />
+        </FormControl>
+
+        <ProcessButton
+          isLoading={httpBlogPost.isLoading}
+          btnText={"Submit"}
+          onClick={onSubmit}
         />
-      </FormControl>
-
-      <FormControl fullWidth className={classes.formControl}>
-        <TextEditor
-          editorContent={editorContent}
-          setEditorContent={setEditorContent}
-        />
-      </FormControl>
-
-      <ProcessButton
-        isLoading={httpBlogPost.isLoading}
-        btnText={"Submit"}
-        onClick={onSubmit}
-      />
-    </form>
+      </form>
+    </>
   );
 }

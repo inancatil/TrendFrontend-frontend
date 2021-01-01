@@ -13,7 +13,6 @@ import { userReducer } from "./User/reducer";
 import { categoryReducer } from "./Category/reducer";
 import { blogPostReducer } from "./BlogPost/reducer";
 import { tagReducer } from "./Tag/reducer";
-import { alertReducer } from "./Alert/reducer";
 
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { createSelectorHook } from "react-redux";
@@ -27,17 +26,11 @@ const syncConfig = {
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [
-    "categoryReducer",
-    "blogPostReducer",
-    "tagReducer",
-    "alertReducer",
-  ],
+  blacklist: ["categoryReducer", "blogPostReducer", "tagReducer"],
 };
 
 const rootReducer = combineReducers({
   userReducer,
-  alertReducer,
   categoryReducer,
   blogPostReducer,
   tagReducer,

@@ -9,7 +9,7 @@ import { useSelector } from "../../store";
 export default function useHttpAuth() {
   const { isLoggedIn } = useSelector((state) => state.userReducer);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string[]>([]);
   const dispatch = useDispatch();
 
   //#region refresh token
@@ -44,14 +44,13 @@ export default function useHttpAuth() {
             dispatch(userActions.login(res.data!));
           })
           .catch((err) => {
-            console.log(err.response.data.message);
-            setError(err.response.data.message);
+            setError(err.response.data.error.messages);
           })
           .finally(() => {
             setIsLoading(false);
           });
       } catch (err) {
-        setError("Unknown Error");
+        setError(["Unknown Error"]);
       }
     },
     [dispatch]
@@ -68,13 +67,13 @@ export default function useHttpAuth() {
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          setError(err.response.data.message);
+          setError(err.response.data.error.messages);
         })
         .finally(() => {
           setIsLoading(false);
         });
     } catch (err) {
-      setError("Unknown Error");
+      setError(["Unknown Error"]);
     }
   }, [dispatch]);
 
@@ -88,10 +87,10 @@ export default function useHttpAuth() {
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
-          setError(err.response.data.message);
+          setError(err.response.data.error.messages);
         });
     } catch (err) {
-      setError("Unknown Error");
+      setError(["Unknown Error"]);
       console.log("Unknown Error");
     }
   }, [dispatch]);
