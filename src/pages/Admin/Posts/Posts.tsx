@@ -13,8 +13,24 @@ import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CustomPopover from "../../../components/Admin/CustomPopover/CustomPopover";
 import { useHistory } from "react-router-dom";
+import { Chip, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { getRandomColor } from "../../../tools/utils";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    chip: {
+      display: "flex",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      "& > *": {
+        margin: theme.spacing(0.5),
+      },
+    },
+  })
+);
 
 export default function Posts() {
+  const classes = useStyles();
   const history = useHistory();
   const blogPostReducer = useSelector((state) => state.blogPostReducer);
   const { isLoading, deleteBlogPost } = useHttpBlogPost({
@@ -26,7 +42,7 @@ export default function Posts() {
       id: post.id,
       title: post.title,
       category: post.category?.name,
-      author: post.author.name,
+      tags: post.tags.map((p) => p.name),
     };
   });
 
@@ -44,7 +60,27 @@ export default function Posts() {
       },
     },
     { field: "category", headerName: "Category", flex: 0.5 },
-    { field: "author", headerName: "Author", flex: 0.5 },
+    {
+      field: "tags",
+      headerName: "Tag",
+      flex: 0.5,
+      renderCell: (params: CellParams) => {
+        return (
+          <div className={classes.chip}>
+            {params.row.tags.map((t, i) => (
+              <Chip
+                key={i}
+                label={t}
+                size="small"
+                style={{
+                  backgroundColor: getRandomColor(),
+                }}
+              />
+            ))}
+          </div>
+        );
+      },
+    },
     {
       field: "",
       headerName: "Action",

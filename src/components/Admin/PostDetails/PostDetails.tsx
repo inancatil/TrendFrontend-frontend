@@ -15,7 +15,7 @@ import { useSelector } from "../../../store";
 import { IBlogPost } from "../../../types";
 import useHttpTag from "./../../../hooks/api/useHttpTag";
 import CustomCreatableSelect from "./CustomCreatableSelect";
-import { useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PostDetails() {
+  const history = useHistory();
   const { state: routerState } = useLocation<any>();
   const { isLoading: catIsLoading } = useHttpCategory({ isFetchNeeded: true });
   const { isLoading: tagIsLoading } = useHttpTag({ isFetchNeeded: true });
@@ -98,8 +99,9 @@ export default function PostDetails() {
       setSelectedCategoryId("");
       setEditorContent("");
       setTitle("");
+      history.push("/admin/posts");
     }
-  }, [httpBlogPost.isSuccessfull]);
+  }, [history, httpBlogPost.isSuccessfull]);
 
   return (
     <>

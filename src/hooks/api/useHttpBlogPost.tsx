@@ -42,7 +42,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           })
           .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
             dispatch(blogPostActions.createBlogPost(res.data.blogPost));
-            setIsSuccessfull(true);
+            setIsSuccessfull(res.status === 200);
           })
           .catch((err) => {
             //Backend tarafındaki custom errors
@@ -61,11 +61,13 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
 
   const getAllBlogPosts = useCallback(async () => {
     setIsLoading(true);
+    setIsSuccessfull(false);
     try {
       await axios
         .get("/api/blogPosts")
         .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
           dispatch(blogPostActions.getAllBlogPosts(res.data.blogPosts));
+          setIsSuccessfull(res.status === 200);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -90,10 +92,11 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
         })
         .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
           //dispatch(blogPostActions.createBlogPost(res.data.blogPost));
-          setIsSuccessfull(true);
+          setIsSuccessfull(res.status === 201);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
+          console.log(err.response.data.message);
           setError(err.response.data.message);
         })
         .finally(() => {
@@ -116,7 +119,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           //Fetch all posts to update redux.
           //Can be manually done in reducer to decrease api call
           getAllBlogPosts();
-          setIsSuccessfull(true);
+          setIsSuccessfull(res.status === 200);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
