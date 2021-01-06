@@ -79,34 +79,57 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     }
   }, [dispatch]);
 
-  const updateBlogPost = useCallback(
-    async (id: string, post: INewBlogPost) => {
-      setIsLoading(true);
-      setIsSuccessfull(false);
+  const updateBlogPost = useCallback(async (id: string, post: INewBlogPost) => {
+    setIsLoading(true);
+    setIsSuccessfull(false);
 
-      try {
-        await axios
-          .patch(`/api/blogPosts/${id}`, {
-            ...post,
-          })
-          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
-            //dispatch(blogPostActions.createBlogPost(res.data.blogPost));
-            setIsSuccessfull(true);
-          })
-          .catch((err) => {
-            //Backend tarafındaki custom errors
-            setError(err.response.data.message);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
-      } catch (err) {
-        setError("Unknown Error");
-        console.log(err);
-      }
-    },
-    [dispatch]
-  );
+    try {
+      await axios
+        .patch(`/api/blogPosts/${id}`, {
+          ...post,
+        })
+        .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+          //dispatch(blogPostActions.createBlogPost(res.data.blogPost));
+          setIsSuccessfull(true);
+        })
+        .catch((err) => {
+          //Backend tarafındaki custom errors
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (err) {
+      setError("Unknown Error");
+      console.log(err);
+    }
+  }, []);
+
+  const deleteBlogPost = useCallback(async (id: string | number) => {
+    setIsLoading(true);
+    setIsSuccessfull(false);
+
+    try {
+      await axios
+        .delete(`/api/blogPosts/${id}`)
+        .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+          //Fetch all posts to update redux.
+          //Can be manually done in reducer to decrease api call
+          getAllBlogPosts();
+          setIsSuccessfull(true);
+        })
+        .catch((err) => {
+          //Backend tarafındaki custom errors
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (err) {
+      setError("Unknown Error");
+      console.log(err);
+    }
+  }, []);
 
   useEffect(() => {
     defaultParams.isFetchNeeded && getAllBlogPosts();
@@ -115,9 +138,10 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
   return {
     isLoading,
     error,
+    isSuccessfull,
     addNewBlogPost,
     getAllBlogPosts,
     updateBlogPost,
-    isSuccessfull,
+    deleteBlogPost,
   };
 }
