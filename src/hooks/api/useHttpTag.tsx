@@ -3,7 +3,16 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "../../config/axios-config";
 import { useDispatch } from "react-redux";
 import * as tagActions from "../../store/Tag/action";
-export default function useHttpTag(isFetchNeeded: boolean = false) {
+
+type IProps = {
+  isFetchNeeded?: boolean;
+};
+
+export default function useHttpTag(params?: Partial<IProps>) {
+  const defaultParams: IProps = {
+    isFetchNeeded: false,
+    ...params,
+  };
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -80,8 +89,8 @@ export default function useHttpTag(isFetchNeeded: boolean = false) {
   );
 
   useEffect(() => {
-    isFetchNeeded && getAllTags();
-  }, [getAllTags, isFetchNeeded]);
+    defaultParams.isFetchNeeded && getAllTags();
+  }, [getAllTags, defaultParams.isFetchNeeded]);
 
   return {
     isLoading,

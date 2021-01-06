@@ -1,14 +1,24 @@
 import React from "react";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import { useSelector } from "../../../store";
-import { DataGrid, ColDef, CellParams } from "@material-ui/data-grid";
+import {
+  DataGrid,
+  ColDef,
+  CellParams,
+  RowParams,
+} from "@material-ui/data-grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { IBlogPost } from "../../../types";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CustomPopover from "../../../components/Admin/CustomPopover/CustomPopover";
+import { useHistory } from "react-router-dom";
 
 const columns: ColDef[] = [
+  {
+    field: "id",
+    hide: true,
+  },
   {
     field: "title",
     headerName: "Title",
@@ -39,8 +49,9 @@ const columns: ColDef[] = [
 ];
 
 export default function Posts() {
+  const history = useHistory();
   const blogPostReducer = useSelector((state) => state.blogPostReducer);
-  const { isLoading } = useHttpBlogPost(true);
+  const { isLoading } = useHttpBlogPost({ isFetchNeeded: true });
 
   const rows = blogPostReducer.map((post: IBlogPost) => {
     return {
@@ -50,6 +61,7 @@ export default function Posts() {
       author: post.author.name,
     };
   });
+
   return (
     <div
       style={{
@@ -64,7 +76,20 @@ export default function Posts() {
       */}
       {!isLoading ? (
         <div style={{ width: "85%", position: "absolute", height: "90vh" }}>
-          <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+          <DataGrid
+            onRowClick={(param: RowParams) => {
+              const postDetails = blogPostReducer.find(
+                (post: IBlogPost) => post.id === param.row.id
+              );
+              history.push({
+                pathname: `posts/${param.row.title}`,
+                state: { postDetails, isUpdate: true },
+              });
+            }}
+            rows={rows}
+            columns={columns}
+            disableSelectionOnClick
+          />
         </div>
       ) : (
         <CircularProgress />

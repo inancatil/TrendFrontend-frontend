@@ -270,8 +270,7 @@ export default function Categories() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
-  const httpCategory = useHttpCategory(true);
-  //const [rows, setRows] = useState<Data[]>([]);
+  const httpCategory = useHttpCategory({ isFetchNeeded: true });
   const rows = convertToTableData(categoryReducer);
 
   const handleRequestSort = (

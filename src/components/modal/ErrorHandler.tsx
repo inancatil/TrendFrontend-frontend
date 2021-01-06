@@ -43,7 +43,7 @@ export default function ErrorHandler({ children }: IProps) {
 
   useEffect(() => {
     axios.interceptors.request.use((req) => {
-      setError("");
+      setError(""); //Her request yaptıgında eğer error var ise erroru silsin.
       return req;
     });
     axios.interceptors.response.use(
@@ -59,6 +59,7 @@ export default function ErrorHandler({ children }: IProps) {
     );
     return () => {
       setError("");
+      setOpen(false);
     };
   }, []);
 

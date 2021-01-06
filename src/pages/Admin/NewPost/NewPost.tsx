@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function NewPost() {
   //???
-  useHttpCategory(true);
-  useHttpTag(true);
+  useHttpCategory({ isFetchNeeded: true });
+  useHttpTag({ isFetchNeeded: true });
   const httpBlogPost = useHttpBlogPost();
   const userReducer = useSelector((state) => state.userReducer);
   const categoryReducer = useSelector((state) => state.categoryReducer);

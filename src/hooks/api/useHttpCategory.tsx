@@ -9,7 +9,15 @@ import {
 import * as categoryActions from "../../store/Category/action";
 import { useDispatch } from "react-redux";
 
-export default function useHttpCategory(isFetchNeeded: boolean = false) {
+type IProps = {
+  isFetchNeeded?: boolean;
+};
+
+export default function useHttpCategory(params?: Partial<IProps>) {
+  const defaultParams: IProps = {
+    isFetchNeeded: false,
+    ...params,
+  };
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -86,8 +94,8 @@ export default function useHttpCategory(isFetchNeeded: boolean = false) {
   );
 
   useEffect(() => {
-    isFetchNeeded && getAllCategories();
-  }, [getAllCategories, isFetchNeeded]);
+    defaultParams.isFetchNeeded && getAllCategories();
+  }, [getAllCategories, defaultParams.isFetchNeeded]);
 
   return {
     isLoading,

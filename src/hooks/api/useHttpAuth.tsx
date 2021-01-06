@@ -40,7 +40,6 @@ export default function useHttpAuth() {
             password,
           })
           .then((res: AxiosResponse<IAuthResponse>) => {
-            //startRefreshTokenTimer(res.data.jwtToken);
             dispatch(userActions.login(res.data!));
           })
           .catch((err) => {
@@ -62,7 +61,6 @@ export default function useHttpAuth() {
       await axios
         .post("/api/users/revoke-token")
         .then((res: AxiosResponse<any>) => {
-          // stopRefreshTokenTimer();
           dispatch(userActions.logout());
         })
         .catch((err) => {
@@ -83,7 +81,6 @@ export default function useHttpAuth() {
         .post("/api/users/refresh-token")
         .then((res: AxiosResponse<IAuthResponse>) => {
           dispatch(userActions.login(res.data));
-          //startRefreshTokenTimer(res.data!.jwtToken);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors

@@ -5,6 +5,10 @@ import axios from "../../config/axios-config";
 import { ICreateBlogPostResponse, IGetAllBlogPostsResponse } from "../../types";
 import * as blogPostActions from "../../store/BlogPost/action";
 
+type IProps = {
+  isFetchNeeded?: boolean;
+};
+
 interface INewBlogPost {
   title: string;
   content: string;
@@ -15,7 +19,12 @@ interface INewBlogPost {
   categoryId: string | null;
 }
 
-export default function useHttpBlogPost(isFetchNeeded: boolean = false) {
+export default function useHttpBlogPost(params?: Partial<IProps>) {
+  const defaultParams: IProps = {
+    isFetchNeeded: false,
+    ...params,
+  };
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -67,13 +76,48 @@ export default function useHttpBlogPost(isFetchNeeded: boolean = false) {
         });
     } catch (err) {
       setError("Unknown Error");
-      console.log(err);
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    isFetchNeeded && getAllBlogPosts();
-  }, [getAllBlogPosts, isFetchNeeded]);
+  const updateBlogPost = useCallback(
+    async (id: string, post: INewBlogPost) => {
+      setIsLoading(true);
+      setIsSuccessfull(false);
 
-  return { isLoading, error, addNewBlogPost, getAllBlogPosts, isSuccessfull };
+      try {
+        await axios
+          .patch(`/api/blogPosts/${id}`, {
+            ...post,
+          })
+          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+            //dispatch(blogPostActions.createBlogPost(res.data.blogPost));
+            setIsSuccessfull(true);
+          })
+          .catch((err) => {
+            //Backend tarafındaki custom errors
+            setError(err.response.data.message);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } catch (err) {
+        setError("Unknown Error");
+        console.log(err);
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    defaultParams.isFetchNeeded && getAllBlogPosts();
+  }, [getAllBlogPosts, defaultParams.isFetchNeeded]);
+
+  return {
+    isLoading,
+    error,
+    addNewBlogPost,
+    getAllBlogPosts,
+    updateBlogPost,
+    isSuccessfull,
+  };
 }
