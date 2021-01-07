@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete, {
   createFilterOptions,
@@ -19,7 +19,7 @@ export default function CustomCreatableSelect({
   selectedTags,
   setSelectedTags,
 }: Props) {
-  const convertTags: TagType[] = allTags.map((tag: any) => {
+  const convertTags = allTags.map((tag: any) => {
     return {
       id: tag.id,
       value: tag.name,
@@ -35,11 +35,12 @@ export default function CustomCreatableSelect({
       }}
       value={selectedTags}
       filterOptions={(options, params) => {
-        const filtered = options.filter(
-          (opt: TagType) => !selectedTags.some((t: TagType) => t.id === opt.id)
-        );
+        const filtered = filter(options, params);
         // Suggest the creation of a new value
-        if (params.inputValue !== "") {
+        if (
+          params.inputValue !== "" &&
+          !filtered.some((f: TagType) => f.value === params.inputValue)
+        ) {
           filtered.push({
             inputValue: params.inputValue,
             isNew: true,
@@ -51,7 +52,8 @@ export default function CustomCreatableSelect({
       selectOnFocus
       clearOnBlur
       handleHomeEndKeys
-      id="free-solo-with-text-demo"
+      filterSelectedOptions
+      id="tag-creatable-select"
       options={convertTags}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
@@ -60,7 +62,6 @@ export default function CustomCreatableSelect({
         }
         // Add "xxx" option created dynamically
         if (option.inputValue) {
-          console.log(option.inputValue);
           return option.inputValue;
         }
         // Regular option

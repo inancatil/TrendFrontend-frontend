@@ -70,11 +70,6 @@ export default function CustomList(props: ICustomListProps) {
           />
           <CustomListItem
             style={classes.nested}
-            to={`${url}/newpost`}
-            primary="Add New"
-          />
-          <CustomListItem
-            style={classes.nested}
             to={`${url}/categories`}
             primary="Categories"
           />

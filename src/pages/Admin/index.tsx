@@ -5,7 +5,6 @@ import NotFound from "../Fallback/NotFound/NotFound";
 import Admin from "./Admin";
 import Categories from "./Categories/Categories";
 import Home from "./Home/Home";
-import NewPost from "./NewPost/NewPost";
 import Posts from "./Posts/Posts";
 import PostDetails from "./../../components/Admin/PostDetails/PostDetails";
 
@@ -19,7 +18,6 @@ export default function AdminRoutes({ match }) {
           <Switch>
             <Route path={path} component={Home} exact />
             <Route path={`${path}/categories`} component={Categories} />
-            <Route path={`${path}/newpost`} component={NewPost} />
             <Route
               path={`${path}/posts`}
               render={({ match: { url } }) => (

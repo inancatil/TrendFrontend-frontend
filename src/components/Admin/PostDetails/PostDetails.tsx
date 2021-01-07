@@ -15,7 +15,7 @@ import { useSelector } from "../../../store";
 import { IBlogPost } from "../../../types";
 import useHttpTag from "./../../../hooks/api/useHttpTag";
 import CustomCreatableSelect from "./CustomCreatableSelect";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {

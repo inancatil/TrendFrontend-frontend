@@ -42,7 +42,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           })
           .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
             dispatch(blogPostActions.createBlogPost(res.data.blogPost));
-            setIsSuccessfull(res.status === 200);
+            setIsSuccessfull(res.status === 201);
           })
           .catch((err) => {
             //Backend tarafındaki custom errors

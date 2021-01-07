@@ -1,13 +1,7 @@
 import React from "react";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import { useSelector } from "../../../store";
-import {
-  DataGrid,
-  ColDef,
-  CellParams,
-  RowParams,
-} from "@material-ui/data-grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { DataGrid, ColDef, CellParams } from "@material-ui/data-grid";
 import { IBlogPost } from "../../../types";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -15,6 +9,7 @@ import CustomPopover from "../../../components/Admin/CustomPopover/CustomPopover
 import { useHistory } from "react-router-dom";
 import { Chip, createStyles, makeStyles, Theme } from "@material-ui/core";
 import { getRandomColor } from "../../../tools/utils";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,16 +49,18 @@ export default function Posts() {
     {
       field: "title",
       headerName: "Title",
-      flex: 0.1,
+      width: 90,
       renderCell: (params: CellParams) => {
         return <CustomPopover content={params.value} />;
       },
     },
-    { field: "category", headerName: "Category", flex: 0.5 },
+    { field: "category", headerName: "Category", width: 90 },
     {
       field: "tags",
       headerName: "Tag",
-      flex: 0.5,
+      width: 300,
+
+      sortable: false,
       renderCell: (params: CellParams) => {
         return (
           <div className={classes.chip}>
@@ -84,7 +81,9 @@ export default function Posts() {
     {
       field: "",
       headerName: "Action",
-      flex: 0.2,
+      width: 150,
+      disableColumnMenu: true,
+      sortable: false,
       renderCell: (params: CellParams) => {
         return (
           <Button
@@ -102,39 +101,37 @@ export default function Posts() {
   ];
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "90vh",
-        alignItems: `${isLoading ? "center" : ""}`,
-        justifyContent: "center",
-      }}
-    >
-      {/*PERFORMANS PROBLEMINDEN DOLAYI ABSOLUTE. 
-      https://github.com/mui-org/material-ui-x/issues/799
-      */}
-      {!isLoading ? (
-        <div style={{ width: "85%", position: "absolute", height: "90vh" }}>
-          <DataGrid
-            onCellClick={(param: CellParams) => {
-              if (param.field === "title") {
-                const postDetails = blogPostReducer.find(
-                  (post: IBlogPost) => post.id === param.row.id
-                );
-                history.push({
-                  pathname: `posts/${param.row.title}`,
-                  state: { postDetails, isUpdate: true },
-                });
-              }
-            }}
-            rows={rows}
-            columns={columns}
-            disableSelectionOnClick
-          />
-        </div>
-      ) : (
-        <CircularProgress />
-      )}
+    <div style={{ position: "absolute", width: "85%", height: "90vh" }}>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AddBoxIcon />}
+        onClick={() => {
+          history.push({
+            pathname: `posts/newpost`,
+            state: { isUpdate: false },
+          });
+        }}
+      >
+        Add New
+      </Button>
+      <DataGrid
+        rowHeight={65}
+        loading={isLoading}
+        onCellClick={(param: CellParams) => {
+          if (param.field === "title") {
+            const postDetails = blogPostReducer.find(
+              (post: IBlogPost) => post.id === param.row.id
+            );
+            history.push({
+              pathname: `posts/${param.row.title}`,
+              state: { postDetails, isUpdate: true },
+            });
+          }
+        }}
+        rows={rows}
+        columns={columns}
+      />
     </div>
   );
 }
