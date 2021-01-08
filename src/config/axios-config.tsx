@@ -1,7 +1,7 @@
 import axios from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import { store } from "../store";
-import { REFRESH_TOKEN } from "../store/User/types";
+import { LOGOUT, REFRESH_TOKEN } from "../store/User/types";
 
 const instance = axios.create({
   baseURL: "http://localhost:4000",
@@ -30,6 +30,11 @@ const refreshAuthLogic = (failedRequest: any) =>
         },
       });
       return Promise.resolve();
+    })
+    .catch((e) => {
+      store.dispatch({
+        type: LOGOUT,
+      });
     });
 // Instantiate the interceptor (you can chain it as it returns the axios instance)
 createAuthRefreshInterceptor(instance, refreshAuthLogic);
