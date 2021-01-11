@@ -64,7 +64,7 @@ export default function Posts() {
       renderCell: (params: CellParams) => {
         return (
           <div className={classes.chip}>
-            {params.row.tags.map((t, i) => (
+            {params.row.tags.map((t: string, i: number) => (
               <Chip
                 key={i}
                 label={t}
@@ -101,7 +101,7 @@ export default function Posts() {
   ];
 
   return (
-    <div style={{ position: "absolute", width: "85%", height: "90vh" }}>
+    <div style={{ width: "100%", height: "90vh" }}>
       <Button
         variant="contained"
         color="primary"

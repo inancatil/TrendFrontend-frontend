@@ -8,9 +8,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import Routes from "./pages";
 import { BrowserRouter } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-
 export default function App() {
   return (
     <Provider store={store}>

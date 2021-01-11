@@ -70,7 +70,7 @@ export default function PostDetails() {
   const classes = useStyles();
 
   const onSubmit = () => {
-    if (!postDetails) {
+    if (!routerState.isUpdate) {
       httpBlogPost.addNewBlogPost({
         title: title,
         content: editorContent,
