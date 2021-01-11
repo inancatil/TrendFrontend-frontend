@@ -1,0 +1,232 @@
+main {
+  margin: 40px 0;
+}
+
+.articles article:first-child {
+  margin-top: 0;
+}
+.articles article {
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05);
+  margin: 30px 0;
+}
+.articles article.blue-article:before {
+  background: #38b7ea;
+}
+
+.articles article.red-article:before {
+  background: #ff7473;
+}
+
+.articles article[class*="-article"]:before {
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: -15px;
+  content: "";
+}
+
+.articles article .articles-header {
+  color: #a6a9ac;
+  padding: 28px 0;
+  margin: 0 32px;
+  border-bottom: 1px solid #eceff2;
+}
+
+.articles article .articles-header span[class^="articles-header-tag"] {
+  border: 1px solid;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 2px 7px;
+  margin: 0 6px;
+}
+
+.articles article .articles-header .articles-header-category {
+  display: inline-block;
+  float: right;
+}
+
+.articles article.blue-article .articles-header-category a {
+  color: #38b7ea;
+}
+.articles article.red-article .articles-header-category a {
+  color: #ff7473;
+}
+
+.blue {
+  color: #38b7ea;
+}
+a {
+  color: #212121;
+  transition: all 0.2s ease-in-out;
+}
+
+.articles article .articles-content {
+  padding: 0 32px;
+}
+
+.articles-content p {
+   
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+.articles article .articles-content h1 {
+  margin: 26px 0;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+  font-weight: 900;
+  color: #212121;
+}
+
+h1,
+.h1 {
+  font-size: 32px;
+  line-height: 46px;
+}
+
+a {
+  color: #212121;
+  transition: all 0.2s ease-in-out;
+}
+
+p {
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: -0.05px;
+  line-height: 31px;
+}
+
+.articles-footer {
+  padding: 20px 32px 32px;
+}
+
+.articles-footer > ul {
+  list-style-type: none;
+  text-decoration: none;
+  float: right;
+  margin-top: 11px;
+  overflow: hidden;
+}
+
+.articles-footer > ul li:first-child {
+  margin-left: 0;
+}
+
+.articles-footer > ul li {
+  float: left;
+  margin-left: 22px;
+}
+
+.articles-footer > ul li a {
+  position: relative;
+  margin-left: 40px;
+  color: #a6a9ac;
+  text-decoration: none;
+}
+
+a.light-link {
+  color: #a6a9ac;
+  text-decoration: none;
+}
+
+a {
+  color: #212121;
+  transition: all 0.2s ease-in-out;
+}
+
+.articles-footer > ul li a i {
+  font-size: 32px;
+  position: absolute;
+  left: -42px;
+  top: -6px;
+  color: #212121;
+}
+
+.read-more-btn {
+  border: 1px solid #a6a9ac;
+  border-radius: 30px;
+  padding: 10px 34px;
+  background: #ffffff;
+  color: #a6a9ac;
+  transition: all 0.2s ease-in-out;
+}
+.read-more-btn:hover {
+  background: #212121;
+  border-color: #212121;
+  color: #ffffff;
+  text-decoration: none;
+}
+.read-more-btn:hover a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.read-more-btn:focus {
+  outline: none;
+}
+.read-more-btn:active {
+  outline: none;
+}
+.read-more-btn a {
+  color: #a6a9ac;
+}
+
+.articles nav {
+  text-align: center;
+  border-top: 1px solid #eceff2;
+  padding: 30px 0;
+  overflow: auto;
+  }
+
+  .articles nav .pagination-back {
+    float: left;
+    }
+
+    .btn-small-white {
+      background: #ffffff;
+      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05);
+      border: none;
+      border-radius: 16px;
+      padding: 6px 22px;
+      font-size: 15px;
+      }
+
+      .articles nav .pagination {
+        margin: 6px 0;
+        }
+
+        .articles nav .pagination .page-item.active a {
+          background: #a6a9ac;
+          color: #ffffff;
+          }
+          .articles nav .pagination .page-item .page-link {
+            border: none;
+            background: #ffffff;
+            border-radius: 0;
+            color: #a6a9ac;
+            font-size: 15px;
+            padding: 2px 8px;
+            margin: 0 4px;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05);
+            }
+
+            .articles nav .pagination-next {
+              float: right;
+              }
+
+            

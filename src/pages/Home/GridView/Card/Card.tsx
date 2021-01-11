@@ -1,7 +1,7 @@
 import React from "react";
 import bgPhoto from "../../../../assets/images/photo1.jpg";
 import { IBlogPost } from "../../../../types";
-import "./Card.css";
+import "./style.css";
 
 interface IProps {
   postDetails: IBlogPost;
