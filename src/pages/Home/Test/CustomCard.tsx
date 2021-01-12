@@ -10,6 +10,11 @@ import {
 } from "@material-ui/core";
 import Image from "material-ui-image";
 import bgPhoto from "../../../assets/images/photo1.jpg";
+import { IBlogPost } from "../../../types";
+
+interface IProps {
+  postDetails: IBlogPost;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,10 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function CustomCard() {
+export default function CustomCard({ postDetails }: IProps) {
   const classes = useStyles();
   const [isMouseOver, setisMouseOver] = useState<boolean>(false);
-
+  console.log(postDetails);
   return (
     <Card
       raised={isMouseOver}
@@ -57,9 +62,9 @@ export default function CustomCard() {
           paragraph
           variant="h5"
           style={{ color: "#ffffff", fontWeight: 900 }}
+          noWrap
         >
-          {" "}
-          This is Title
+          {postDetails.title}
         </Typography>
         <Chip
           label="Basic"
