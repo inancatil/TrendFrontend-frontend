@@ -6,7 +6,7 @@ import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
 import NavBar from "./NavBar/NavBar";
 import PostCard from "./PostCard";
-
+import { default as TestGrid } from "./Test/GridView";
 export interface IHomeProps {}
 
 export default function Home(props: IHomeProps) {
@@ -14,17 +14,18 @@ export default function Home(props: IHomeProps) {
   const blogPosts = useSelector((state) => state.blogPostReducer);
 
   return (
-    <Container style={{ backgroundColor: "#f5f8f9" }}>
-      <div>
-        <NavBar />
-        {!isLoading && blogPosts.length > 0 && (
+    <div style={{ backgroundColor: "#f5f8f9" }}>
+      <NavBar />
+      <Container style={{ width: 940 }}>
+        {/* {!isLoading && blogPosts.length > 0 && (
           <GridView blogPosts={blogPosts} />
-        )}
+        )} */}
+        <TestGrid />
         <ListView />
         {/* {blogPostReducer.map((post) => {
           return <PostCard key={post.id} postDetails={post} />;
         })} */}
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 }
