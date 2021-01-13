@@ -1,67 +1,32 @@
-import React from "react";
+import { Container } from "@material-ui/core";
+import React, { useState } from "react";
 import { useSelector } from "../../../store";
 import { IBlogPost } from "../../../types";
 import Article from "./Article";
-import "./style.css";
+import CustomPagination from "./CustomPagination";
+
+const NUM_OF_ARTICLES_PER_PAGE = 5;
 
 export default function ListView() {
   const blogPosts = useSelector((state) => state.blogPostReducer);
-
+  const [curPage, setCurPage] = useState<number>(1);
+  const numberOfPages = Math.ceil(blogPosts.length / NUM_OF_ARTICLES_PER_PAGE);
+  console.log(blogPosts);
   return (
-    <main>
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-8 col-xs-12">
-            <section className="articles">
-              {blogPosts.map((post: IBlogPost) => (
-                <Article postDetails={post} />
-              ))}
-
-              <nav aria-label="...">
-                <a title="" href="" className="btn-small-white pagination-back">
-                  Back
-                </a>
-                <ul className="pagination">
-                  <li className="page-item active">
-                    <a className="page-link" href="#">
-                      1 <span className="sr-only">(current)</span>
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item page-item-more">
-                    <a className="page-link" href="#">
-                      ...
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="#">
-                      25
-                    </a>
-                  </li>
-                </ul>
-                <a
-                  title=""
-                  href="blog_post.html"
-                  className="btn-small-white pagination-next"
-                >
-                  Next
-                </a>
-              </nav>
-            </section>
-          </div>
-
-          <div className="aside-blocks col-lg-4 col-xs-12"></div>
-        </div>
-      </div>
-    </main>
+    <>
+      {blogPosts
+        .slice(
+          (curPage - 1) * NUM_OF_ARTICLES_PER_PAGE,
+          (curPage - 1) * NUM_OF_ARTICLES_PER_PAGE + NUM_OF_ARTICLES_PER_PAGE
+        )
+        .map((post: IBlogPost) => (
+          <Article key={post.id} postDetails={post} />
+        ))}
+      <CustomPagination
+        numberOfPages={numberOfPages}
+        curPage={curPage}
+        setCurPage={setCurPage}
+      />
+    </>
   );
 }

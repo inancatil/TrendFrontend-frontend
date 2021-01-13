@@ -33,24 +33,26 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#ffffff",
       border: "1px solid #ffffff",
     },
+    box: {
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.3)",
+      },
+    },
   })
 );
 
 export default function CustomCard({ postDetails }: IProps) {
   const classes = useStyles();
-  const [isMouseOver, setisMouseOver] = useState<boolean>(false);
-  console.log(postDetails);
+  const [raised, setRaised] = useState<boolean>(false);
   return (
     <Card
-      raised={isMouseOver}
-      onMouseOver={() => setisMouseOver(true)}
-      onMouseLeave={() => setisMouseOver(false)}
+      raised={raised}
+      onMouseOver={() => setRaised(true)}
+      onMouseLeave={() => setRaised(false)}
       className={classes.card}
     >
       <Box
-        style={{
-          backgroundColor: isMouseOver ? " rgba(0, 0, 0, 0.3)" : "",
-        }}
+        className={classes.box}
         position={"absolute"}
         zIndex={2}
         padding={"22px 30px"}

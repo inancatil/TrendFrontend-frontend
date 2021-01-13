@@ -5,9 +5,7 @@ import { useSelector } from "../../store";
 import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
 import NavBar from "./NavBar/NavBar";
-import PostCard from "./PostCard";
-import { default as TestGrid } from "./Test/GridView";
-import { default as TestList } from "./Test/ListView";
+import PersonalInfoCard from "./PersonalInfoCard/PersonalInfoCard";
 export interface IHomeProps {}
 
 export default function Home(props: IHomeProps) {
@@ -21,12 +19,14 @@ export default function Home(props: IHomeProps) {
       <Container style={{ width: `${matches ? "940px" : ""}` }}>
         {!isLoading && blogPosts.length > 0 && (
           <>
-            <TestGrid />
+            <GridView />
             <Grid container spacing={3}>
               <Grid item lg={8} md={8} xs={12}>
-                <TestList />
+                <ListView />
               </Grid>
-              <Grid item lg={4} md={4} xs={12}></Grid>
+              <Grid item lg={4} md={4} xs={12}>
+                <PersonalInfoCard />
+              </Grid>
             </Grid>
           </>
         )}

@@ -1,35 +1,46 @@
 import React from "react";
-import { default as CustomCard } from "./Card/Card";
-import clsx from "clsx";
-import { IBlogPost } from "../../../types";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
-interface IProps {
-  blogPosts: IBlogPost[];
-}
+import Grid from "@material-ui/core/Grid";
+import CustomCard from "./CustomCard";
+import { useSelector } from "../../../store";
 
-export default function GridView({ blogPosts }: IProps) {
-  console.log(blogPosts);
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      paddingTop: 25,
+      paddingBottom: 25,
+    },
+    row: {
+      flex: 1,
+      flexDirection: "column",
+    },
+  })
+);
+
+export default function GridView() {
+  const classes = useStyles();
+
+  const blogPosts = useSelector((state) => state.blogPostReducer);
   return (
-    <section className={clsx("banners")}>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 col-xs-12">
-            <CustomCard postDetails={blogPosts[0]} />
-          </div>
-          <div className="col-md-6 col-xs-12">
-            <CustomCard postDetails={blogPosts[1]} />
-          </div>
-          <div className="col-lg-4 col-md-6 col-xs-12">
-            <CustomCard postDetails={blogPosts[2]} />
-          </div>
-          <div className="col-lg-4 col-md-6 col-xs-12">
-            <CustomCard postDetails={blogPosts[3]} />
-          </div>
-          <div className="col-lg-4 col-md-6 col-xs-12">
-            <CustomCard postDetails={blogPosts[4]} />
-          </div>
-        </div>
-      </div>
-    </section>
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <CustomCard postDetails={blogPosts[0]} />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <CustomCard postDetails={blogPosts[1]} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <CustomCard postDetails={blogPosts[2]} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <CustomCard postDetails={blogPosts[3]} />
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <CustomCard postDetails={blogPosts[4]} />
+        </Grid>
+      </Grid>
+    </div>
   );
 }

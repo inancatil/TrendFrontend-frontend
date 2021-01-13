@@ -9,6 +9,11 @@ import { store, persistor } from "./store";
 import Routes from "./pages";
 import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faFilePdf, fab);
 export default function App() {
   return (
     <Provider store={store}>
