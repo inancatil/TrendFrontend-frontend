@@ -16,3 +16,20 @@ export function getRandomColor() {
   }
   return color;
 }
+
+/**
+ * Changes specials charecters such as
+ * @("\&nbsp;", " ")
+ * @("\<br>", "\n")
+ * @("\&lt;", "<")
+ * @("\&gt;", ">")
+ * @param code
+ */
+export const prismFormat = (code: string): string => {
+  const x = code
+    .replaceAll("&nbsp;", " ")
+    .replaceAll("<br>", "\n")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+  return x;
+};
