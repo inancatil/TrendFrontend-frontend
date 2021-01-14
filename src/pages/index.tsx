@@ -7,6 +7,7 @@ import LoginRoutes from "./Login";
 import useHttpAuth from "./../hooks/api/useHttpAuth";
 import { useEffect } from "react";
 import { useSelector } from "../store";
+import BlogPost from "./BlogPost/BlogPost";
 
 export default function Routes() {
   const { refreshToken } = useHttpAuth();
@@ -34,6 +35,7 @@ export default function Routes() {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route path="/blog/:bptitle" component={BlogPost} />
       {/*strict is to remove extra backslahses */}
       <Route strict path="/login" component={LoginRoutes} />{" "}
       <Route strict path="/admin" component={AdminRoutes} />
