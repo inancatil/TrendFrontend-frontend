@@ -14,7 +14,7 @@ export default function Home(props: IHomeProps) {
   const { isLoading } = useHttpBlogPost({ isFetchNeeded: true });
   const blogPosts = useSelector((state) => state.blogPostReducer);
   return (
-    <Container style={{ backgroundColor: "#f5f8f9" }}>
+    <Container>
       <NavBar />
       <Container style={{ width: `${matches ? "940px" : ""}` }}>
         {!isLoading && blogPosts.length > 0 && (

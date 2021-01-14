@@ -19,11 +19,22 @@ const useStyles = makeStyles({
     minHeight: 300,
     position: "relative",
     marginBottom: 15,
+    "&::before": {
+      height: "100%",
+      width: "100%",
+      position: "absolute",
+      top: 0,
+      left: "-15px",
+      content: "''", //çokomelli
+      backgroundColor: "blue",
+      zIndex: -1,
+      display: "block",
+    },
   },
   title: {
     fontWeight: "bolder",
   },
-  //z index te proplem var. üst comp ta background color verince bura patlayor
+  //z index te proplem var.
   test: {
     "&::before": {
       height: "100%",
@@ -31,9 +42,10 @@ const useStyles = makeStyles({
       position: "absolute",
       top: 0,
       left: "-15px",
-      content: '""', //çokomelli
+      content: "''", //çokomelli
       backgroundColor: "blue",
       zIndex: -1,
+      display: "block",
     },
   },
 });
@@ -42,12 +54,7 @@ export default function Article({ postDetails }: IProps) {
   const classes = useStyles();
   return (
     <Card className={classes.root} variant="outlined">
-      <Box
-        position="absolute"
-        width="100%"
-        height="100%"
-        className={classes.test}
-      >
+      <Box>
         <CardContent>
           <Link
             to={{

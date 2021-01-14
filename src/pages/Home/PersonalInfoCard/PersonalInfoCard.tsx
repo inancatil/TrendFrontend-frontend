@@ -56,10 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       width: "100%",
       height: 75,
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "row",
       color: "#a6a9ac",
       "&:hover": {
         color: "black",
