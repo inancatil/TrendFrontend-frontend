@@ -4,8 +4,47 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-okaidia.css";
 import parse from "html-react-parser";
 import PrismBlock from "./PrismBlock";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {},
+
+    "@global": {
+      blockquote: {
+        background: "#f9f9f9",
+        borderLeft: "10px solid #ccc",
+        margin: "1.5em 10px",
+        padding: " 0.5em 10px",
+        fontStyle: "italic",
+        quotes: "'\u275b\u275b''\u275c\u275c'",
+        "&:before": {
+          color: "#ccc",
+          content: "open-quote",
+          fontSize: "3em",
+          lineHeight: " 0.1em",
+          marginRight: "0.25em",
+          verticalAlign: " -0.3em",
+        },
+        "&:after": {
+          color: "#ccc",
+          content: "close-quote",
+          fontSize: "3em",
+          lineHeight: " 0.1em",
+          marginRight: "0.25em",
+          verticalAlign: " -0.3em",
+        },
+        "&>p": {
+          display: "inline",
+        },
+      },
+    },
+  })
+);
 
 export default function BlogPost() {
+  const classes = useStyles();
   const { state: routerState } = useLocation<any>();
 
   /**
@@ -14,9 +53,10 @@ export default function BlogPost() {
    * or
    * <p class="">....</p>
    * etc.
+   * /s flag for dot (.) to support newline char.
    */
   const splittedTags = routerState.postDetails.content.match(
-    /<(.*?)( .*?|)>.*?<\/(\1)>/g
+    /<(.*?)( .*?|)>.*?<\/(\1)>/gs
   );
 
   useEffect(() => {
@@ -26,12 +66,12 @@ export default function BlogPost() {
   }, []);
 
   return (
-    <div className="article-container">
+    <Container className={classes.container}>
       {splittedTags.map((el: string, i: number) => {
         if (el.substring(1, 4) === "pre") {
           return <PrismBlock key={i} code={el} />;
         } else return <React.Fragment key={i}>{parse(el)}</React.Fragment>;
       })}
-    </div>
+    </Container>
   );
 }
