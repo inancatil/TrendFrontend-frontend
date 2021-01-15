@@ -8,11 +8,14 @@ import useHttpAuth from "./../hooks/api/useHttpAuth";
 import { useEffect } from "react";
 import { useSelector } from "../store";
 import BlogPost from "./BlogPost/BlogPost";
+import NavBar from "./Home/NavBar/NavBar";
+import { Container, useMediaQuery } from "@material-ui/core";
 
 export default function Routes() {
   const { refreshToken } = useHttpAuth();
   const { jwtToken, isLoggedIn } = useSelector((state) => state.userReducer);
   const refreshTokenTimeout = React.useRef<any>(null);
+  const matches = useMediaQuery("(min-width:1200px)");
 
   //Refreshes token every 15 min
   useEffect(() => {
@@ -34,8 +37,12 @@ export default function Routes() {
 
   return (
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/blog/:bptitle" component={BlogPost} />
+      <NavBar>
+        <Container style={{ width: `${matches ? "940px" : ""}` }}>
+          <Route exact path="/" component={Home} />
+          <Route path="/blog/:bptitle" component={BlogPost} />
+        </Container>
+      </NavBar>
       {/*strict is to remove extra backslahses */}
       <Route strict path="/login" component={LoginRoutes} />{" "}
       <Route strict path="/admin" component={AdminRoutes} />

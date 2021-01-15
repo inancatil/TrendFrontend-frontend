@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Prism from "prismjs";
-import "prismjs/themes/prism-okaidia.css";
 import parse from "html-react-parser";
 import PrismBlock from "./PrismBlock";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";

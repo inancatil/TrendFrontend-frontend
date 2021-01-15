@@ -7,11 +7,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Avatar } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
-
-import SvgIcon from "@material-ui/core/SvgIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { faGift } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
+      marginBottom: 25,
     },
     bullet: {
       display: "inline-block",
@@ -75,34 +72,50 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function PersonalInfoCard() {
+interface IProps {
+  name: string;
+  job: string;
+  linkedInUrl: string;
+  gitUrl: string;
+  cvUrl: string;
+}
+
+export default function PersonalInfoCard(props: IProps) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
       <CardContent classes={{ root: classes.cardContent }}>
-        <Avatar className={classes.purple}>OP</Avatar>
+        <Avatar className={classes.purple}>
+          {props.name.charAt(0).toString().toUpperCase()}
+        </Avatar>
 
         <Typography variant="h5" component="h2">
-          Meltem Gürsoy
+          {props.name}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Front-End Developer
+          {props.job}
         </Typography>
         <CardActions>
           <FontAwesomeIcon
             className={classes.socialButtons}
             size={"2x"}
             icon={["fab", "linkedin"]}
+            onClick={() => window.alert(props.linkedInUrl)}
           />
           <FontAwesomeIcon
             className={classes.socialButtons}
             size={"2x"}
             icon={["fab", "github"]}
+            onClick={() => window.alert(props.gitUrl)}
           />
         </CardActions>
       </CardContent>
-      <Button size="small" className={classes.cvButton}>
+      <Button
+        size="small"
+        className={classes.cvButton}
+        onClick={() => window.alert(props.cvUrl)}
+      >
         <FontAwesomeIcon
           size={"2x"}
           icon="file-pdf"

@@ -11,6 +11,7 @@ import {
 import Image from "material-ui-image";
 import bgPhoto from "../../../assets/images/photo1.jpg";
 import { IBlogPost } from "../../../types";
+import { Link } from "react-router-dom";
 
 interface IProps {
   postDetails: IBlogPost;
@@ -51,36 +52,43 @@ export default function CustomCard({ postDetails }: IProps) {
       onMouseLeave={() => setRaised(false)}
       className={classes.card}
     >
-      <Box
-        className={classes.box}
-        position={"absolute"}
-        zIndex={2}
-        padding={"22px 30px"}
-        width="calc(100% - 32px)"
-        height="calc(100% - 32px)"
-        textAlign="left"
+      <Link
+        to={{
+          pathname: `/blog/${postDetails.title}`,
+          state: { postDetails },
+        }}
       >
-        <Typography
-          paragraph
-          variant="h5"
-          style={{ color: "#ffffff", fontWeight: 900 }}
-          noWrap
+        <Box
+          className={classes.box}
+          position={"absolute"}
+          zIndex={2}
+          padding={"22px 30px"}
+          width="calc(100% - 32px)"
+          height="calc(100% - 32px)"
+          textAlign="left"
         >
-          {postDetails.title}
-        </Typography>
-        <Chip
-          label="Basic"
-          variant="outlined"
-          size="small"
-          className={classes.chip}
-        />
-        <Typography
-          style={{ position: "absolute", bottom: 40, color: "#ffffff" }}
-        >
-          12/12/2020
-        </Typography>
-      </Box>
-      <Image src={bgPhoto} />
+          <Typography
+            paragraph
+            variant="h5"
+            style={{ color: "#ffffff", fontWeight: 900 }}
+            noWrap
+          >
+            {postDetails.title}
+          </Typography>
+          <Chip
+            label="Basic"
+            variant="outlined"
+            size="small"
+            className={classes.chip}
+          />
+          <Typography
+            style={{ position: "absolute", bottom: 40, color: "#ffffff" }}
+          >
+            12/12/2020
+          </Typography>
+        </Box>
+        <Image src={bgPhoto} />
+      </Link>
     </Card>
   );
 }

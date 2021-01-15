@@ -2,6 +2,7 @@ import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React, { useState } from "react";
 import { prismFormat } from "../../tools/utils";
 import clsx from "clsx";
+import "prismjs/themes/prism-okaidia.css";
 
 interface IProps {
   code: string;
