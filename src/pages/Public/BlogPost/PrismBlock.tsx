@@ -46,14 +46,16 @@ export default function PrismBlock({ code }: IProps) {
   const formattedCode = prismFormat(code.substring(5, code.length - 6));
 
   const copyToClipboard = () => {
-    setBtnText("Copied!");
-    const el = document.createElement("textarea");
-    el.value = formattedCode;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    setTimeout(() => setBtnText("Copy"), 1000);
+    if (btnText === "Copy") {
+      setBtnText("Copied!");
+      const el = document.createElement("textarea");
+      el.value = formattedCode;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setTimeout(() => setBtnText("Copy"), 1000);
+    }
   };
 
   return (

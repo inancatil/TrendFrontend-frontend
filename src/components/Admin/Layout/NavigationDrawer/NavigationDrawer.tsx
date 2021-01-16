@@ -133,6 +133,12 @@ export default function NavigationDrawer(props: any) {
           <Typography variant="h6" noWrap className={classes.title}>
             Admin Page
           </Typography>
+          <Button
+            color="inherit"
+            onClick={() => window.open("localhost:3000", "_blank")}
+          >
+            Go Site
+          </Button>
           <Button color="inherit" onClick={logout}>
             Logout
           </Button>
