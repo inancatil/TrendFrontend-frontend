@@ -2,7 +2,11 @@ import { AxiosResponse } from "axios";
 import { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "../../config/axios-config";
-import { ICreateBlogPostResponse, IGetAllBlogPostsResponse } from "../../types";
+import {
+  IBlogPost,
+  ICreateBlogPostResponse,
+  IGetAllBlogPostsResponse,
+} from "../../types";
 import * as blogPostActions from "../../store/BlogPost/action";
 
 type IProps = {
@@ -29,6 +33,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [isSuccessfull, setIsSuccessfull] = useState(false);
+  const [blogPosts, setblogPosts] = useState<IBlogPost[]>([]);
 
   const addNewBlogPost = useCallback(
     async (post: INewBlogPost) => {
@@ -67,6 +72,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
         .get("/api/blogPosts")
         .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
           dispatch(blogPostActions.getAllBlogPosts(res.data.blogPosts));
+          setblogPosts(res.data.blogPosts);
           setIsSuccessfull(res.status === 200);
         })
         .catch((err) => {
@@ -142,6 +148,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
   }, [getAllBlogPosts, defaultParams.isFetchNeeded]);
 
   return {
+    blogPosts,
     isLoading,
     error,
     isSuccessfull,

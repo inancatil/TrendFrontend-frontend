@@ -71,7 +71,7 @@ export default function BlogPost() {
       {splittedTags.map((el: string, i: number) => {
         if (el.includes("custom-iframe")) {
           const url = el.split('class="custom-iframe">')[1].split("</span>");
-          return <IFrame url={url[0]} />;
+          return <IFrame key={i} url={url[0]} />;
         }
         if (el.substring(1, 4) === "pre") {
           return <PrismBlock key={i} code={el} />;

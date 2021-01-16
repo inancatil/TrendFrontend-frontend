@@ -10,7 +10,6 @@ export default function ListView() {
   const blogPosts = useSelector((state) => state.blogPostReducer);
   const [curPage, setCurPage] = useState<number>(1);
   const numberOfPages = Math.ceil(blogPosts.length / NUM_OF_ARTICLES_PER_PAGE);
-  console.log(blogPosts);
   return (
     <>
       {blogPosts
