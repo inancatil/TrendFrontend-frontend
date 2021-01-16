@@ -93,7 +93,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
 
     try {
       await axios
-        .patch(`/api/blogPosts/${id}`, {
+        .put(`/api/blogPosts/${id}`, {
           ...post,
         })
         .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
