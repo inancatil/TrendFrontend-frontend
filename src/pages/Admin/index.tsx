@@ -27,7 +27,6 @@ export default function AdminRoutes({ match }) {
                 </>
               )}
             />
-
             <Route component={NotFound} />
           </Switch>
         </Admin>

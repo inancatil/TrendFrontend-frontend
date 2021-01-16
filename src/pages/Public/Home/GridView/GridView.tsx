@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import CustomCard from "./CustomCard";
-import { useSelector } from "../../../store";
+import { useSelector } from "../../../../store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

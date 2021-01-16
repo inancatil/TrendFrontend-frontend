@@ -8,8 +8,6 @@ import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    container: {},
-
     "@global": {
       blockquote: {
         background: "#f9f9f9",
@@ -43,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function BlogPost() {
-  const classes = useStyles();
+  useStyles();
   const { state: routerState } = useLocation<any>();
 
   /**
@@ -65,7 +63,7 @@ export default function BlogPost() {
   }, []);
 
   return (
-    <Container className={classes.container}>
+    <Container maxWidth="lg">
       {splittedTags.map((el: string, i: number) => {
         if (el.substring(1, 4) === "pre") {
           return <PrismBlock key={i} code={el} />;

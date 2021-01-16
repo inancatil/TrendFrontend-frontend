@@ -1,7 +1,7 @@
 import { Container, Grid } from "@material-ui/core";
 import * as React from "react";
-import useHttpBlogPost from "../../hooks/api/useHttpBlogPost";
-import { useSelector } from "../../store";
+import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
+import { useSelector } from "../../../store";
 import GridView from "./GridView/GridView";
 import ListView from "./ListView/ListView";
 import PersonalInfoCard from "./PersonalInfoCard/PersonalInfoCard";

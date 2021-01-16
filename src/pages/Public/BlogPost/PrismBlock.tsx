@@ -1,8 +1,8 @@
 import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React, { useState } from "react";
-import { prismFormat } from "../../tools/utils";
 import clsx from "clsx";
 import "prismjs/themes/prism-okaidia.css";
+import { prismFormat } from "../../../tools/utils";
 
 interface IProps {
   code: string;
@@ -15,6 +15,14 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "80%",
       borderRadius: "25px !important",
       left: "5%",
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
+      /* Hide scrollbar for IE, Edge and Firefox */
+      msOverflowStyle: "none",
+      /* IE and Edge */
+      scrollbarWidth: "none",
+      /* Firefox */
     },
     copyBtn: {
       margin: theme.spacing(1),
@@ -53,9 +61,7 @@ export default function PrismBlock({ code }: IProps) {
       >
         {btnText}
       </Button>
-      <code className="language-js" style={{ whiteSpace: "pre-wrap" }}>
-        {formattedCode}
-      </code>
+      <code className="language-js">{formattedCode}</code>
     </pre>
   );
 }

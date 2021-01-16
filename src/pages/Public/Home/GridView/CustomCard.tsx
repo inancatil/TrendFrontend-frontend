@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import Image from "material-ui-image";
-import bgPhoto from "../../../assets/images/photo1.jpg";
-import { IBlogPost } from "../../../types";
+import bgPhoto from "../../../../assets/images/photo1.jpg";
+import { IBlogPost } from "../../../../types";
 import { Link } from "react-router-dom";
 
 interface IProps {
