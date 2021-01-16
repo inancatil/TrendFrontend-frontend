@@ -5,9 +5,13 @@ import parse from "html-react-parser";
 import PrismBlock from "./PrismBlock";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
+import IFrame from "./IFrame";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      paddingTop: 150,
+    },
     "@global": {
       blockquote: {
         background: "#f9f9f9",
@@ -41,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function BlogPost() {
-  useStyles();
+  const classes = useStyles();
   const { state: routerState } = useLocation<any>();
 
   /**
@@ -63,8 +67,12 @@ export default function BlogPost() {
   }, []);
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" className={classes.root}>
       {splittedTags.map((el: string, i: number) => {
+        if (el.includes("custom-iframe")) {
+          const url = el.split('class="custom-iframe">')[1].split("</span>");
+          return <IFrame url={url[0]} />;
+        }
         if (el.substring(1, 4) === "pre") {
           return <PrismBlock key={i} code={el} />;
         } else return <React.Fragment key={i}>{parse(el)}</React.Fragment>;

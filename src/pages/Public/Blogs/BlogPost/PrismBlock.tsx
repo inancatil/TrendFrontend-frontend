@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import clsx from "clsx";
 import "prismjs/themes/prism-okaidia.css";
-import { prismFormat } from "../../../tools/utils";
+import { prismFormat } from "../../../../tools/utils";
 
 interface IProps {
   code: string;
@@ -16,10 +16,10 @@ interface IProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    codeContainer: {
+    pre: {
       position: "relative",
       width: "100%",
-      borderRadius: "25px !important",
+      borderRadius: "15px !important",
       "&::-webkit-scrollbar": {
         display: "none",
       },
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
       /* IE and Edge */
       scrollbarWidth: "none",
       /* Firefox */
+    },
+    code: {
+      fontSize: "16px!important",
     },
     copyBtn: {
       margin: theme.spacing(1),
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function PrismBlock({ code }: IProps) {
   const classes = useStyles();
   const [btnText, setBtnText] = useState<string>("Copy");
-  const matches = useMediaQuery("(min-width:575px)");
+  const matches = useMediaQuery("(min-width:1100px)");
 
   const formattedCode = prismFormat(code.substring(5, code.length - 6));
 
@@ -59,7 +62,7 @@ export default function PrismBlock({ code }: IProps) {
   };
 
   return (
-    <pre className={clsx(["prism-code", classes.codeContainer])}>
+    <pre className={clsx(["prism-code", classes.pre])}>
       {matches && (
         <Button
           variant="outlined"
@@ -71,7 +74,9 @@ export default function PrismBlock({ code }: IProps) {
           {btnText}
         </Button>
       )}
-      <code className="language-js">{formattedCode}</code>
+      <code className={clsx(["language-js", classes.code])}>
+        {formattedCode}
+      </code>
     </pre>
   );
 }

@@ -6,6 +6,7 @@ import CodeMirror from "codemirror";
 import "codemirror/mode/htmlmixed/htmlmixed";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/neo.css";
+import { plugin_submenu as iframeTag } from "./iframe-plugin";
 
 interface ITextEditorProps {
   editorContent: string;
@@ -21,10 +22,11 @@ export default function TextEditor({
       <SunEditor
         setOptions={{
           height: 200,
-          buttonList: buttonList.complex, // Or Array of button list, eg. [['font', 'align'], ['image']]
+          buttonList: [...buttonList.complex, ["custom_plugin_submenu"]], // Or Array of button list, eg. [['font', 'align'], ['image']]
           codeMirror: {
             src: CodeMirror,
           },
+          customPlugins: [iframeTag],
         }}
         setContents={editorContent}
         onChange={setEditorContent}

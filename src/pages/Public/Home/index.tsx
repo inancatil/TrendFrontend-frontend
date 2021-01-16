@@ -3,9 +3,10 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import NotFound from "../../Fallback/NotFound/NotFound";
-import BlogPost from "../BlogPost/BlogPost";
+import BlogPost from "../Blogs/BlogPost/BlogPost";
 import Home from "./Home";
 import NavBar from "./NavBar/NavBar";
+import Blogs from "./../Blogs/Blogs";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,7 +27,7 @@ export default function PublicRoutes() {
             path="/blog"
             render={({ match: { url } }) => (
               <>
-                <Route exact path={`${url}/`} render={() => <div>blogs</div>} />
+                <Route exact path={`${url}/`} component={Blogs} />
                 <Route path="/blog/:bptitle" component={BlogPost} />
               </>
             )}
