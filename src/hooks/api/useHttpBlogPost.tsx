@@ -108,31 +108,34 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     }
   }, []);
 
-  const deleteBlogPost = useCallback(async (id: string | number) => {
-    setIsLoading(true);
-    setIsSuccessfull(false);
+  const deleteBlogPost = useCallback(
+    async (id: string | number) => {
+      setIsLoading(true);
+      setIsSuccessfull(false);
 
-    try {
-      await axios
-        .delete(`/api/blogPosts/${id}`)
-        .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
-          //Fetch all posts to update redux.
-          //Can be manually done in reducer to decrease api call
-          getAllBlogPosts();
-          setIsSuccessfull(res.status === 200);
-        })
-        .catch((err) => {
-          //Backend tarafındaki custom errors
-          setError(err.response.data.message);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } catch (err) {
-      setError("Unknown Error");
-      console.log(err);
-    }
-  }, []);
+      try {
+        await axios
+          .delete(`/api/blogPosts/${id}`)
+          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+            //Fetch all posts to update redux.
+            //Can be manually done in reducer to decrease api call
+            getAllBlogPosts();
+            setIsSuccessfull(res.status === 200);
+          })
+          .catch((err) => {
+            //Backend tarafındaki custom errors
+            setError(err.response.data.message);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } catch (err) {
+        setError("Unknown Error");
+        console.log(err);
+      }
+    },
+    [getAllBlogPosts]
+  );
 
   useEffect(() => {
     defaultParams.isFetchNeeded && getAllBlogPosts();

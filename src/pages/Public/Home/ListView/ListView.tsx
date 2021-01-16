@@ -1,4 +1,3 @@
-import { Container } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector } from "../../../../store";
 import { IBlogPost } from "../../../../types";

@@ -18,9 +18,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   list: {
@@ -53,6 +52,7 @@ interface INavBarProps {
 
 export default function NavBar(props: INavBarProps) {
   const classes = useStyles();
+  const history = useHistory();
   const matches = useMediaQuery("(min-width:1200px)");
   const [drawerState, setDrawerState] = React.useState(false);
 
@@ -89,7 +89,11 @@ export default function NavBar(props: INavBarProps) {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" style={{ flexGrow: 1 }}>
+              <Typography
+                variant="h6"
+                style={{ flexGrow: 1, cursor: "pointer" }}
+                onClick={() => history.push("/")}
+              >
                 Trend-Frontend
               </Typography>
               {matches ? (

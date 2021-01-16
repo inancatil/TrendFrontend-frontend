@@ -1,7 +1,7 @@
 import Container from "@material-ui/core/Container";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import NotFound from "../../Fallback/NotFound/NotFound";
 import BlogPost from "../BlogPost/BlogPost";
 import Home from "./Home";

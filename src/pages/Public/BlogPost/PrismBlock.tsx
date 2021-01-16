@@ -1,4 +1,10 @@
-import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
+import {
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+  useMediaQuery,
+} from "@material-ui/core";
 import React, { useState } from "react";
 import clsx from "clsx";
 import "prismjs/themes/prism-okaidia.css";
@@ -12,9 +18,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     codeContainer: {
       position: "relative",
-      width: "80%",
+      width: "100%",
       borderRadius: "25px !important",
-      left: "5%",
       "&::-webkit-scrollbar": {
         display: "none",
       },
@@ -36,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function PrismBlock({ code }: IProps) {
   const classes = useStyles();
   const [btnText, setBtnText] = useState<string>("Copy");
+  const matches = useMediaQuery("(min-width:575px)");
 
   const formattedCode = prismFormat(code.substring(5, code.length - 6));
 
@@ -52,15 +58,17 @@ export default function PrismBlock({ code }: IProps) {
 
   return (
     <pre className={clsx(["prism-code", classes.codeContainer])}>
-      <Button
-        variant="outlined"
-        size="small"
-        color="primary"
-        className={classes.copyBtn}
-        onClick={copyToClipboard}
-      >
-        {btnText}
-      </Button>
+      {matches && (
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          className={classes.copyBtn}
+          onClick={copyToClipboard}
+        >
+          {btnText}
+        </Button>
+      )}
       <code className="language-js">{formattedCode}</code>
     </pre>
   );
