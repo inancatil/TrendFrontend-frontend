@@ -51,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const { isLoggedIn, error, login } = useHttpAuth();
+  const { isLoggedIn, error, login, isLoading } = useHttpAuth();
   const history = useHistory();
 
   useEffect(() => {
-    isLoggedIn && history.push("/admin");
-  }, [history, isLoggedIn]);
+    !isLoading && isLoggedIn && history.push("/admin");
+  }, [history, isLoggedIn, isLoading]);
 
   const authSubmitHandler = async (event: any) => {
     event.preventDefault();

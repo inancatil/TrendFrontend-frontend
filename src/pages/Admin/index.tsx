@@ -7,6 +7,7 @@ import Categories from "./Categories/Categories";
 import Home from "./Home/Home";
 import Posts from "./Posts/Posts";
 import PostDetails from "./../../components/Admin/PostDetails/PostDetails";
+import Users from "./Users/Users";
 
 export default function AdminRoutes({ match }) {
   const { path } = useRouteMatch();
@@ -27,6 +28,7 @@ export default function AdminRoutes({ match }) {
                 </>
               )}
             />
+            <Route path={`${path}/users`} component={Users} />
             <Route component={NotFound} />
           </Switch>
         </Admin>

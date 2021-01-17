@@ -8,6 +8,7 @@ const initialState: IUser = {
   blogPosts: [],
   isLoggedIn: false,
   jwtToken: "",
+  role: "",
 };
 
 const login = (payload: Omit<IUser, "isLoggedIn">): IUser => {
@@ -19,15 +20,7 @@ const login = (payload: Omit<IUser, "isLoggedIn">): IUser => {
 };
 
 const logout = (): IUser => {
-  const newState = {
-    id: "",
-    name: "",
-    email: "",
-    blogPosts: [],
-    isLoggedIn: false,
-    jwtToken: "",
-  };
-  return newState;
+  return initialState;
 };
 
 const refreshToken = (state: IUser, payload: { jwtToken: string }): IUser => {

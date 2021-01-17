@@ -8,6 +8,7 @@ import {
 } from "../../types";
 import * as categoryActions from "../../store/Category/action";
 import { useDispatch } from "react-redux";
+import { ICategory } from "./../../types";
 
 type IProps = {
   isFetchNeeded?: boolean;
@@ -21,6 +22,7 @@ export default function useHttpCategory(params?: Partial<IProps>) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   const addNewCategory = useCallback(
     async (name: string) => {
@@ -55,6 +57,7 @@ export default function useHttpCategory(params?: Partial<IProps>) {
         .get("/api/categories")
         .then((res: AxiosResponse<IGetAllCategoriesResponse>) => {
           dispatch(categoryActions.getAllCategories(res.data.categories));
+          setCategories(res.data.categories);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -98,6 +101,7 @@ export default function useHttpCategory(params?: Partial<IProps>) {
   }, [getAllCategories, defaultParams.isFetchNeeded]);
 
   return {
+    categories,
     isLoading,
     error,
     addNewCategory,

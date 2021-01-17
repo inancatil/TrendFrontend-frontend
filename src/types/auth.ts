@@ -1,4 +1,5 @@
 import { IBlogPost } from ".";
+import { IRole } from "./user";
 
 export interface IAuth {
   jwtToken: string;
@@ -10,6 +11,7 @@ export interface IAuthResponse {
   email: string;
   blogPosts: IBlogPost[];
   jwtToken: string;
+  role: IRole;
 }
 
 export interface IAuthResponseError {

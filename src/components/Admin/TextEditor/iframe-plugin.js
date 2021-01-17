@@ -8,9 +8,9 @@ export const plugin_submenu = {
     display: 'submenu',
 
     // @Options
-    title: 'Custom plugin of the submenu',
+    title: 'Custom IFrame',
     buttonClass: '',
-    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>',
+    innerHTML: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 2H3a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2M11 17.5L9.5 19L5 14.5L9.5 10l1.5 1.5l-3 3l3 3m3.5 1.5L13 17.5l3-3l-3-3l1.5-1.5l4.5 4.5l-4.5 4.5M21 7H3V4h18v3z" fill="#626262"/></svg>',
 
     // @Required
     // add function - It is called only once when the plugin is first run.
@@ -51,26 +51,16 @@ export const plugin_submenu = {
         // A "se-submenu" class is required for the top level element.
         listDiv.className = 'se-submenu se-list-layer';
         listDiv.innerHTML = '' +
-            '<div class="se-list-inner">' +
-            '<ul class="se-list-basic" style="width: 230px;">' +
-            '<li>' +
+            '<div class="se-list-inner" style="width: 230px;">' +
             '<div class="se-submenu-form-group">' +
-            '<input class="se-input-form" type="text" placeholder="insert text" style="border: 1px solid #CCC;" />' +
+            '<input class="se-input-form" type="text" placeholder=" iFrame Url" style="border: 1px solid #CCC;" />' +
             '<button type="button" class="se-btn-primary se-tooltip">' +
             '<strong>OK</strong>' +
-            '<span class="se-tooltip-inner">' +
-            '<span class="se-tooltip-text">Append span</span>' +
-            '</span>' +
             '</button>' +
             '<button type="button" class="se-btn se-tooltip">' +
             '<strong>X</strong>' +
-            '<span class="se-tooltip-inner">' +
-            '<span class="se-tooltip-text">Remove</span>' +
-            '</span>' +
             '</button>' +
             '</div>' +
-            '</li>' +
-            '</ul>' +
             '</div>';
 
         return listDiv;

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useSelector } from "../../../../store";
 import { IBlogPost } from "../../../../types";
 import Article from "./Article";
 import CustomPagination from "./CustomPagination";
 
 const NUM_OF_ARTICLES_PER_PAGE = 5;
 
-export default function ListView() {
-  const blogPosts = useSelector((state) => state.blogPostReducer);
+interface IProps {
+  blogPosts: IBlogPost[];
+}
+
+export default function ListView({ blogPosts }: IProps) {
   const [curPage, setCurPage] = useState<number>(1);
   const numberOfPages = Math.ceil(blogPosts.length / NUM_OF_ARTICLES_PER_PAGE);
   return (

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "../../config/axios-config";
 import { IAuthResponse } from "../../types/auth";
 import { useDispatch } from "react-redux";
@@ -11,7 +11,7 @@ export default function useHttpAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string[]>([]);
   const dispatch = useDispatch();
-
+  const [mounted, setmounted] = useState(true);
   //#region refresh token
   // const refreshTokenTimeout = useRef<any>(null);
 
@@ -33,6 +33,8 @@ export default function useHttpAuth() {
   const login = useCallback(
     async (email: string, password: string) => {
       setIsLoading(true);
+
+      setmounted(true);
       try {
         await axios
           .post("/api/users/authenticate", {
@@ -40,7 +42,7 @@ export default function useHttpAuth() {
             password,
           })
           .then((res: AxiosResponse<IAuthResponse>) => {
-            dispatch(userActions.login(res.data!));
+            mounted && dispatch(userActions.login(res.data));
           })
           .catch((err) => {
             setError(err.response.data.error.messages);
@@ -57,11 +59,12 @@ export default function useHttpAuth() {
 
   const logout = useCallback(async () => {
     setIsLoading(true);
+    setmounted(true);
     try {
       await axios
         .post("/api/users/revoke-token")
         .then((res: AxiosResponse<any>) => {
-          dispatch(userActions.logout());
+          mounted && dispatch(userActions.logout());
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -92,5 +95,44 @@ export default function useHttpAuth() {
     }
   }, [dispatch]);
 
-  return { login, logout, refreshToken, isLoggedIn, error, isLoading };
+  const createNewUser = useCallback(
+    async (email: string, password: string, role: string) => {
+      setIsLoading(true);
+      try {
+        await axios
+          .post("/api/users/create-user", { email, password, role })
+          .then((res: AxiosResponse<any>) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            //Backend tarafındaki custom errors
+            setError(err.response.data.error.messages);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } catch (err) {
+        setError(["Unknown Error"]);
+        console.log("Unknown Error");
+      }
+    },
+    []
+  );
+
+  //To fix updating redux state on unmounted component error
+  useEffect(() => {
+    return () => {
+      setmounted(false);
+    };
+  }, []);
+
+  return {
+    login,
+    logout,
+    refreshToken,
+    isLoggedIn,
+    error,
+    isLoading,
+    createNewUser,
+  };
 }

@@ -41,13 +41,15 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IProcessButtonProps {
   isLoading: boolean;
   btnText: string;
-  onClick: () => void;
+  onClick?: () => void;
+  isSubmit?: boolean;
 }
 
 export default function ProcessButton({
   isLoading,
   btnText,
   onClick,
+  isSubmit = false,
 }: IProcessButtonProps) {
   const classes = useStyles();
 
@@ -55,6 +57,7 @@ export default function ProcessButton({
     <div className={classes.root}>
       <div className={classes.wrapper}>
         <Button
+          type={isSubmit ? "submit" : "button"}
           variant="contained"
           color="primary"
           disabled={isLoading}

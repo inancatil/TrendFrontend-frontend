@@ -11,7 +11,7 @@ import Blogs from "./../Blogs/Blogs";
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      padding: "0 var(--gap)",
+      padding: 0,
     },
   })
 );

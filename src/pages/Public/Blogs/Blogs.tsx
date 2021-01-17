@@ -4,14 +4,14 @@ import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import ListView from "../Home/ListView/ListView";
 
 export default function Blogs() {
-  useHttpBlogPost({ isFetchNeeded: true });
+  const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
   return (
     <Container
       style={{
         paddingTop: 15,
       }}
     >
-      <ListView />
+      {!isLoading && <ListView blogPosts={blogPosts} />}
     </Container>
   );
 }

@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import CustomCard from "./CustomCard";
-import { useSelector } from "../../../../store";
+import { IBlogPost } from "../../../../types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,10 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function GridView() {
+interface IProps {
+  blogPosts: IBlogPost[];
+}
+
+export default function GridView({ blogPosts }: IProps) {
   const classes = useStyles();
 
-  const blogPosts = useSelector((state) => state.blogPostReducer);
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>

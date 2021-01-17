@@ -35,12 +35,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PostDetails() {
   const history = useHistory();
   const { state: routerState } = useLocation<any>();
-  const { isLoading: catIsLoading } = useHttpCategory({ isFetchNeeded: true });
-  const { isLoading: tagIsLoading } = useHttpTag({ isFetchNeeded: true });
-  const httpBlogPost = useHttpBlogPost();
   const userReducer = useSelector((state) => state.userReducer);
-  const categoryReducer = useSelector((state) => state.categoryReducer);
-  const tagReducer = useSelector((state) => state.tagReducer);
+  const { isLoading: catIsLoading, categories } = useHttpCategory({
+    isFetchNeeded: true,
+  });
+  const { isLoading: tagIsLoading, tags } = useHttpTag({ isFetchNeeded: true });
+  const httpBlogPost = useHttpBlogPost();
+  //const categoryReducer = useSelector((state) => state.categoryReducer);
+  //const tagReducer = useSelector((state) => state.tagReducer);
 
   const postDetails: IBlogPost = routerState.postDetails;
   const [selectedTags, setSelectedTags] = useState<any[]>(
@@ -73,7 +75,7 @@ export default function PostDetails() {
     if (!routerState.isUpdate) {
       httpBlogPost.addNewBlogPost({
         title: title,
-        content: editorContent,
+        content: editorContent.replaceAll("\u200B", ""),
         imageUrl: "imgurl",
         author: userReducer.id,
         date: "dumydate",
@@ -83,7 +85,7 @@ export default function PostDetails() {
     } else {
       httpBlogPost.updateBlogPost(postDetails.id, {
         title: title,
-        content: editorContent,
+        content: editorContent.replaceAll("\u200B", ""),
         imageUrl: "imgurl",
         author: userReducer.id,
         date: "dumydate",
@@ -105,10 +107,7 @@ export default function PostDetails() {
 
   return (
     <>
-      {!catIsLoading &&
-      !tagIsLoading &&
-      categoryReducer.length > 0 &&
-      tagReducer.length > 0 ? (
+      {!catIsLoading && !tagIsLoading ? (
         <form className={classes.root} noValidate autoComplete="off">
           <FormControl
             fullWidth
@@ -137,7 +136,7 @@ export default function PostDetails() {
               label="Categories"
               value={selectedCategoryId}
             >
-              {categoryReducer.map((category: any) => (
+              {categories.map((category: any) => (
                 <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
@@ -147,7 +146,7 @@ export default function PostDetails() {
 
           <FormControl fullWidth className={classes.formControl}>
             <CustomCreatableSelect
-              allTags={tagReducer}
+              allTags={tags}
               selectedTags={selectedTags}
               setSelectedTags={setSelectedTags}
             />

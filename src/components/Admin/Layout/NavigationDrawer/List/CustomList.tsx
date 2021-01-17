@@ -11,6 +11,7 @@ import { SvgIcon } from "@material-ui/core";
 import { useRouteMatch } from "react-router-dom";
 
 import CustomListItem from "./CustomListItem";
+import { useSelector } from "../../../../../store";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -32,7 +33,7 @@ export default function CustomList(props: ICustomListProps) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const { url } = useRouteMatch();
-
+  const { role } = useSelector((state) => state.userReducer);
   const handleClick = () => {
     if (props.isDrawerOpen) setOpen(!open);
   };
@@ -80,6 +81,14 @@ export default function CustomList(props: ICustomListProps) {
           />
         </List>
       </Collapse>
+
+      {role === "Admin" && (
+        <CustomListItem
+          style={classes.nested}
+          to={`${url}/users`}
+          primary="Users"
+        />
+      )}
     </List>
   );
 }

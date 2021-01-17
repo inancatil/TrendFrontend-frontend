@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "../../config/axios-config";
 import { useDispatch } from "react-redux";
 import * as tagActions from "../../store/Tag/action";
+import { ITag } from "./../../types";
 
 type IProps = {
   isFetchNeeded?: boolean;
@@ -16,6 +17,7 @@ export default function useHttpTag(params?: Partial<IProps>) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [tags, setTags] = useState<ITag[]>([]);
 
   const addNewTag = useCallback(
     async (tags: string[]) => {
@@ -50,6 +52,7 @@ export default function useHttpTag(params?: Partial<IProps>) {
         .get("/api/tags")
         .then((res: AxiosResponse<any>) => {
           dispatch(tagActions.getAllTags(res.data.tags));
+          setTags(res.data.tags);
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -93,6 +96,7 @@ export default function useHttpTag(params?: Partial<IProps>) {
   }, [getAllTags, defaultParams.isFetchNeeded]);
 
   return {
+    tags,
     isLoading,
     error,
     addNewTag,

@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Posts() {
   const classes = useStyles();
   const history = useHistory();
-  const blogPostReducer = useSelector((state) => state.blogPostReducer);
-  const { isLoading, deleteBlogPost } = useHttpBlogPost({
+  //const blogPostReducer = useSelector((state) => state.blogPostReducer);
+  const { isLoading, deleteBlogPost, blogPosts } = useHttpBlogPost({
     isFetchNeeded: true,
   });
 
-  const rows = blogPostReducer.map((post: IBlogPost) => {
+  const rows = blogPosts.map((post: IBlogPost) => {
     return {
       id: post.id,
       title: post.title,
@@ -120,7 +120,7 @@ export default function Posts() {
         loading={isLoading}
         onCellClick={(param: CellParams) => {
           if (param.field === "title") {
-            const postDetails = blogPostReducer.find(
+            const postDetails = blogPosts.find(
               (post: IBlogPost) => post.id === param.row.id
             );
             history.push({
