@@ -109,7 +109,6 @@ export default function PostDetails() {
     }
   }, [history, isSuccessfull]);
 
-  console.log(categories);
   return (
     <>
       {
