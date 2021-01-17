@@ -7,6 +7,8 @@ import { Box, Container } from "@material-ui/core";
 import { IBlogPost } from "../../../../types";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import parse from "html-react-parser";
+
 interface IProps {
   postDetails: IBlogPost;
 }
@@ -85,7 +87,32 @@ export default function Article({ postDetails }: IProps) {
                 WebkitBoxOrient: "vertical",
               }}
             >
-              {postDetails.content.replace(/<[^>]+>/g, "")}
+              {
+                postDetails.content.replace(
+                  /<[^>]+>/g,
+                  ""
+                ) /**Removes all html tags */
+              }
+              {/* {
+              <Container maxWidth="lg" className={classes.root}>
+                {postDetails.content
+                  .match(/<(.*?)( .*?|)>.*?<\/(\1)>/gs)!
+                  .map((el: string, i: number) => { 
+                    if (el.includes("custom-iframe")) {
+                      const url = el
+                        .split('class="custom-iframe">')[1]
+                        .split("</span>");
+                      return <IFrame key={i} url={url[0]} />;
+                    }
+                    if (el.substring(1, 4) === "pre") {
+                      return <PrismBlock key={i} code={el} />;
+                    } else
+                      return (
+                        <React.Fragment key={i}>{parse(el)}</React.Fragment>
+                      );
+                  })}
+              </Container>
+            } */}
             </div>
           </div>
         </CardContent>

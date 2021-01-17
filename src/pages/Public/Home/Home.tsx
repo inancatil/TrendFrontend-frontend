@@ -10,12 +10,12 @@ export default function Home() {
   const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
   return (
     <Container>
-      {!isLoading && blogPosts.length > 4 && (
+      {blogPosts.length > 4 && (
         <>
           <GridView blogPosts={blogPosts} />
           <Grid container spacing={3}>
             <Grid item lg={8} md={8} xs={12}>
-              <ListView blogPosts={blogPosts} />
+              <ListView blogPosts={blogPosts} isLoading={isLoading} />
             </Grid>
             <Grid item lg={4} md={4} xs={12}>
               <PersonalInfoCard
