@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import clsx from "clsx";
 import {
   createStyles,
@@ -25,7 +25,6 @@ import { Button } from "@material-ui/core";
 import NewCategoryModal from "./NewCategoryModal/NewCategoryModal";
 import useHttpCategory from "../../../hooks/api/useHttpCategory";
 import { ICategory } from "../../../types";
-import { useSelector } from "../../../store";
 
 interface Data {
   id: string;
@@ -254,7 +253,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const convertToTableData = (data: ICategory[]) => {
   //Kontrol et. Birkaç kez çalışıyor.
-
   if (data.length === 0) return [];
   return data.map((category) => {
     return createData(category.id, category.name, category.blogPosts.length);
@@ -262,7 +260,6 @@ const convertToTableData = (data: ICategory[]) => {
 };
 
 export default function Categories() {
-  const categoryReducer = useSelector((state) => state.categoryReducer);
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
@@ -270,8 +267,10 @@ export default function Categories() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
-  const httpCategory = useHttpCategory({ isFetchNeeded: true });
-  const rows = convertToTableData(categoryReducer);
+  const { categories, deleteCategoryById, addNewCategory } = useHttpCategory({
+    isFetchNeeded: true,
+  });
+  const rows = useMemo(() => convertToTableData(categories), [categories]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -329,7 +328,7 @@ export default function Categories() {
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const onDelete = () => {
-    httpCategory.deleteCategoryById(selected[0]);
+    deleteCategoryById(selected[0]);
     setSelected([]);
   };
 
@@ -419,6 +418,7 @@ export default function Categories() {
       <NewCategoryModal
         open={newCategoryModalOpen}
         setOpen={setNewCategoryModalOpen}
+        addCategory={addNewCategory}
       />
     </div>
   );

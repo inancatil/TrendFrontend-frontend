@@ -7,7 +7,7 @@ export interface IBlogPost {
     id: string;
     name: string;
   };
-  date: string;
+  date: Date;
   tags: {
     id: string;
     name: string;

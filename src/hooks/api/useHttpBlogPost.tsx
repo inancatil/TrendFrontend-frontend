@@ -1,13 +1,11 @@
 import { AxiosResponse } from "axios";
 import { useState, useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import axios from "../../config/axios-config";
 import {
   IBlogPost,
   ICreateBlogPostResponse,
   IGetAllBlogPostsResponse,
 } from "../../types";
-import * as blogPostActions from "../../store/BlogPost/action";
 
 type IProps = {
   isFetchNeeded?: boolean;
@@ -18,7 +16,7 @@ interface INewBlogPost {
   content: string;
   imageUrl: string;
   author: string;
-  date: string;
+  date: Date;
   tags: string[];
   categoryId: string | null;
 }
@@ -29,40 +27,35 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     ...params,
   };
 
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [isSuccessfull, setIsSuccessfull] = useState(false);
   const [blogPosts, setblogPosts] = useState<IBlogPost[]>([]);
 
-  const addNewBlogPost = useCallback(
-    async (post: INewBlogPost) => {
-      setIsLoading(true);
-      setIsSuccessfull(false);
+  const addNewBlogPost = useCallback(async (post: INewBlogPost) => {
+    setIsLoading(true);
+    setIsSuccessfull(false);
 
-      try {
-        await axios
-          .post("/api/blogPosts", {
-            ...post,
-          })
-          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
-            dispatch(blogPostActions.createBlogPost(res.data.blogPost));
-            setIsSuccessfull(res.status === 201);
-          })
-          .catch((err) => {
-            //Backend tarafındaki custom errors
-            setError(err.response.data.message);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
-      } catch (err) {
-        setError("Unknown Error");
-        console.log(err);
-      }
-    },
-    [dispatch]
-  );
+    try {
+      await axios
+        .post("/api/blogPosts", {
+          ...post,
+        })
+        .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+          setIsSuccessfull(res.status === 201);
+        })
+        .catch((err) => {
+          //Backend tarafındaki custom errors
+          setError(err.response.data.message);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (err) {
+      setError("Unknown Error");
+      console.log(err);
+    }
+  }, []);
 
   const getAllBlogPosts = useCallback(async () => {
     setIsLoading(true);
@@ -71,7 +64,6 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
       await axios
         .get("/api/blogPosts")
         .then((res: AxiosResponse<IGetAllBlogPostsResponse>) => {
-          dispatch(blogPostActions.getAllBlogPosts(res.data.blogPosts));
           setblogPosts(res.data.blogPosts);
           setIsSuccessfull(res.status === 200);
         })
@@ -85,7 +77,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     } catch (err) {
       setError("Unknown Error");
     }
-  }, [dispatch]);
+  }, []);
 
   const updateBlogPost = useCallback(async (id: string, post: INewBlogPost) => {
     setIsLoading(true);
@@ -97,7 +89,6 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           ...post,
         })
         .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
-          //dispatch(blogPostActions.createBlogPost(res.data.blogPost));
           setIsSuccessfull(res.status === 201);
         })
         .catch((err) => {

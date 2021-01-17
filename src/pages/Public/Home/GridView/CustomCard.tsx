@@ -12,6 +12,7 @@ import Image from "material-ui-image";
 import bgPhoto from "../../../../assets/images/photo1.jpg";
 import { IBlogPost } from "../../../../types";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 interface IProps {
   postDetails: IBlogPost;
@@ -84,7 +85,7 @@ export default function CustomCard({ postDetails }: IProps) {
           <Typography
             style={{ position: "absolute", bottom: 40, color: "#ffffff" }}
           >
-            12/12/2020
+            {moment(postDetails.date).format("MMM Do YY")}
           </Typography>
         </Box>
         <Image src={bgPhoto} />

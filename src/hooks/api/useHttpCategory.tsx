@@ -6,8 +6,6 @@ import {
   IGetAllCategoriesResponse,
   IDeleteCategoryResponse,
 } from "../../types";
-import * as categoryActions from "../../store/Category/action";
-import { useDispatch } from "react-redux";
 import { ICategory } from "./../../types";
 
 type IProps = {
@@ -19,36 +17,9 @@ export default function useHttpCategory(params?: Partial<IProps>) {
     isFetchNeeded: false,
     ...params,
   };
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [categories, setCategories] = useState<ICategory[]>([]);
-
-  const addNewCategory = useCallback(
-    async (name: string) => {
-      setIsLoading(true);
-      try {
-        await axios
-          .post("/api/categories", {
-            name: name,
-          })
-          .then((res: AxiosResponse<ICreateCategoryResponse>) => {
-            dispatch(categoryActions.createCategory(res.data.category));
-          })
-          .catch((err) => {
-            //Backend tarafındaki custom errors
-            setError(err.response.data.message);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
-      } catch (err) {
-        setError("Unknown Error");
-        console.log(err);
-      }
-    },
-    [dispatch]
-  );
 
   const getAllCategories = useCallback(async () => {
     setIsLoading(true);
@@ -56,7 +27,6 @@ export default function useHttpCategory(params?: Partial<IProps>) {
       await axios
         .get("/api/categories")
         .then((res: AxiosResponse<IGetAllCategoriesResponse>) => {
-          dispatch(categoryActions.getAllCategories(res.data.categories));
           setCategories(res.data.categories);
         })
         .catch((err) => {
@@ -70,16 +40,19 @@ export default function useHttpCategory(params?: Partial<IProps>) {
       setError("Unknown Error");
       console.log(err);
     }
-  }, [dispatch]);
+  }, []);
 
-  const deleteCategoryById = useCallback(
-    async (id: string) => {
+  const addNewCategory = useCallback(
+    async (name: string) => {
       setIsLoading(true);
       try {
         await axios
-          .delete(`/api/categories/${id}`)
-          .then((res: AxiosResponse<IDeleteCategoryResponse>) => {
-            dispatch(categoryActions.deleteCategoryById(id));
+          .post("/api/categories", {
+            name: name,
+          })
+          .then((res: AxiosResponse<ICreateCategoryResponse>) => {
+            setCategories([...categories, res.data.category]);
+            console.log(categories);
           })
           .catch((err) => {
             //Backend tarafındaki custom errors
@@ -93,7 +66,36 @@ export default function useHttpCategory(params?: Partial<IProps>) {
         console.log(err);
       }
     },
-    [dispatch]
+    [categories]
+  );
+
+  const deleteCategoryById = useCallback(
+    async (id: string) => {
+      setIsLoading(true);
+      try {
+        await axios
+          .delete(`/api/categories/${id}`)
+          .then((res: AxiosResponse<IDeleteCategoryResponse>) => {
+            const newCategories = [...categories];
+            newCategories.splice(
+              categories.findIndex((cat) => cat.id === id),
+              1
+            );
+            setCategories(newCategories);
+          })
+          .catch((err) => {
+            //Backend tarafındaki custom errors
+            setError(err.response.data.message);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } catch (err) {
+        setError("Unknown Error");
+        console.log(err);
+      }
+    },
+    [categories]
   );
 
   useEffect(() => {

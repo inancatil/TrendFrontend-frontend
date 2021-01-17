@@ -25,23 +25,29 @@ interface IProps {
 export default function GridView({ blogPosts }: IProps) {
   const classes = useStyles();
 
+  //Loop içerisinde yeni obj olusturmak performans açısından iyi değilmiş.
+  //slice() kullanmayınca orjinal array in de sırası değişiyor.
+  const sortedNewToOld = blogPosts
+    .slice()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <CustomCard postDetails={blogPosts[0]} />
+          <CustomCard postDetails={sortedNewToOld[0]} />
         </Grid>
         <Grid item xs={12} md={6}>
-          <CustomCard postDetails={blogPosts[1]} />
+          <CustomCard postDetails={sortedNewToOld[1]} />
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <CustomCard postDetails={blogPosts[2]} />
+          <CustomCard postDetails={sortedNewToOld[2]} />
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <CustomCard postDetails={blogPosts[3]} />
+          <CustomCard postDetails={sortedNewToOld[3]} />
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          <CustomCard postDetails={blogPosts[4]} />
+          <CustomCard postDetails={sortedNewToOld[4]} />
         </Grid>
       </Grid>
     </div>

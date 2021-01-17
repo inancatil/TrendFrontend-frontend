@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { Box, Container } from "@material-ui/core";
 import { IBlogPost } from "../../../../types";
 import { Link } from "react-router-dom";
-
+import moment from "moment";
 interface IProps {
   postDetails: IBlogPost;
 }
@@ -98,7 +98,7 @@ export default function Article({ postDetails }: IProps) {
         >
           {postDetails.author.name}{" "}
           <Typography variant="body2" component="span">
-            on 11 june 2020
+            {moment(postDetails.date).format("MMM Do YY")}
           </Typography>
         </Typography>
       </Container>

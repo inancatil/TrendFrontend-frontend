@@ -1,6 +1,5 @@
 import React from "react";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
-import { useSelector } from "../../../store";
 import { DataGrid, ColDef, CellParams } from "@material-ui/data-grid";
 import { IBlogPost } from "../../../types";
 import Button from "@material-ui/core/Button";
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Posts() {
   const classes = useStyles();
   const history = useHistory();
-  //const blogPostReducer = useSelector((state) => state.blogPostReducer);
   const { isLoading, deleteBlogPost, blogPosts } = useHttpBlogPost({
     isFetchNeeded: true,
   });

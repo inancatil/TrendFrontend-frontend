@@ -54,7 +54,7 @@ export default function useHttpAuth() {
         setError(["Unknown Error"]);
       }
     },
-    [dispatch]
+    [dispatch, mounted]
   );
 
   const logout = useCallback(async () => {
@@ -76,7 +76,7 @@ export default function useHttpAuth() {
     } catch (err) {
       setError(["Unknown Error"]);
     }
-  }, [dispatch]);
+  }, [dispatch, mounted]);
 
   const refreshToken = useCallback(async () => {
     try {

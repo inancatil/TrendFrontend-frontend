@@ -16,6 +16,7 @@ import { IBlogPost } from "../../../types";
 import useHttpTag from "./../../../hooks/api/useHttpTag";
 import CustomCreatableSelect from "./CustomCreatableSelect";
 import { useHistory, useLocation } from "react-router-dom";
+import { ICategory } from "./../../../types/category";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,15 +35,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PostDetails() {
   const history = useHistory();
+  const classes = useStyles();
   const { state: routerState } = useLocation<any>();
+  const {
+    addNewBlogPost,
+    updateBlogPost,
+    isSuccessfull,
+    isLoading: blogPostIsLoading,
+  } = useHttpBlogPost();
   const userReducer = useSelector((state) => state.userReducer);
   const { isLoading: catIsLoading, categories } = useHttpCategory({
     isFetchNeeded: true,
   });
   const { isLoading: tagIsLoading, tags } = useHttpTag({ isFetchNeeded: true });
-  const httpBlogPost = useHttpBlogPost();
-  //const categoryReducer = useSelector((state) => state.categoryReducer);
-  //const tagReducer = useSelector((state) => state.tagReducer);
 
   const postDetails: IBlogPost = routerState.postDetails;
   const [selectedTags, setSelectedTags] = useState<any[]>(
@@ -69,26 +74,25 @@ export default function PostDetails() {
   const [title, setTitle] = useState(
     !routerState.isUpdate ? "" : postDetails.title
   );
-  const classes = useStyles();
 
   const onSubmit = () => {
     if (!routerState.isUpdate) {
-      httpBlogPost.addNewBlogPost({
+      addNewBlogPost({
         title: title,
         content: editorContent.replaceAll("\u200B", ""),
         imageUrl: "imgurl",
         author: userReducer.id,
-        date: "dumydate",
+        date: new Date(),
         tags: selectedTags,
         categoryId: selectedCategoryId,
       });
     } else {
-      httpBlogPost.updateBlogPost(postDetails.id, {
+      updateBlogPost(postDetails.id, {
         title: title,
         content: editorContent.replaceAll("\u200B", ""),
         imageUrl: "imgurl",
         author: userReducer.id,
-        date: "dumydate",
+        date: new Date(),
         tags: selectedTags,
         categoryId: selectedCategoryId,
       });
@@ -96,18 +100,19 @@ export default function PostDetails() {
   };
 
   useEffect(() => {
-    if (httpBlogPost.isSuccessfull) {
+    if (isSuccessfull) {
       setSelectedTags([]);
       setSelectedCategoryId("");
       setEditorContent("");
       setTitle("");
       history.push("/admin/posts");
     }
-  }, [history, httpBlogPost.isSuccessfull]);
+  }, [history, isSuccessfull]);
 
+  console.log(categories);
   return (
     <>
-      {!catIsLoading && !tagIsLoading ? (
+      {
         <form className={classes.root} noValidate autoComplete="off">
           <FormControl
             fullWidth
@@ -125,32 +130,38 @@ export default function PostDetails() {
             />
           </FormControl>
 
-          <FormControl
-            fullWidth
-            variant="outlined"
-            className={classes.formControl}
-          >
-            <InputLabel>Categories</InputLabel>
-            <Select
-              onChange={(e) => setSelectedCategoryId(e.target.value as string)}
-              label="Categories"
-              value={selectedCategoryId}
+          {!catIsLoading && categories.length > 0 && (
+            <FormControl
+              fullWidth
+              variant="outlined"
+              className={classes.formControl}
             >
-              {categories.map((category: any) => (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <InputLabel>Categories</InputLabel>
+              <Select
+                onChange={(e) =>
+                  setSelectedCategoryId(e.target.value as string)
+                }
+                label="Categories"
+                value={selectedCategoryId!}
+              >
+                {categories.map((category: ICategory) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
 
-          <FormControl fullWidth className={classes.formControl}>
-            <CustomCreatableSelect
-              allTags={tags}
-              selectedTags={selectedTags}
-              setSelectedTags={setSelectedTags}
-            />
-          </FormControl>
+          {!tagIsLoading && (
+            <FormControl fullWidth className={classes.formControl}>
+              <CustomCreatableSelect
+                allTags={tags}
+                selectedTags={selectedTags}
+                setSelectedTags={setSelectedTags}
+              />
+            </FormControl>
+          )}
 
           <FormControl fullWidth className={classes.formControl}>
             <TextEditor
@@ -160,14 +171,12 @@ export default function PostDetails() {
           </FormControl>
 
           <ProcessButton
-            isLoading={httpBlogPost.isLoading}
+            isLoading={blogPostIsLoading}
             btnText={routerState.isUpdate ? "Update" : "Submit"}
             onClick={onSubmit}
           />
         </form>
-      ) : (
-        <p>Loading</p>
-      )}
+      }
     </>
   );
 }

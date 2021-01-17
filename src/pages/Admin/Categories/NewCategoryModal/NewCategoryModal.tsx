@@ -5,26 +5,26 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import useHttpCategory from "../../../../hooks/api/useHttpCategory";
 
 interface INewCategoryModalProps {
   open: boolean;
   setOpen: (x: boolean) => void;
+  addCategory: (x: string) => Promise<void>;
 }
 
 export default function NewCategoryModal({
   open,
   setOpen,
+  addCategory,
 }: INewCategoryModalProps) {
   const [categoryName, setCategoryName] = useState<string>("");
-  const httpCategory = useHttpCategory();
   const handleClose = () => {
     setOpen(false);
     setCategoryName("");
   };
 
   const onSubmit = () => {
-    httpCategory.addNewCategory(categoryName).finally(() => {
+    addCategory(categoryName).finally(() => {
       setCategoryName("");
       setOpen(false);
     });
