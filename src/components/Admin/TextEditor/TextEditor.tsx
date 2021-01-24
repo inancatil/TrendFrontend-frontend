@@ -9,6 +9,8 @@ import "codemirror/theme/neo.css";
 import { plugin_submenu as iframeTag } from "./iframe-plugin";
 import { prism_plugin as prismTag } from "./prism-plugin";
 
+import {} from "suneditor/src/lang";
+
 interface ITextEditorProps {
   editorContent: string;
   setEditorContent: (x: string) => void;
@@ -25,6 +27,7 @@ export default function TextEditor({
           height: 200,
           buttonList: [
             ...buttonList.complex,
+            ["textStyle", "blockquote"],
             ["custom_plugin_submenu"],
             ["custom_prism_plugin"],
           ], // Or Array of button list, eg. [['font', 'align'], ['image']]
@@ -32,6 +35,17 @@ export default function TextEditor({
             src: CodeMirror,
           },
           customPlugins: [iframeTag, prismTag],
+          font: [
+            "YuseiMagic-Regular",
+            "Arial",
+            "Comic Sans MS",
+            "Courier New",
+            "Impact",
+            "Georgia",
+            "tahoma",
+            "Trebuchet MS",
+            "Verdana",
+          ],
         }}
         setContents={editorContent}
         onChange={setEditorContent}

@@ -1,0 +1,5 @@
+@font-face {
+  font-family: "YuseiMagic-Regular";
+  src: local("YuseiMagic-Regular"),
+    url(./assets/fonts/YuseiMagic-Regular.ttf) format("truetype");
+}
