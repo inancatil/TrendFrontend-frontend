@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
-import Prism from "prismjs";
 import parse from "html-react-parser";
 import PrismBlock from "./PrismBlock";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
@@ -60,12 +59,6 @@ export default function BlogPost() {
     /<(.*?)( .*?|)>.*?<\/(\1)>/gs
   );
 
-  useEffect(() => {
-    setTimeout(() => {
-      Prism.highlightAll();
-    }, 0);
-  }, []);
-
   return (
     <Container maxWidth="lg" className={classes.root}>
       {splittedTags.map((el: string, i: number) => {
@@ -74,7 +67,7 @@ export default function BlogPost() {
           return <IFrame key={i} url={url[0]} />;
         }
         if (el.substring(1, 4) === "pre") {
-          return <PrismBlock key={i} code={el} />;
+          return <PrismBlock key={i} code={el} hasCopyButton />;
         } else return <React.Fragment key={i}>{parse(el)}</React.Fragment>;
       })}
     </Container>

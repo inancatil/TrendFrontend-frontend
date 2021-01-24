@@ -8,10 +8,9 @@ import CustomPagination from "./CustomPagination";
 const NUM_OF_ARTICLES_PER_PAGE = 5;
 
 const useStyles = makeStyles({
-  skeleton: {
+  article: {
     minWidth: 275,
     minHeight: 300,
-
     marginBottom: 15,
   },
 });
@@ -41,27 +40,27 @@ export default function ListView({ blogPosts, isLoading }: IProps) {
           <Skeleton
             variant="rect"
             animation="wave"
-            className={classes.skeleton}
+            className={classes.article}
           />
           <Skeleton
             variant="rect"
             animation="wave"
-            className={classes.skeleton}
+            className={classes.article}
           />
           <Skeleton
             variant="rect"
             animation="wave"
-            className={classes.skeleton}
+            className={classes.article}
           />
           <Skeleton
             variant="rect"
             animation="wave"
-            className={classes.skeleton}
+            className={classes.article}
           />
           <Skeleton
             variant="rect"
             animation="wave"
-            className={classes.skeleton}
+            className={classes.article}
           />
         </>
       )}

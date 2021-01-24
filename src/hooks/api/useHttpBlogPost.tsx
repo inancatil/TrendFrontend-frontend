@@ -72,9 +72,10 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           setError(err.response.data.message);
         })
         .finally(() => {
+          //To test skeleton
           setTimeout(() => {
             setIsLoading(false);
-          }, 2000);
+          }, 1000);
         });
     } catch (err) {
       setError("Unknown Error");

@@ -5,13 +5,15 @@ import {
   Theme,
   useMediaQuery,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import "prismjs/themes/prism-okaidia.css";
 import { prismFormat } from "../../../../tools/utils";
+import Prism from "prismjs";
 
 interface IProps {
   code: string;
+  hasCopyButton?: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,12 +43,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function PrismBlock({ code }: IProps) {
+export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
   const classes = useStyles();
   const [btnText, setBtnText] = useState<string>("Copy");
   const matches = useMediaQuery("(min-width:1100px)");
 
-  const formattedCode = prismFormat(code.substring(5, code.length - 6));
+  //returns the code inside of <pre></pre> tags as string
+  //useMemo is used not to call same method
+  const formattedCode = useMemo(
+    () => prismFormat(code.substring(5, code.length - 6)),
+    [code]
+  );
 
   const copyToClipboard = () => {
     if (btnText === "Copy") {
@@ -61,9 +68,19 @@ export default function PrismBlock({ code }: IProps) {
     }
   };
 
+  //to apply prism effect
+  useEffect(() => {
+    setTimeout(() => {
+      Prism.highlightAll();
+    }, 0);
+  }, []);
+
   return (
-    <pre className={clsx(["prism-code", classes.pre])}>
-      {matches && (
+    <pre
+      suppressContentEditableWarning={true}
+      className={clsx(["prism-code", "language-js", classes.pre])}
+    >
+      {hasCopyButton && matches && (
         <Button
           variant="outlined"
           size="small"
@@ -74,7 +91,10 @@ export default function PrismBlock({ code }: IProps) {
           {btnText}
         </Button>
       )}
-      <code className={clsx(["language-js", classes.code])}>
+      <code
+        suppressContentEditableWarning={true}
+        className={clsx(["language-js", classes.code])}
+      >
         {formattedCode}
       </code>
     </pre>

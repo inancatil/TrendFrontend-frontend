@@ -31,5 +31,12 @@ export const prismFormat = (code: string): string => {
     .replaceAll("<br>", "\n")
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">");
-  return x;
+
+  //trim whitespaces in every newline ends
+  const trimedEnds = x
+    .split("\n")
+    .map((x) => x.trimEnd())
+    .join("\n");
+  //console.log(trimedEnds);
+  return trimedEnds;
 };
