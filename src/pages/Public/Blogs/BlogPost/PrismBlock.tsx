@@ -48,10 +48,17 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
   const [btnText, setBtnText] = useState<string>("Copy");
   const matches = useMediaQuery("(min-width:1100px)");
 
+  //prism code format should be set when writing posts.
+  //Defaults to language-js if not defined
+  const codeFormat = code.includes('<pre class="')
+    ? code.split('<pre class="')[1].split('">')[0]
+    : "language-js";
+
   //returns the code inside of <pre></pre> tags as string
   //useMemo is used not to call same method
   const formattedCode = useMemo(
-    () => prismFormat(code.substring(5, code.length - 6)),
+    //splits from first ">" char until </pre> tag
+    () => prismFormat(code.split(/>(.+)/)[1].split("</pre>")[0]),
     [code]
   );
 
@@ -78,7 +85,7 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
   return (
     <pre
       suppressContentEditableWarning={true}
-      className={clsx(["prism-code", "language-js", classes.pre])}
+      className={clsx(["prism-code", codeFormat, classes.pre])}
     >
       {hasCopyButton && matches && (
         <Button
@@ -93,7 +100,7 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
       )}
       <code
         suppressContentEditableWarning={true}
-        className={clsx(["language-js", classes.code])}
+        className={clsx([classes.code])}
       >
         {formattedCode}
       </code>

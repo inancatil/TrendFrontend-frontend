@@ -7,9 +7,7 @@ import { Box, Container } from "@material-ui/core";
 import { IBlogPost } from "../../../../types";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import parse from "html-react-parser";
-import IFrame from "../../Blogs/BlogPost/IFrame";
-import PrismBlock from "../../Blogs/BlogPost/PrismBlock";
+import useBlogPost from "./../../../../hooks/useBlogPost";
 
 interface IProps {
   postDetails: IBlogPost;
@@ -24,24 +22,11 @@ const useStyles = makeStyles({
   title: {
     fontWeight: "bolder",
   },
-  //z index te proplem var.
-  // test: {
-  //   "&::before": {
-  //     height: "100%",
-  //     width: "100%",
-  //     position: "absolute",
-  //     top: 0,
-  //     left: "-15px",
-  //     content: "''", //çokomelli
-  //     backgroundColor: "blue",
-  //     zIndex: -1,
-  //     display: "block",
-  //   },
-  //},
 });
 
 export default function Article({ postDetails }: IProps) {
   const classes = useStyles();
+  const { summarizeContent } = useBlogPost();
   return (
     <Card className={classes.root} variant="outlined">
       <Box>
@@ -64,36 +49,16 @@ export default function Article({ postDetails }: IProps) {
             }}
           />
           <div
+            id="content-container"
             style={{
               paddingTop: 15,
             }}
           >
-            <>
-              {
-                <Container maxWidth="lg" className={classes.root}>
-                  {postDetails.content
-                    .match(/<(.*?)( .*?|)>.*?<\/(\1)>/gs)! //matches all html tags and creates an array
-                    .filter((el) => !el.includes("<p><br></p>")) //removes newline
-                    .slice(0, 3) //returns first 3 html element to display
-                    .map((el: string, i: number) => {
-                      //loop through elements and display accoording to html tag
-                      if (el.includes("custom-iframe")) {
-                        const url = el
-                          .split('class="custom-iframe">')[1]
-                          .split("</span>");
-                        return <IFrame key={i} url={url[0]} />;
-                      }
-                      if (el.substring(1, 4) === "pre") {
-                        return <PrismBlock key={i} code={el} />;
-                      } else
-                        return (
-                          <React.Fragment key={i}>{parse(el)}</React.Fragment>
-                        );
-                    })}
-                  &hellip;
-                </Container>
-              }
-            </>
+            {
+              <Container maxWidth="lg" className={classes.root}>
+                {summarizeContent(postDetails.content)}
+              </Container>
+            }
           </div>
         </CardContent>
       </Box>

@@ -18,25 +18,32 @@ export function getRandomColor() {
 }
 
 /**
- * Changes specials charecters such as
- * @("\&nbsp;", " ")
- * @("\<br>", "\n")
- * @("\&lt;", "<")
- * @("\&gt;", ">")
- * @param code
+ * Trims end of every newline.
+ *
+ * Changes specials charecters such as:
+ *
+ *@    ("\&nbsp;", " ")
+ *@    ("\<br>", "\n")
+ *@    ("\&lt;", "<")
+ *@    ("\&gt;", ">")
+ *@    ("\&amp;", "&")
+ *
+ * @param {code} code in string format
  */
+
 export const prismFormat = (code: string): string => {
   const x = code
+    .replaceAll("&amp;", "&")
     .replaceAll("&nbsp;", " ")
     .replaceAll("<br>", "\n")
     .replaceAll("&lt;", "<")
     .replaceAll("&gt;", ">");
 
-  //trim whitespaces in every newline ends
+  // trim whitespaces in every newline ends
   const trimedEnds = x
     .split("\n")
     .map((x) => x.trimEnd())
     .join("\n");
-  //console.log(trimedEnds);
+  // console.log(trimedEnds);
   return trimedEnds;
 };

@@ -76,12 +76,14 @@ export default function CustomCard({ postDetails }: IProps) {
           >
             {postDetails.title}
           </Typography>
-          <Chip
-            label="Basic"
-            variant="outlined"
-            size="small"
-            className={classes.chip}
-          />
+          {postDetails.category && (
+            <Chip
+              label={postDetails.category.name}
+              variant="outlined"
+              size="small"
+              className={classes.chip}
+            />
+          )}
           <Typography
             style={{ position: "absolute", bottom: 40, color: "#ffffff" }}
           >
