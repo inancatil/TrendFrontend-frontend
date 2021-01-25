@@ -5,7 +5,7 @@ import {
   Theme,
   useMediaQuery,
 } from "@material-ui/core";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import "prismjs/themes/prism-okaidia.css";
 import { prismFormat } from "../../../../tools/utils";
@@ -47,7 +47,7 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
   const classes = useStyles();
   const [btnText, setBtnText] = useState<string>("Copy");
   const matches = useMediaQuery("(min-width:1100px)");
-
+  const buttonTimer = useRef<NodeJS.Timeout | null>(null);
   //prism code format should be set when writing posts.
   //Defaults to language-js if not defined
   const codeFormat = code.includes('<pre class="')
@@ -71,7 +71,7 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
       el.select();
       document.execCommand("copy");
       document.body.removeChild(el);
-      setTimeout(() => setBtnText("Copy"), 1000);
+      buttonTimer.current = setTimeout(() => setBtnText("Copy"), 1000);
     }
   };
 
@@ -80,6 +80,11 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
     setTimeout(() => {
       Prism.highlightAll();
     }, 0);
+
+    return () => {
+      //clear button timeout on unmount
+      buttonTimer.current && clearTimeout(buttonTimer.current);
+    };
   }, []);
 
   return (

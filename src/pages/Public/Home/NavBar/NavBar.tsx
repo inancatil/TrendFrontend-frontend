@@ -21,14 +21,41 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
 import { Link, useHistory } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
   fullList: {
     width: "auto",
   },
-});
+  button: {
+    fontSize: 15,
+    color: "black",
+    fontWeight: "bolder",
+    paddingRight: 15,
+    "&:hover": {
+      color: "blue",
+      "&:after": {
+        content: "''",
+        position: "absolute",
+        width: "90%",
+        height: "2px",
+        marginTop: 25,
+        backgroundColor: "blue",
+        left: 2,
+        animation: `$myEffect 500ms ${theme.transitions.easing.easeInOut}`,
+      },
+    },
+  },
+  "@keyframes myEffect": {
+    "0%": {
+      width: 0,
+    },
+    "100%": {
+      width: "90%",
+    },
+  },
+}));
 
 interface Props {
   children: React.ReactElement;
@@ -80,7 +107,15 @@ export default function NavBar(props: INavBarProps) {
     <>
       <CssBaseline />
       <ElevationScroll {...props}>
-        <AppBar>
+        <AppBar
+          style={{
+            backgroundColor: "#f5f8f9",
+            boxShadow: "rgb(0 0 0 / 20%) 0px 5px 4px",
+            height: 75,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Toolbar>
             <Container
               style={{
@@ -91,24 +126,44 @@ export default function NavBar(props: INavBarProps) {
             >
               <Typography
                 variant="h6"
-                style={{ flexGrow: 1, cursor: "pointer" }}
+                style={{ flexGrow: 1, cursor: "pointer", color: "black" }}
                 onClick={() => history.push("/")}
               >
                 Trend-Frontend
               </Typography>
               {matches ? (
                 <Box style={{ flexGrow: 0.1 }}>
-                  <Link to={"/"}>
-                    <Button>Home</Button>
+                  <Link
+                    to={"/"}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button className={classes.button}>Home</Button>
                   </Link>
-                  <Link to={"/blog"}>
-                    <Button>Blog</Button>
+                  <Link
+                    to={"/blog"}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button className={classes.button}>Blog</Button>
                   </Link>
-                  <Link to={"/about-me"}>
-                    <Button>About Me</Button>
+                  <Link
+                    to={"/about-me"}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button className={classes.button}>About Me</Button>
                   </Link>
-                  <Link to={"/contact"}>
-                    <Button>Contact</Button>
+                  <Link
+                    to={"/contact"}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button className={classes.button}>Contact</Button>
                   </Link>
                 </Box>
               ) : (

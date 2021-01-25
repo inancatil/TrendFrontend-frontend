@@ -7,7 +7,6 @@ export default function IFrame({ url }: IProps) {
   return (
     <iframe
       suppressContentEditableWarning={true}
-      id="cp_embed_NWRBwGJ"
       src={url}
       height="450"
       scrolling="no"
