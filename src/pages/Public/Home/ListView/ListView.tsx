@@ -25,7 +25,7 @@ export default function ListView({ blogPosts, isLoading }: IProps) {
   const [curPage, setCurPage] = useState<number>(1);
   const numberOfPages = Math.ceil(blogPosts.length / NUM_OF_ARTICLES_PER_PAGE);
   return (
-    <>
+    <div>
       {!isLoading ? (
         blogPosts
           .slice(
@@ -69,6 +69,6 @@ export default function ListView({ blogPosts, isLoading }: IProps) {
         curPage={curPage}
         setCurPage={setCurPage}
       />
-    </>
+    </div>
   );
 }

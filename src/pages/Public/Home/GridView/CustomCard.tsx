@@ -21,7 +21,7 @@ interface IProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     card: {
-      padding: theme.spacing(2),
+      padding: 7,
       textAlign: "center",
       color: theme.palette.text.secondary,
       position: "relative",
@@ -64,11 +64,12 @@ export default function CustomCard({ postDetails }: IProps) {
           position={"absolute"}
           zIndex={2}
           padding={"22px 30px"}
-          width="calc(100% - 32px)"
-          height="calc(100% - 32px)"
+          width="calc(100% - 14px)"
+          height="calc(100% - 14px)"
           textAlign="left"
         >
           <Typography
+            id="title"
             paragraph
             variant="h5"
             style={{ color: "#ffffff", fontWeight: 900 }}

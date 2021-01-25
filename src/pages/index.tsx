@@ -5,7 +5,7 @@ import LoginRoutes from "./Login";
 import useHttpAuth from "./../hooks/api/useHttpAuth";
 import { useEffect } from "react";
 import { useSelector } from "../store";
-import PublicRoutes from "./Public/Home/index";
+import PublicRoutes from "./Public/index";
 
 export default function Routes() {
   const { refreshToken } = useHttpAuth();

@@ -18,11 +18,7 @@ export default function Blogs() {
   const classes = useStyles();
   const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
   return (
-    <Container
-      style={{
-        paddingTop: 15,
-      }}
-    >
+    <Container style={{}} maxWidth="md">
       {!isLoading ? (
         <ListView blogPosts={blogPosts} isLoading={isLoading} />
       ) : (

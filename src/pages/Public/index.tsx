@@ -2,17 +2,16 @@ import Container from "@material-ui/core/Container";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import NotFound from "../../Fallback/NotFound/NotFound";
-import BlogPost from "../Blogs/BlogPost/BlogPost";
-import Home from "./Home";
-import NavBar from "./NavBar/NavBar";
-import Blogs from "./../Blogs/Blogs";
+import NotFound from "../Fallback/NotFound/NotFound";
+import BlogPost from "./Blogs/BlogPost/BlogPost";
+import Home from "./Home/Home";
+import NavBar from "./Home/NavBar/NavBar";
+import Blogs from "./Blogs/Blogs";
+import AboutMe from "./AboutMe/AboutMe";
 
 const useStyles = makeStyles(() =>
   createStyles({
-    root: {
-      padding: 0,
-    },
+    root: {},
   })
 );
 
@@ -32,7 +31,7 @@ export default function PublicRoutes() {
               </>
             )}
           />
-          <Route exact path="/about-me" render={() => <div>about-me</div>} />
+          <Route exact path="/about-me" component={AboutMe} />
           <Route exact path="/contact" render={() => <div>contact</div>} />
           <Route component={NotFound} />
         </Switch>

@@ -21,6 +21,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
 import { Link, useHistory } from "react-router-dom";
 
+const NAVBAR_HEIGHT = 75;
+const BOTTOM_MARGIN = 25;
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
@@ -29,20 +31,21 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
   },
   button: {
+    backgroundColor: "transparent",
     fontSize: 15,
     color: "black",
     fontWeight: "bolder",
-    paddingRight: 15,
+    marginLeft: 15,
     "&:hover": {
       color: "blue",
       "&:after": {
         content: "''",
         position: "absolute",
-        width: "90%",
+        width: "100%",
         height: "2px",
         marginTop: 25,
         backgroundColor: "blue",
-        left: 2,
+        left: 0,
         animation: `$myEffect 500ms ${theme.transitions.easing.easeInOut}`,
       },
     },
@@ -52,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
       width: 0,
     },
     "100%": {
-      width: "90%",
+      width: "100%",
     },
   },
 }));
@@ -109,16 +112,17 @@ export default function NavBar(props: INavBarProps) {
       <ElevationScroll {...props}>
         <AppBar
           style={{
+            height: NAVBAR_HEIGHT,
             backgroundColor: "#f5f8f9",
             boxShadow: "rgb(0 0 0 / 20%) 0px 5px 4px",
-            height: 75,
-            display: "flex",
-            justifyContent: "center",
           }}
         >
-          <Toolbar>
+          <Toolbar
+            style={{ height: 75, display: "flex", justifyContent: "center" }}
+          >
             <Container
               style={{
+                height: "100%",
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
@@ -139,7 +143,9 @@ export default function NavBar(props: INavBarProps) {
                       textDecoration: "none",
                     }}
                   >
-                    <Button className={classes.button}>Home</Button>
+                    <Button disableRipple className={classes.button}>
+                      Home
+                    </Button>
                   </Link>
                   <Link
                     to={"/blog"}
@@ -147,7 +153,9 @@ export default function NavBar(props: INavBarProps) {
                       textDecoration: "none",
                     }}
                   >
-                    <Button className={classes.button}>Blog</Button>
+                    <Button disableRipple className={classes.button}>
+                      Blog
+                    </Button>
                   </Link>
                   <Link
                     to={"/about-me"}
@@ -155,7 +163,9 @@ export default function NavBar(props: INavBarProps) {
                       textDecoration: "none",
                     }}
                   >
-                    <Button className={classes.button}>About Me</Button>
+                    <Button disableRipple className={classes.button}>
+                      About Me
+                    </Button>
                   </Link>
                   <Link
                     to={"/contact"}
@@ -163,7 +173,9 @@ export default function NavBar(props: INavBarProps) {
                       textDecoration: "none",
                     }}
                   >
-                    <Button className={classes.button}>Contact</Button>
+                    <Button disableRipple className={classes.button}>
+                      Contact
+                    </Button>
                   </Link>
                 </Box>
               ) : (
@@ -174,7 +186,7 @@ export default function NavBar(props: INavBarProps) {
                     edge="start"
                     onClick={() => setDrawerState(true)}
                   >
-                    <MenuIcon />
+                    <MenuIcon color="secondary" />
                   </IconButton>
                   <Drawer
                     anchor={"right"}
@@ -189,7 +201,7 @@ export default function NavBar(props: INavBarProps) {
           </Toolbar>
         </AppBar>
       </ElevationScroll>
-      <Toolbar />
+      <Toolbar style={{ height: NAVBAR_HEIGHT, marginBottom: BOTTOM_MARGIN }} />
       {props.children}
     </>
   );

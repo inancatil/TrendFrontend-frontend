@@ -18,7 +18,7 @@ export default function BlogPost() {
   const { getAllContent } = useBlogPost();
 
   return (
-    <Container maxWidth="lg" className={classes.root}>
+    <Container maxWidth="md" className={classes.root}>
       {getAllContent(routerState.postDetails.content)}
     </Container>
   );

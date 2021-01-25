@@ -8,7 +8,6 @@ import { IBlogPost } from "../../../../types";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      paddingTop: 25,
       paddingBottom: 25,
     },
     row: {

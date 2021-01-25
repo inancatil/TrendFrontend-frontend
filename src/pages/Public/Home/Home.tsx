@@ -9,7 +9,7 @@ export interface IHomeProps {}
 export default function Home() {
   const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
   return (
-    <Container>
+    <Container maxWidth="md">
       {blogPosts.length > 4 && (
         <>
           <GridView blogPosts={blogPosts} />
