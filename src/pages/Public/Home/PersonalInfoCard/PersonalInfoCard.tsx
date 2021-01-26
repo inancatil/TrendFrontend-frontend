@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { Avatar } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,45 +85,47 @@ export default function PersonalInfoCard(props: IProps) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardContent classes={{ root: classes.cardContent }}>
-        <Avatar className={classes.purple}>
-          {props.name.charAt(0).toString().toUpperCase()}
-        </Avatar>
+    <Paper elevation={4}>
+      <Card className={classes.root}>
+        <CardContent classes={{ root: classes.cardContent }}>
+          <Avatar className={classes.purple}>
+            {props.name.charAt(0).toString().toUpperCase()}
+          </Avatar>
 
-        <Typography variant="h5" component="h2">
-          {props.name}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {props.job}
-        </Typography>
-        <CardActions>
+          <Typography variant="h5" component="h2">
+            {props.name}
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            {props.job}
+          </Typography>
+          <CardActions>
+            <FontAwesomeIcon
+              className={classes.socialButtons}
+              size={"2x"}
+              icon={["fab", "linkedin"]}
+              onClick={() => window.alert(props.linkedInUrl)}
+            />
+            <FontAwesomeIcon
+              className={classes.socialButtons}
+              size={"2x"}
+              icon={["fab", "github"]}
+              onClick={() => window.alert(props.gitUrl)}
+            />
+          </CardActions>
+        </CardContent>
+        <Button
+          size="small"
+          className={classes.cvButton}
+          onClick={() => window.alert(props.cvUrl)}
+        >
           <FontAwesomeIcon
-            className={classes.socialButtons}
             size={"2x"}
-            icon={["fab", "linkedin"]}
-            onClick={() => window.alert(props.linkedInUrl)}
+            icon="file-pdf"
+            style={{ flexGrow: 0.2 }}
           />
-          <FontAwesomeIcon
-            className={classes.socialButtons}
-            size={"2x"}
-            icon={["fab", "github"]}
-            onClick={() => window.alert(props.gitUrl)}
-          />
-        </CardActions>
-      </CardContent>
-      <Button
-        size="small"
-        className={classes.cvButton}
-        onClick={() => window.alert(props.cvUrl)}
-      >
-        <FontAwesomeIcon
-          size={"2x"}
-          icon="file-pdf"
-          style={{ flexGrow: 0.2 }}
-        />
-        <span style={{ flexGrow: 1, textAlign: "left" }}>Download my CV</span>
-      </Button>
-    </Card>
+          <span style={{ flexGrow: 1, textAlign: "left" }}>Download my CV</span>
+        </Button>
+      </Card>
+    </Paper>
   );
 }

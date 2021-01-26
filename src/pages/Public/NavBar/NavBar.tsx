@@ -124,19 +124,19 @@ export default function NavBar(props: INavBarProps) {
               style={{
                 height: "100%",
                 display: "flex",
-                flexDirection: "row",
+                justifyContent: "space-between",
                 alignItems: "center",
               }}
             >
               <Typography
-                variant="h6"
-                style={{ flexGrow: 1, cursor: "pointer", color: "black" }}
+                variant="h5"
+                style={{ cursor: "pointer", color: "black" }}
                 onClick={() => history.push("/")}
               >
-                Trend-Frontend
+                [...trendfrontend]
               </Typography>
               {matches ? (
-                <Box style={{ flexGrow: 0.1 }}>
+                <Box>
                   <Link
                     to={"/"}
                     style={{
@@ -202,7 +202,9 @@ export default function NavBar(props: INavBarProps) {
         </AppBar>
       </ElevationScroll>
       <Toolbar style={{ height: NAVBAR_HEIGHT, marginBottom: BOTTOM_MARGIN }} />
-      {props.children}
+      <Container maxWidth="md" style={{ paddingLeft: 24, paddingRight: 24 }}>
+        {props.children!}
+      </Container>
     </>
   );
 }

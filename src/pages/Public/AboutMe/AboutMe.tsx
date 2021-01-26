@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import { deepPurple } from "@material-ui/core/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Paper, useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     display: "flex",
-    flexDirection: "row",
-
+    //flexDirection: "row",
     padding: "0px !important",
   },
+
   avatar: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
@@ -52,10 +53,21 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     position: "relative",
     width: "100%",
+    padding: 0,
     "&:before": {
       position: "absolute",
       left: 0,
       top: 0,
+      height: 2,
+      background: "#f5f8f9",
+      content: "''",
+      width: "100%",
+      display: "block",
+    },
+    "&:after": {
+      position: "absolute",
+      left: 0,
+      bottom: 0,
       height: 2,
       background: "#f5f8f9",
       content: "''",
@@ -74,25 +86,20 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
       transition: "color 200ms linear",
     },
-    "&:before": {
-      position: "absolute",
-      left: 0,
-      top: 0,
-      height: 2,
-      background: "#f5f8f9",
-      content: "''",
-      width: "100%",
-      display: "block",
-    },
   },
 }));
 
 export default function AboutMe() {
   const classes = useStyles();
+  const isSmallSizeScreen = !useMediaQuery("(min-width:767px)");
+
   return (
-    <Container maxWidth="md">
+    <Paper elevation={5}>
       <Card className={classes.root}>
-        <CardContent className={classes.content}>
+        <CardContent
+          className={classes.content}
+          style={{ flexDirection: isSmallSizeScreen ? "column" : "row" }}
+        >
           <Box className={classes.avatarCol}>
             {" "}
             <Avatar className={classes.avatar}>M</Avatar>
@@ -136,6 +143,6 @@ export default function AboutMe() {
           </Container>
         </CardContent>
       </Card>
-    </Container>
+    </Paper>
   );
 }

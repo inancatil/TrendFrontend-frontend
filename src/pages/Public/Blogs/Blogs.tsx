@@ -1,4 +1,3 @@
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
 import React from "react";
@@ -9,7 +8,6 @@ const useStyles = makeStyles({
   skeleton: {
     minWidth: 275,
     minHeight: 300,
-
     marginBottom: 15,
   },
 });
@@ -18,7 +16,7 @@ export default function Blogs() {
   const classes = useStyles();
   const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
   return (
-    <Container style={{}} maxWidth="md">
+    <>
       {!isLoading ? (
         <ListView blogPosts={blogPosts} isLoading={isLoading} />
       ) : (
@@ -50,6 +48,6 @@ export default function Blogs() {
           />
         </>
       )}
-    </Container>
+    </>
   );
 }

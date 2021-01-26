@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import GridView from "./GridView/GridView";
@@ -9,7 +9,7 @@ export interface IHomeProps {}
 export default function Home() {
   const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
   return (
-    <Container maxWidth="md">
+    <>
       {blogPosts.length > 4 && (
         <>
           <GridView blogPosts={blogPosts} />
@@ -36,6 +36,6 @@ export default function Home() {
           </Grid>
         </>
       )}
-    </Container>
+    </>
   );
 }
