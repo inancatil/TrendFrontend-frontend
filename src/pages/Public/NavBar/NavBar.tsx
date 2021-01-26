@@ -14,9 +14,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
 import { Link, useHistory } from "react-router-dom";
@@ -105,46 +102,46 @@ export default function NavBar(props: INavBarProps) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem button>
-          <Link
-            to={"/"}
-            style={{
-              textDecoration: "none",
-            }}
-          >
+        <Link
+          to={"/"}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <ListItem button>
             <ListItemText primary={"Home"} />
-          </Link>
-        </ListItem>
-        <ListItem button>
-          <Link
-            to={"/blog"}
-            style={{
-              textDecoration: "none",
-            }}
-          >
+          </ListItem>
+        </Link>
+        <Link
+          to={"/blog"}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <ListItem button>
             <ListItemText primary={"Blogs"} />
-          </Link>
-        </ListItem>
-        <ListItem button>
-          <Link
-            to={"/about-me"}
-            style={{
-              textDecoration: "none",
-            }}
-          >
+          </ListItem>
+        </Link>
+        <Link
+          to={"/about-me"}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <ListItem button>
             <ListItemText primary={"About Me"} />
-          </Link>
-        </ListItem>
-        <ListItem button>
-          <Link
-            to={"/contact"}
-            style={{
-              textDecoration: "none",
-            }}
-          >
+          </ListItem>
+        </Link>
+        <Link
+          to={"/contact"}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <ListItem button>
             <ListItemText primary={"Contact"} />
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
