@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
   },
-  fullList: {
-    width: "auto",
-  },
   button: {
     backgroundColor: "transparent",
     fontSize: 15,
@@ -86,22 +83,68 @@ export default function NavBar(props: INavBarProps) {
   const matches = useMediaQuery("(min-width:1200px)");
   const [drawerState, setDrawerState] = React.useState(false);
 
-  const list = (anchor: string) => (
+  const toggleDrawer = (open: boolean) => (
+    event: React.KeyboardEvent | React.MouseEvent
+  ) => {
+    if (
+      event.type === "keydown" &&
+      ((event as React.KeyboardEvent).key === "Tab" ||
+        (event as React.KeyboardEvent).key === "Shift")
+    ) {
+      return;
+    }
+
+    setDrawerState(open);
+  };
+
+  const list = () => (
     <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === "top" || anchor === "bottom",
-      })}
+      className={clsx(classes.list)}
       role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Home", "Blog", "About Me", "Contact"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button>
+          <Link
+            to={"/"}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <ListItemText primary={"Home"} />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <Link
+            to={"/blog"}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <ListItemText primary={"Blogs"} />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <Link
+            to={"/about-me"}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <ListItemText primary={"About Me"} />
+          </Link>
+        </ListItem>
+        <ListItem button>
+          <Link
+            to={"/contact"}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <ListItemText primary={"Contact"} />
+          </Link>
+        </ListItem>
       </List>
     </div>
   );
@@ -193,7 +236,7 @@ export default function NavBar(props: INavBarProps) {
                     open={drawerState}
                     onClose={() => setDrawerState(false)}
                   >
-                    {list("right")}
+                    {list()}
                   </Drawer>
                 </>
               )}
