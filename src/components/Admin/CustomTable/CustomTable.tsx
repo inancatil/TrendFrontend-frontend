@@ -78,6 +78,7 @@ export default function CustomTable<T extends ITableData>({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
+  //CUSTOM HEADER
   function EnhancedTableHead(props: EnhancedTableProps) {
     const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property: keyof ITableData) => (
@@ -100,6 +101,7 @@ export default function CustomTable<T extends ITableData>({
                   sortDirection={orderBy === headCell.id ? order : false}
                 >
                   <TableSortLabel
+                    style={{ fontWeight: "bold" }}
                     active={orderBy === headCell.id}
                     direction={orderBy === headCell.id ? order : "asc"}
                     onClick={createSortHandler(headCell.id)}
@@ -116,7 +118,11 @@ export default function CustomTable<T extends ITableData>({
                 </TableCell>
               );
             return (
-              <TableCell key={headCell.id} align={headCell.align}>
+              <TableCell
+                key={headCell.id}
+                align={headCell.align}
+                style={{ fontWeight: "bold" }}
+              >
                 {headCell.label}
               </TableCell>
             );
@@ -126,6 +132,7 @@ export default function CustomTable<T extends ITableData>({
     );
   }
 
+  //CUSTOM CELL
   function EnhancedTableCell(props: any) {
     if (Array.isArray(props.children)) {
       return (

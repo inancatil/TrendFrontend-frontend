@@ -1,105 +1,113 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { useHistory } from "react-router";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
-import { DataGrid, ColDef, CellParams } from "@material-ui/data-grid";
 import { IBlogPost } from "../../../types";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import CustomPopover from "../../../components/Admin/CustomPopover/CustomPopover";
-import { useHistory } from "react-router-dom";
-import { Chip, createStyles, makeStyles, Theme } from "@material-ui/core";
-import { getRandomColor } from "../../../tools/utils";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    chip: {
-      display: "flex",
-      justifyContent: "center",
-      flexWrap: "wrap",
-      "& > *": {
-        margin: theme.spacing(0.5),
-      },
-    },
-  })
-);
+import CustomTable, {
+  HeadCell,
+} from "../../../components/Admin/CustomTable/CustomTable";
+import moment from "moment";
+
+const headCells: HeadCell[] = [
+  {
+    id: "id",
+    align: "left",
+    label: "Id",
+    hidden: true,
+  },
+  {
+    id: "title",
+    align: "left",
+    label: "Title",
+    isSortable: true,
+  },
+  {
+    id: "category",
+    align: "left",
+    label: "Category",
+    isSortable: true,
+  },
+  {
+    id: "tags",
+    align: "left",
+    label: "Tags",
+    isSortable: false,
+  },
+
+  {
+    id: "date",
+    align: "left",
+    label: "Date",
+    isSortable: true,
+  },
+  {
+    id: "actions",
+    align: "right",
+    label: "Actions",
+    isSortable: false,
+  },
+];
 
 export default function Posts() {
-  const classes = useStyles();
   const history = useHistory();
-  const { isLoading, deleteBlogPost, blogPosts } = useHttpBlogPost({
+  const { deleteBlogPost, blogPosts } = useHttpBlogPost({
     isFetchNeeded: true,
   });
 
-  const rows = blogPosts.map((post: IBlogPost) => {
-    return {
-      id: post.id,
-      title: post.title,
-      category: post.category?.name,
-      tags: post.tags.map((p) => p.name),
-    };
-  });
-
-  const columns: ColDef[] = [
-    {
-      field: "id",
-      hide: true,
-    },
-    {
-      field: "title",
-      headerName: "Title",
-      width: 90,
-      renderCell: (params: CellParams) => {
-        return <CustomPopover content={params.value} />;
-      },
-    },
-    { field: "category", headerName: "Category", width: 90 },
-    {
-      field: "tags",
-      headerName: "Tag",
-      width: 300,
-
-      sortable: false,
-      renderCell: (params: CellParams) => {
-        return (
-          <div className={classes.chip}>
-            {params.row.tags.map((t: string, i: number) => (
-              <Chip
-                key={i}
-                label={t}
-                size="small"
-                style={{
-                  backgroundColor: getRandomColor(),
-                }}
-              />
-            ))}
-          </div>
-        );
-      },
-    },
-    {
-      field: "",
-      headerName: "Action",
-      width: 150,
-      disableColumnMenu: true,
-      sortable: false,
-      renderCell: (params: CellParams) => {
-        return (
+  const rows = useMemo(() => {
+    const actionButtons = (postId: string) => {
+      return (
+        <>
           <Button
-            variant="contained"
             color="secondary"
+            variant="contained"
             size="small"
-            startIcon={<DeleteIcon />}
-            onClick={() => deleteBlogPost(params.row.id)}
+            onClick={() => deleteBlogPost(postId)}
           >
             Delete
           </Button>
-        );
-      },
-    },
-  ];
+          <Button
+            color="primary"
+            variant="contained"
+            size="small"
+            onClick={() => {
+              const postDetails = blogPosts.find(
+                (post: IBlogPost) => post.id === postId
+              );
+              history.push({
+                pathname: `posts/${postDetails!.title}`,
+                state: { postDetails, isUpdate: true },
+              });
+            }}
+          >
+            Edit
+          </Button>
+        </>
+      );
+    };
+
+    const convertToTableData = (data: IBlogPost[]) => {
+      //Kontrol et. Birkaç kez çalışıyor.
+      if (data.length === 0) return [];
+      return data.map((post) => {
+        return {
+          id: post.id,
+          title: post.title,
+          category: post.category?.name,
+          tags: post.tags.map((t) => t.name),
+          date: moment(post.date).format("Do MMM YY"),
+          actions: actionButtons(post.id),
+        };
+      });
+    };
+
+    return convertToTableData(blogPosts);
+  }, [blogPosts, deleteBlogPost, history]);
 
   return (
-    <div style={{ width: "100%", height: "90vh" }}>
+    <>
       <Button
         variant="contained"
         color="primary"
@@ -113,23 +121,7 @@ export default function Posts() {
       >
         Add New
       </Button>
-      <DataGrid
-        rowHeight={65}
-        loading={isLoading}
-        onCellClick={(param: CellParams) => {
-          if (param.field === "title") {
-            const postDetails = blogPosts.find(
-              (post: IBlogPost) => post.id === param.row.id
-            );
-            history.push({
-              pathname: `posts/${param.row.title}`,
-              state: { postDetails, isUpdate: true },
-            });
-          }
-        }}
-        rows={rows}
-        columns={columns}
-      />
-    </div>
+      <CustomTable headCells={headCells} tableData={rows} />
+    </>
   );
 }

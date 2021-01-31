@@ -19,7 +19,6 @@ import Drawer from "@material-ui/core/Drawer";
 import { Link, useHistory } from "react-router-dom";
 import { SearchIcon } from "@material-ui/data-grid";
 import InputBase from "@material-ui/core/InputBase";
-import { fade } from "@material-ui/core/styles";
 
 const NAVBAR_HEIGHT = 75;
 const BOTTOM_MARGIN = 25;

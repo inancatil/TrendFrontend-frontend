@@ -116,8 +116,8 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
             //Fetch all posts to update redux.
             //Can be manually done in reducer to decrease api call
-            getAllBlogPosts();
-            setIsSuccessfull(res.status === 200);
+            res.status === 201 && getAllBlogPosts();
+            setIsSuccessfull(res.status === 201);
           })
           .catch((err) => {
             //Backend tarafındaki custom errors

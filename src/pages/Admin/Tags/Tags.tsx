@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import CustomTable, {
   HeadCell,
 } from "../../../components/Admin/CustomTable/CustomTable";
-import useHttpCategory from "../../../hooks/api/useHttpCategory";
-import { ICategory } from "../../../types";
+import useHttpTag from "./../../../hooks/api/useHttpTag";
+//import { ITag } from "./../../../types/tag";
 
 const headCells: HeadCell[] = [
   {
@@ -18,33 +18,25 @@ const headCells: HeadCell[] = [
     label: "Name",
     isSortable: true,
   },
-  {
-    id: "numOfPosts",
-    align: "right",
-    label: "numOfPosts",
-    isSortable: true,
-  },
 ];
 
-export default function NewCategories() {
-  const { categories, deleteCategoryById, addNewCategory } = useHttpCategory({
+export default function Tags() {
+  const { tags } = useHttpTag({
     isFetchNeeded: true,
   });
 
   const rows = useMemo(() => {
-    const convertToTableData = (data: ICategory[]) => {
+    const convertToTableData = (data: any[]) => {
       //Kontrol et. Birkaç kez çalışıyor.
       if (data.length === 0) return [];
-      return data.map((category) => {
+      return data.map((t) => {
         return {
-          id: category.id,
-          name: category.name,
-          numOfPosts: category.blogPosts.length,
+          id: t.id,
+          value: t.name,
         };
       });
     };
-    return convertToTableData(categories);
-  }, [categories]);
-
+    return convertToTableData(tags);
+  }, [tags]);
   return <CustomTable headCells={headCells} tableData={rows} />;
 }
