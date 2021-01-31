@@ -5,6 +5,7 @@ import {
   Chip,
   createStyles,
   makeStyles,
+  Paper,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -47,52 +48,54 @@ export default function CustomCard({ postDetails }: IProps) {
   const classes = useStyles();
   const [raised, setRaised] = useState<boolean>(false);
   return (
-    <Card
-      raised={raised}
-      onMouseOver={() => setRaised(true)}
-      onMouseLeave={() => setRaised(false)}
-      className={classes.card}
-    >
-      <Link
-        to={{
-          pathname: `/blog/${postDetails.title}`,
-          state: { postDetails },
-        }}
+    <Paper elevation={5}>
+      <Card
+        raised={raised}
+        onMouseOver={() => setRaised(true)}
+        onMouseLeave={() => setRaised(false)}
+        className={classes.card}
       >
-        <Box
-          className={classes.box}
-          position={"absolute"}
-          zIndex={2}
-          padding={"22px 30px"}
-          width="calc(100% - 14px)"
-          height="calc(100% - 14px)"
-          textAlign="left"
+        <Link
+          to={{
+            pathname: `/blog/${postDetails.title}`,
+            state: { postDetails },
+          }}
         >
-          <Typography
-            id="title"
-            paragraph
-            variant="h5"
-            style={{ color: "#ffffff", fontWeight: 900 }}
-            noWrap
+          <Box
+            className={classes.box}
+            position={"absolute"}
+            zIndex={2}
+            padding={"22px 30px"}
+            width="calc(100% - 14px)"
+            height="calc(100% - 14px)"
+            textAlign="left"
           >
-            {postDetails.title}
-          </Typography>
-          {postDetails.category && (
-            <Chip
-              label={postDetails.category.name}
-              variant="outlined"
-              size="small"
-              className={classes.chip}
-            />
-          )}
-          <Typography
-            style={{ position: "absolute", bottom: 40, color: "#ffffff" }}
-          >
-            {moment(postDetails.date).format("MMM Do YY")}
-          </Typography>
-        </Box>
-        <Image src={bgPhoto} />
-      </Link>
-    </Card>
+            <Typography
+              id="title"
+              paragraph
+              variant="h5"
+              style={{ color: "#ffffff", fontWeight: 900 }}
+              noWrap
+            >
+              {postDetails.title}
+            </Typography>
+            {postDetails.category && (
+              <Chip
+                label={postDetails.category.name}
+                variant="outlined"
+                size="small"
+                className={classes.chip}
+              />
+            )}
+            <Typography
+              style={{ position: "absolute", bottom: 40, color: "#ffffff" }}
+            >
+              {moment(postDetails.date).format("MMM Do YY")}
+            </Typography>
+          </Box>
+          <Image src={bgPhoto} />
+        </Link>
+      </Card>
+    </Paper>
   );
 }

@@ -17,6 +17,9 @@ import List from "@material-ui/core/List";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
 import { Link, useHistory } from "react-router-dom";
+import { SearchIcon } from "@material-ui/data-grid";
+import InputBase from "@material-ui/core/InputBase";
+import { fade } from "@material-ui/core/styles";
 
 const NAVBAR_HEIGHT = 75;
 const BOTTOM_MARGIN = 25;
@@ -50,6 +53,43 @@ const useStyles = makeStyles((theme) => ({
     },
     "100%": {
       width: "100%",
+    },
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: "#c1c1c1",
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto",
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inputRoot: {
+    color: "inherit",
+  },
+  inputInput: {
+    color: "black",
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
+      },
     },
   },
 }));
@@ -176,7 +216,7 @@ export default function NavBar(props: INavBarProps) {
                 [...trendfrontend]
               </Typography>
               {matches ? (
-                <Box>
+                <Box display="flex" flexDirection="row">
                   <Link
                     to={"/"}
                     style={{
@@ -207,7 +247,7 @@ export default function NavBar(props: INavBarProps) {
                       About Me
                     </Button>
                   </Link>
-                  <Link
+                  {/* <Link
                     to={"/contact"}
                     style={{
                       textDecoration: "none",
@@ -216,7 +256,20 @@ export default function NavBar(props: INavBarProps) {
                     <Button disableRipple className={classes.button}>
                       Contact
                     </Button>
-                  </Link>
+                  </Link> */}
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ "aria-label": "search" }}
+                    />
+                  </div>
                 </Box>
               ) : (
                 <>
