@@ -21,7 +21,7 @@ const headCells: HeadCell[] = [
 ];
 
 export default function Tags() {
-  const { tags } = useHttpTag({
+  const { tags, isLoading } = useHttpTag({
     isFetchNeeded: true,
   });
 
@@ -38,5 +38,7 @@ export default function Tags() {
     };
     return convertToTableData(tags);
   }, [tags]);
-  return <CustomTable headCells={headCells} tableData={rows} />;
+  return (
+    <CustomTable headCells={headCells} tableData={rows} isLoading={isLoading} />
+  );
 }

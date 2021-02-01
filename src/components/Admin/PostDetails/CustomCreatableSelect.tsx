@@ -36,18 +36,22 @@ export default function CustomCreatableSelect({
       value={selectedTags}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
+        //To filter selected tags
+        const x = filtered.filter(
+          (f) => !selectedTags.some((t) => t.id === f.id)
+        );
         // Suggest the creation of a new value
         if (
           params.inputValue !== "" &&
-          !filtered.some((f: TagType) => f.value === params.inputValue)
+          !x.some((f: TagType) => f.value === params.inputValue)
         ) {
-          filtered.push({
+          x.push({
             inputValue: params.inputValue,
             isNew: true,
             value: `Add "${params.inputValue}"`,
           });
         }
-        return filtered;
+        return x;
       }}
       selectOnFocus
       clearOnBlur

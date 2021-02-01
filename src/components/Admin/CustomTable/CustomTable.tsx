@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 export interface ITableData {
   id: string;
@@ -40,12 +41,14 @@ interface EnhancedTableProps {
 interface IProps<T extends ITableData> {
   headCells: HeadCell[];
   tableData: T[];
+  isLoading: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
+      paddingTop: theme.spacing(3),
     },
     paper: {
       width: "100%",
@@ -71,6 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CustomTable<T extends ITableData>({
   headCells,
   tableData,
+  isLoading,
 }: IProps<T>) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
@@ -164,9 +168,13 @@ export default function CustomTable<T extends ITableData>({
     else return comparison * -1;
   }
 
-  const rows = tableData.sort((a, b) => {
-    return compare(a[orderBy], b[orderBy], order === "asc");
-  });
+  const rows = useMemo(
+    () =>
+      tableData.sort((a, b) => {
+        return compare(a[orderBy], b[orderBy], order === "asc");
+      }),
+    [order, orderBy, tableData]
+  );
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -194,6 +202,7 @@ export default function CustomTable<T extends ITableData>({
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+        {isLoading && <LinearProgress />}
         <TableContainer>
           <Table
             className={classes.table}

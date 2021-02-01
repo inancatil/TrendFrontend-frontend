@@ -30,7 +30,7 @@ const headCells: HeadCell[] = [
 
 export default function Categories() {
   const [newCategoryModalOpen, setNewCategoryModalOpen] = React.useState(false);
-  const { categories, addNewCategory } = useHttpCategory({
+  const { categories, addNewCategory, isLoading } = useHttpCategory({
     isFetchNeeded: true,
   });
 
@@ -58,7 +58,11 @@ export default function Categories() {
       >
         Add New
       </Button>
-      <CustomTable headCells={headCells} tableData={rows} />
+      <CustomTable
+        headCells={headCells}
+        tableData={rows}
+        isLoading={isLoading}
+      />
       <NewCategoryModal
         open={newCategoryModalOpen}
         setOpen={setNewCategoryModalOpen}
