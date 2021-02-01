@@ -11,6 +11,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import moment from "moment";
 
 export interface ITableData {
   id: string;
@@ -146,26 +147,40 @@ export default function CustomTable<T extends ITableData>({
           ))}
         </TableCell>
       );
+    } else if (moment.isDate(props.children)) {
+      return (
+        <TableCell {...props}>
+          {moment(props.children).format("YYYY-MM-DD")}
+        </TableCell>
+      );
     } else return <TableCell {...props}>{props.children}</TableCell>;
   }
 
-  //Date Sort probably not working
-  function compare(a: string | number, b: string | number, isAsc: boolean) {
-    // Use toUpperCase() to ignore character casing
+  function compare(
+    a: string | number | Date,
+    b: string | number | Date,
+    isAsc: boolean
+  ) {
+    if (moment.isDate(a)) {
+      const x = moment(a);
+      const y = moment(b);
+      return isAsc ? x.diff(y) : y.diff(x);
+    } else {
+      //string and number comparison
+      const bandA =
+        a === undefined ? "" : typeof a === "string" ? a.toUpperCase() : a;
+      const bandB =
+        b === undefined ? "" : typeof b === "string" ? b.toUpperCase() : b;
 
-    const bandA =
-      a === undefined ? "" : typeof a === "string" ? a.toUpperCase() : a;
-    const bandB =
-      b === undefined ? "" : typeof b === "string" ? b.toUpperCase() : b;
-
-    let comparison = 0;
-    if (bandA > bandB) {
-      comparison = 1;
-    } else if (bandA < bandB) {
-      comparison = -1;
+      let comparison = 0;
+      if (bandA > bandB) {
+        comparison = 1;
+      } else if (bandA < bandB) {
+        comparison = -1;
+      }
+      if (isAsc) return comparison;
+      else return comparison * -1;
     }
-    if (isAsc) return comparison;
-    else return comparison * -1;
   }
 
   const rows = useMemo(

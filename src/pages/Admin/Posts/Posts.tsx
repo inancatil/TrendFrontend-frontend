@@ -100,7 +100,7 @@ export default function Posts() {
           title: post.title,
           category: post.category?.name,
           tags: post.tags.map((t) => t.name),
-          date: moment(post.date).format("YYYY-MM-DD"),
+          date: new Date(post.date),
           actions: actionButtons(post.id),
         };
       });
@@ -108,6 +108,7 @@ export default function Posts() {
 
     return convertToTableData(blogPosts);
   }, [blogPosts, history]);
+
   return (
     <>
       <Button
