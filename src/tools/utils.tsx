@@ -91,11 +91,14 @@ export const smoothScrollToTop = (
 ): void => {
   const delay = _delay ? _delay : 0;
   const duration = _animDuration ? _animDuration : 8;
+  let prevC = 99999; // To end scroll animation when user scroll down before reaching top
   const scrollToTop = () => {
     const c = document.documentElement.scrollTop || document.body.scrollTop;
-    if (c > 0) {
+    if (c > 0 && c <= prevC) {
+      console.log(c);
       window.requestAnimationFrame(scrollToTop);
       window.scrollTo(0, c - c / duration);
+      prevC = c;
     }
   };
   setTimeout(() => {
