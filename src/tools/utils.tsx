@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useRef } from "react";
 
 export function usePrevious<T>(value: T): T {
@@ -22,11 +23,11 @@ export function getRandomColor() {
  *
  * Changes specials charecters such as:
  *
- *@    ("\&nbsp;", " ")
- *@    ("\<br>", "\n")
- *@    ("\&lt;", "<")
- *@    ("\&gt;", ">")
- *@    ("\&amp;", "&")
+ *-    ("\&nbsp;", " ")
+ *-    ("\<br>", "\n")
+ *-   ("\&lt;", "<")
+ *-    ("\&gt;", ">")
+ *-    ("\&amp;", "&")
  *
  * @param {code} code in string format
  */
@@ -46,4 +47,58 @@ export const prismFormat = (code: string): string => {
     .join("\n");
   // console.log(trimedEnds);
   return trimedEnds;
+};
+
+/**
+ * Compares given inputs for sorting inside sort() method.
+ *- Inputs must be same type.
+ */
+export function compare(
+  a: string | number | Date,
+  b: string | number | Date,
+  isAsc: boolean
+) {
+  if (moment.isDate(a)) {
+    const x = moment(a);
+    const y = moment(b);
+    return isAsc ? x.diff(y) : y.diff(x);
+  } else {
+    //string and number comparison
+    const bandA =
+      a === undefined ? "" : typeof a === "string" ? a.toUpperCase() : a;
+    const bandB =
+      b === undefined ? "" : typeof b === "string" ? b.toUpperCase() : b;
+
+    let comparison = 0;
+    if (bandA > bandB) {
+      comparison = 1;
+    } else if (bandA < bandB) {
+      comparison = -1;
+    }
+    if (isAsc) return comparison;
+    else return comparison * -1;
+  }
+}
+
+/**
+ * Smooth scroll to top.
+ * @param delay delay animation
+ * @param animDuration increase animSpeed to slow animation. Min is 1.
+ */
+export const smoothScrollToTop = (
+  _delay?: number,
+  _animDuration?: number
+): void => {
+  const delay = _delay ? _delay : 0;
+  const duration = _animDuration ? _animDuration : 8;
+  const scrollToTop = () => {
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+      window.requestAnimationFrame(scrollToTop);
+      window.scrollTo(0, c - c / duration);
+    }
+  };
+  setTimeout(() => {
+    scrollToTop();
+  }, delay);
 };

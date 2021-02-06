@@ -2,8 +2,8 @@
 import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers, createStore, applyMiddleware, Action } from "redux";
 import thunk, { ThunkAction } from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
 
+import { composeWithDevTools } from "redux-devtools-extension";
 //import { composeWithDevTools } from "remote-redux-devtools";
 import { userReducer } from "./User/reducer";
 
@@ -39,5 +39,9 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const middlewares = [thunk];
 const middleWareEnhancer = composeWithDevTools(applyMiddleware(...middlewares));
 const store = createStore(persistedReducer, middleWareEnhancer);
+// const store = createStore(
+//   persistedReducer,
+//   composeEnhancers(applyMiddleware(thunk))
+// ); //Macbook
 const persistor = persistStore(store);
 export { store, persistor };

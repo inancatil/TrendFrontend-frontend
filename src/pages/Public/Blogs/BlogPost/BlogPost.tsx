@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import useBlogPost from "../../../../hooks/useBlogPost";
@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import { IBlogPost } from "../../../../types";
+import { smoothScrollToTop } from "../../../../tools/utils";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,6 +27,10 @@ export default function BlogPost() {
   const { state: routerState } = useLocation<any>();
   const { getAllContent } = useBlogPost();
   const postDetails: IBlogPost = routerState.postDetails;
+
+  useEffect(() => {
+    smoothScrollToTop(100);
+  }, []);
 
   return (
     <>

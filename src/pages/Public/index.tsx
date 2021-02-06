@@ -14,12 +14,15 @@ export default function PublicRoutes() {
         <Route exact path="/" component={Home} />
         <Route
           path="/blog"
-          render={({ match: { url } }) => (
-            <>
-              <Route exact path={`${url}/`} component={Blogs} />
-              <Route path="/blog/:bptitle" component={BlogPost} />
-            </>
-          )}
+          render={({ match }) => {
+            return (
+              <>
+                <Route exact path={`${match.url}/`} component={Blogs} />
+                <Route path={`/blog/?category`} component={Blogs} />
+                <Route path="/blog/:bptitle" component={BlogPost} />
+              </>
+            );
+          }}
         />
         <Route exact path="/about-me" component={AboutMe} />
         <Route exact path="/contact" render={() => <div>contact</div>} />

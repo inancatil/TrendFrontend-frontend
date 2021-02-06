@@ -13,6 +13,7 @@ import Tags from "./Tags/Tags";
 export default function AdminRoutes({ match }) {
   const { path } = useRouteMatch();
   const { isLoggedIn } = useSelector((state) => state.userReducer);
+  //should validate user here if token is valid.
   return (
     <>
       {isLoggedIn ? (

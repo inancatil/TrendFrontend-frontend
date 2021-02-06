@@ -21,6 +21,7 @@ import CustomList from "./List/CustomList";
 import { Button } from "@material-ui/core";
 import useHttpAuth from "../../../../hooks/api/useHttpAuth";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function NavigationDrawer(props: any) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -135,7 +137,16 @@ export default function NavigationDrawer(props: any) {
           </Typography>
           <Button
             color="inherit"
-            onClick={() => window.open("localhost:3000", "_blank")}
+            // onClick={() => window.open("localhost:3000", "_blank")}
+            onClick={() =>
+              dispatch({
+                type: "REFRESH_TOKEN",
+                payload: {
+                  jwtToken:
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZmQ3MzMzOGUxNDJhMTA2MmE3MTBhZTEiLCJpZCI6IjVmZDczMzM4ZTE0MmExMDYyYTcxMGFlMSIsImlhdCI6MTYxMjYwOTY1NiwiZXhwIjoxNjEyNjEwNTU2fQ.k2qrFygKOddVAAqJ-_WOevemBe4lOrNrfPo-b-3c1_a",
+                },
+              })
+            }
           >
             Go Site
           </Button>

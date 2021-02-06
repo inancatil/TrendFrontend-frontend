@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       "& > *": {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(3),
       },
     },
 

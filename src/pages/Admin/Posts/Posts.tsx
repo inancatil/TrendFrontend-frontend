@@ -7,7 +7,6 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import CustomTable, {
   HeadCell,
 } from "../../../components/Admin/CustomTable/CustomTable";
-import moment from "moment";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import ConfirmationModal from "../../../components/modal/ConfirmationModal";

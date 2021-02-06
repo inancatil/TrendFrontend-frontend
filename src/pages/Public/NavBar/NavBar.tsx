@@ -19,6 +19,7 @@ import Drawer from "@material-ui/core/Drawer";
 import { Link, useHistory } from "react-router-dom";
 import { SearchIcon } from "@material-ui/data-grid";
 import InputBase from "@material-ui/core/InputBase";
+import Footer from "../Footer/Footer";
 
 const NAVBAR_HEIGHT = 75;
 const BOTTOM_MARGIN = 25;
@@ -212,7 +213,7 @@ export default function NavBar(props: INavBarProps) {
                 style={{ cursor: "pointer", color: "black" }}
                 onClick={() => history.push("/")}
               >
-                [...trendfrontend]
+                {"{ ...trendfrontend }"}
               </Typography>
               {matches ? (
                 <Box display="flex" flexDirection="row">
@@ -246,16 +247,6 @@ export default function NavBar(props: INavBarProps) {
                       About Me
                     </Button>
                   </Link>
-                  {/* <Link
-                    to={"/contact"}
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <Button disableRipple className={classes.button}>
-                      Contact
-                    </Button>
-                  </Link> */}
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>
                       <SearchIcon />
@@ -297,6 +288,7 @@ export default function NavBar(props: INavBarProps) {
       <Container maxWidth="md" style={{ paddingLeft: 24, paddingRight: 24 }}>
         {props.children!}
       </Container>
+      <Footer />
     </>
   );
 }

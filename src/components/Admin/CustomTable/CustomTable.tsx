@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import moment from "moment";
+import { compare } from "../../../tools/utils";
 
 export interface ITableData {
   id: string;
@@ -156,38 +157,11 @@ export default function CustomTable<T extends ITableData>({
     } else return <TableCell {...props}>{props.children}</TableCell>;
   }
 
-  function compare(
-    a: string | number | Date,
-    b: string | number | Date,
-    isAsc: boolean
-  ) {
-    if (moment.isDate(a)) {
-      const x = moment(a);
-      const y = moment(b);
-      return isAsc ? x.diff(y) : y.diff(x);
-    } else {
-      //string and number comparison
-      const bandA =
-        a === undefined ? "" : typeof a === "string" ? a.toUpperCase() : a;
-      const bandB =
-        b === undefined ? "" : typeof b === "string" ? b.toUpperCase() : b;
-
-      let comparison = 0;
-      if (bandA > bandB) {
-        comparison = 1;
-      } else if (bandA < bandB) {
-        comparison = -1;
-      }
-      if (isAsc) return comparison;
-      else return comparison * -1;
-    }
-  }
-
   const rows = useMemo(
     () =>
-      tableData.sort((a, b) => {
-        return compare(a[orderBy], b[orderBy], order === "asc");
-      }),
+      tableData.sort((a, b) =>
+        compare(a[orderBy], b[orderBy], order === "asc")
+      ),
     [order, orderBy, tableData]
   );
 

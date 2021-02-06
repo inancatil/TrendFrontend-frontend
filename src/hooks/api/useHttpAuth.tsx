@@ -5,6 +5,7 @@ import { IAuthResponse } from "../../types/auth";
 import { useDispatch } from "react-redux";
 import * as userActions from "../../store/User/action";
 import { useSelector } from "../../store";
+import { LOGOUT } from "../../store/User/types";
 
 export default function useHttpAuth() {
   const { isLoggedIn } = useSelector((state) => state.userReducer);
@@ -88,10 +89,15 @@ export default function useHttpAuth() {
         .catch((err) => {
           //Backend tarafındaki custom errors
           setError(err.response.data.error.messages);
+          dispatch({
+            type: LOGOUT,
+          });
         });
     } catch (err) {
       setError(["Unknown Error"]);
-      console.log("Unknown Error");
+      dispatch({
+        type: LOGOUT,
+      });
     }
   }, [dispatch]);
 
