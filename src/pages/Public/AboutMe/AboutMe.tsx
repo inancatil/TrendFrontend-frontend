@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { deepPurple } from "@material-ui/core/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Paper, useMediaQuery } from "@material-ui/core";
+import { smoothScrollToTop } from "../../../tools/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
 export default function AboutMe() {
   const classes = useStyles();
   const isSmallSizeScreen = !useMediaQuery("(min-width:767px)");
+
+  useEffect(() => {
+    smoothScrollToTop(100, 8);
+  }, []);
 
   return (
     <Paper elevation={5}>

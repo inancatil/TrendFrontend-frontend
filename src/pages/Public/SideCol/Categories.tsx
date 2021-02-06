@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import { Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import _ from "lodash";
 import React from "react";
 import { Link } from "react-router-dom";
 import useHttpCategory from "../../../hooks/api/useHttpCategory";
@@ -36,7 +37,7 @@ export default function Categories() {
           .map((cat) => (
             <Link key={cat.id} to={`/blog/?category=${cat.name}`}>
               <Typography className={classes.catText}>
-                {cat.name} ({cat.blogPosts.length})
+                {_.upperFirst(cat.name)} ({cat.blogPosts.length})
               </Typography>
             </Link>
           ))}
