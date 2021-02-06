@@ -95,7 +95,6 @@ export const smoothScrollToTop = (
   const scrollToTop = () => {
     const c = document.documentElement.scrollTop || document.body.scrollTop;
     if (c > 0 && c <= prevC) {
-      console.log(c);
       window.requestAnimationFrame(scrollToTop);
       window.scrollTo(0, c - c / duration);
       prevC = c;
