@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core";
 import useBlogPost from "../../../../hooks/useBlogPost";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -8,7 +8,7 @@ import Chip from "@material-ui/core/Chip";
 import { IBlogPost } from "../../../../types";
 import { smoothScrollToTop } from "../../../../tools/utils";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: { padding: 25, marginBottom: 35 },
     title: {
@@ -34,7 +34,7 @@ export default function BlogPost() {
 
   return (
     <>
-      <Typography variant="h1" className={classes.title}>
+      <Typography variant="h1" className={classes.title} color="primary">
         {postDetails.title}
       </Typography>
       <div className={classes.chipGroup}>

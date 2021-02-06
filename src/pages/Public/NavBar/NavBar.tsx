@@ -24,13 +24,22 @@ import Footer from "../Footer/Footer";
 const NAVBAR_HEIGHT = 75;
 const BOTTOM_MARGIN = 25;
 const useStyles = makeStyles((theme) => ({
+  appbar: {
+    backgroundColor: theme.palette.background.default,
+
+    height: NAVBAR_HEIGHT,
+    boxShadow: "rgb(0 0 0 / 20%) 0px 5px 4px",
+  },
   list: {
     width: 250,
+  },
+  siteName: {
+    color: theme.palette.text.primary,
+    cursor: "pointer",
   },
   button: {
     backgroundColor: "transparent",
     fontSize: 15,
-    color: "black",
     fontWeight: "bolder",
     marginLeft: 15,
     "&:hover": {
@@ -190,13 +199,7 @@ export default function NavBar(props: INavBarProps) {
     <>
       <CssBaseline />
       <ElevationScroll {...props}>
-        <AppBar
-          style={{
-            height: NAVBAR_HEIGHT,
-            backgroundColor: "#f5f8f9",
-            boxShadow: "rgb(0 0 0 / 20%) 0px 5px 4px",
-          }}
-        >
+        <AppBar className={classes.appbar}>
           <Toolbar
             style={{ height: 75, display: "flex", justifyContent: "center" }}
           >
@@ -209,8 +212,8 @@ export default function NavBar(props: INavBarProps) {
               }}
             >
               <Typography
+                className={classes.siteName}
                 variant="h5"
-                style={{ cursor: "pointer", color: "black" }}
                 onClick={() => history.push("/")}
               >
                 {"{ ...trendfrontend }"}
