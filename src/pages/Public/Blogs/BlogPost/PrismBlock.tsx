@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     code: {
       fontSize: "16px!important",
+      fontFamily: "monospace !important",
     },
     copyBtn: {
       margin: theme.spacing(1),
