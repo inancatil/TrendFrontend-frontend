@@ -28,7 +28,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     ...params,
   };
   const { isMounted } = useComponentMounted();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [isSuccessfull, setIsSuccessfull] = useState(false);
   const [blogPosts, setblogPosts] = useState<IBlogPost[]>([]);

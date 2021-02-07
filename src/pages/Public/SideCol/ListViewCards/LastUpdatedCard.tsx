@@ -8,6 +8,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import useHttpBlogPost from "../../../../hooks/api/useHttpBlogPost";
 import { compare } from "../../../../tools/utils";
+import { IBlogPost } from "../../../../types";
 import ListViewCard from "./ListViewCard";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -23,8 +24,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function LastUpdatedCard() {
-  const { blogPosts, isLoading } = useHttpBlogPost({ isFetchNeeded: true });
+interface IProps {
+  blogPosts: IBlogPost[];
+}
+
+export default function LastUpdatedCard({ blogPosts }: IProps) {
   const classes = useStyles();
 
   const list = blogPosts
@@ -48,7 +52,7 @@ export default function LastUpdatedCard() {
     ));
 
   return (
-    <ListViewCard title="Last Updated Posts" isLoading={isLoading}>
+    <ListViewCard title="Last Updated Posts">
       <List>{list}</List>
     </ListViewCard>
   );

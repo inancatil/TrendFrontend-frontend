@@ -1,6 +1,7 @@
 import { Theme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
+import { IBlogPost } from "../../../types";
 import Categories from "./ListViewCards/Categories";
 import LastUpdatedCard from "./ListViewCards/LastUpdatedCard";
 import PersonalInfoCard from "./PersonalInfoCard";
@@ -11,7 +12,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function SideCol() {
+interface IProps {
+  blogPosts: IBlogPost[];
+}
+export default function SideCol({ blogPosts }: IProps) {
   const classes = useStyles();
 
   return (
@@ -41,7 +45,7 @@ export default function SideCol() {
       </div>
 
       <div className={classes.card}>
-        <LastUpdatedCard />
+        <LastUpdatedCard blogPosts={blogPosts} />
       </div>
     </div>
   );

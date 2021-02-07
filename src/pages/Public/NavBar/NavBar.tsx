@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     cursor: "pointer",
   },
+  btnContainer: {
+    textDecoration: "none !important",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   button: {
     backgroundColor: "transparent",
     fontSize: 15,
@@ -54,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         width: "100%",
         height: "2px",
-        marginTop: 25,
+        marginTop: 15,
         backgroundColor: "#3f50b5",
         left: 0,
         animation: `$myEffect 500ms ${theme.transitions.easing.easeInOut}`,
@@ -70,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   search: {
+    display: "flex",
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: "#c1c1c1",
@@ -138,11 +145,9 @@ const DarkModeToggle = ({ isMobileSize }) => {
       style={{ cursor: "pointer" }}
       onClick={() => dispatch(toggleDarkMode())}
     >
-      {isDarkMode ? (
-        <NightsStayIcon color="primary" />
-      ) : (
-        <WbSunnyIcon color="primary" />
-      )}
+      <IconButton color="primary">
+        {isDarkMode ? <NightsStayIcon /> : <WbSunnyIcon />}
+      </IconButton>
     </Box>
   );
 };
@@ -180,32 +185,17 @@ export default function NavBar(props: INavBarProps) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <Link
-          to={"/"}
-          style={{
-            textDecoration: "none",
-          }}
-        >
+        <Link to={"/"} className={classes.btnContainer}>
           <ListItem button>
             <ListItemText primary={"Home"} />
           </ListItem>
         </Link>
-        <Link
-          to={"/blog"}
-          style={{
-            textDecoration: "none",
-          }}
-        >
+        <Link to={"/blog"} className={classes.btnContainer}>
           <ListItem button>
             <ListItemText primary={"Blogs"} />
           </ListItem>
         </Link>
-        <Link
-          to={"/about-me"}
-          style={{
-            textDecoration: "none",
-          }}
-        >
+        <Link to={"/about-me"} className={classes.btnContainer}>
           <ListItem button>
             <ListItemText primary={"About Me"} />
           </ListItem>
@@ -245,32 +235,17 @@ export default function NavBar(props: INavBarProps) {
               </Typography>
               {matches ? (
                 <Box display="flex" flexDirection="row">
-                  <Link
-                    to={"/"}
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
+                  <Link to={"/"} className={classes.btnContainer}>
                     <Button disableRipple className={classes.button}>
                       Home
                     </Button>
                   </Link>
-                  <Link
-                    to={"/blog"}
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
+                  <Link to={"/blog"} className={classes.btnContainer}>
                     <Button disableRipple className={classes.button}>
                       Blog
                     </Button>
                   </Link>
-                  <Link
-                    to={"/about-me"}
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
+                  <Link to={"/about-me"} className={classes.btnContainer}>
                     <Button disableRipple className={classes.button}>
                       About Me
                     </Button>

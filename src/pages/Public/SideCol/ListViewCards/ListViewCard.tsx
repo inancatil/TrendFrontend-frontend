@@ -20,14 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IProps {
   title: string;
-  isLoading: boolean;
   children: React.ReactNode;
 }
 
-export default function ListViewCard({ title, children, isLoading }: IProps) {
+export default function ListViewCard({ title, children }: IProps) {
   const classes = useStyles();
 
-  const content = (
+  return (
     <Paper elevation={4} className={classes.root}>
       <Typography variant="h5" className={classes.catTitle}>
         {title}
@@ -35,6 +34,4 @@ export default function ListViewCard({ title, children, isLoading }: IProps) {
       {children}
     </Paper>
   );
-
-  return <IF condition={!isLoading}>{content}</IF>;
 }

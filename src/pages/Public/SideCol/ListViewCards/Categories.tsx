@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Categories() {
   const classes = useStyles();
   //send as prop later
-  const { categories, isLoading } = useHttpCategory({ isFetchNeeded: true });
+  const { categories } = useHttpCategory({ isFetchNeeded: true });
 
   const list = categories
     .sort((a, b) => compare(a.name, b.name, false))
@@ -36,9 +36,5 @@ export default function Categories() {
       </Link>
     ));
 
-  return (
-    <ListViewCard title="Categories" isLoading={isLoading}>
-      {list}
-    </ListViewCard>
-  );
+  return <ListViewCard title="Categories">{list}</ListViewCard>;
 }

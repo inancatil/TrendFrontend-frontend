@@ -12,21 +12,19 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  //Will still break when there are less then 5 blogposts.
   return (
     <>
-      {blogPosts.length > 4 && (
-        <>
-          <GridView blogPosts={blogPosts} />
-          <Grid container spacing={3}>
-            <Grid item lg={8} md={8} xs={12}>
-              <ListView blogPosts={blogPosts} isLoading={isLoading} />
-            </Grid>
-            <Grid item lg={4} md={4} xs={12}>
-              <SideCol />
-            </Grid>
-          </Grid>
-        </>
-      )}
+      <GridView blogPosts={blogPosts} isLoading={isLoading} />
+      <Grid container spacing={3}>
+        <Grid item lg={8} md={8} xs={12}>
+          <ListView blogPosts={blogPosts} isLoading={isLoading} />
+        </Grid>
+        <Grid item lg={4} md={4} xs={12}>
+          <SideCol blogPosts={blogPosts} />
+        </Grid>
+      </Grid>
     </>
   );
 }
