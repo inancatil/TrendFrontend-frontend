@@ -104,3 +104,14 @@ export const smoothScrollToTop = (
     scrollToTop();
   }, delay);
 };
+
+/**
+ * Conditional component rendering.
+ */
+export function IF({ children, condition }) {
+  if (condition) {
+    // render children if the condition is truthy
+    return children;
+  }
+  return null;
+}

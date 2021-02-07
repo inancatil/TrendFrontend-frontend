@@ -10,7 +10,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
-    type: "dark",
+    type: "light",
   },
 });
 
@@ -27,6 +27,7 @@ export default function PublicRoutes() {
                 <>
                   <Route exact path={`${match.url}/`} component={Blogs} />
                   <Route path={`/blog/?category`} component={Blogs} />
+                  <Route path={`/blog/?tag`} component={Blogs} />
                   <Route path="/blog/:bptitle" component={BlogPost} />
                 </>
               );

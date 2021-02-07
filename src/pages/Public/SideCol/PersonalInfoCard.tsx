@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      marginBottom: 25,
     },
     bullet: {
       display: "inline-block",

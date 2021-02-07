@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import useHttpBlogPost from "../../../hooks/api/useHttpBlogPost";
 import { useQuery } from "../../../hooks/useQuery";
 import { smoothScrollToTop } from "../../../tools/utils";
+import { IBlogPost } from "../../../types";
 import ListView from "../Home/ListView/ListView";
 import SideCol from "../SideCol/SideCol";
 
@@ -20,10 +21,21 @@ export default function Blogs() {
   const query = useQuery();
   const classes = useStyles();
   const { isLoading, blogPosts } = useHttpBlogPost({ isFetchNeeded: true });
-  const renderedList =
-    query.get("category") === null
-      ? blogPosts
-      : blogPosts.filter((p) => p.category?.name === query.get("category"));
+
+  const getPosts = (): IBlogPost[] => {
+    if (query.has("category")) {
+      return blogPosts.filter(
+        (p) => p.category?.name === query.get("category")
+      );
+    } else if (query.has("tag")) {
+      return blogPosts.filter((p) =>
+        p.tags.some((t) => t.name === query.get("tag"))
+      );
+    }
+    return blogPosts;
+  };
+
+  const renderedList = getPosts();
 
   //move page to top on category change
   useEffect(() => {

@@ -16,6 +16,7 @@ interface ITextEditorProps {
   setEditorContent: (x: string) => void;
 }
 
+//ADD CHIP PLUGIN
 export default function TextEditor({
   editorContent,
   setEditorContent,

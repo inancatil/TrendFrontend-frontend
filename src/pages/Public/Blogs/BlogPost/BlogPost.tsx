@@ -4,9 +4,9 @@ import { createStyles, makeStyles } from "@material-ui/core";
 import useBlogPost from "../../../../hooks/useBlogPost";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import Chip from "@material-ui/core/Chip";
 import { IBlogPost } from "../../../../types";
 import { smoothScrollToTop } from "../../../../tools/utils";
+import CustomChip from "./CustomChip";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -18,7 +18,6 @@ const useStyles = makeStyles(() =>
       marginBottom: 10,
     },
     chipGroup: { marginBottom: 35 },
-    chip: { marginRight: 15 },
   })
 );
 
@@ -39,11 +38,10 @@ export default function BlogPost() {
       </Typography>
       <div className={classes.chipGroup}>
         {postDetails.tags.map((tag: any) => (
-          <Chip
+          <CustomChip
             key={tag.id}
             label={tag.name}
             variant="outlined"
-            className={classes.chip}
             size="small"
           />
         ))}

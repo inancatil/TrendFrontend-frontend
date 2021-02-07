@@ -43,14 +43,14 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bolder",
     marginLeft: 15,
     "&:hover": {
-      color: "blue",
+      color: "#3f50b5",
       "&:after": {
         content: "''",
         position: "absolute",
         width: "100%",
         height: "2px",
         marginTop: 25,
-        backgroundColor: "blue",
+        backgroundColor: "#3f50b5",
         left: 0,
         animation: `$myEffect 500ms ${theme.transitions.easing.easeInOut}`,
       },
