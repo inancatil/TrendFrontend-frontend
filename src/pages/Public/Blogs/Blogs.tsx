@@ -31,6 +31,19 @@ export default function Blogs() {
       return blogPosts.filter((p) =>
         p.tags.some((t) => t.name === query.get("tag"))
       );
+    } else if (query.has("search")) {
+      const containedInTitle = blogPosts.filter((p) =>
+        p.title
+          .toLowerCase()
+          .includes(query.get("search")!.toString().toLowerCase())
+      );
+
+      const containedInCategory = blogPosts.filter(
+        (p) => p.category?.name === query.get("search")
+      );
+
+      const mergedList = containedInTitle.concat(containedInCategory);
+      return mergedList;
     }
     return blogPosts;
   };

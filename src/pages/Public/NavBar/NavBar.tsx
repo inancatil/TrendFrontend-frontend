@@ -128,6 +128,7 @@ export default function NavBar(props: INavBarProps) {
   const history = useHistory();
   const matches = useMediaQuery("(min-width:1200px)");
   const [drawerState, setDrawerState] = React.useState(false);
+  const [searchQuery, setsearchQuery] = React.useState("");
 
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
@@ -195,6 +196,11 @@ export default function NavBar(props: INavBarProps) {
     </div>
   );
 
+  const onSearch = () => {
+    history.push(`/blog/?search=${searchQuery}`);
+    setsearchQuery("");
+  };
+
   return (
     <>
       <CssBaseline />
@@ -261,6 +267,9 @@ export default function NavBar(props: INavBarProps) {
                         input: classes.inputInput,
                       }}
                       inputProps={{ "aria-label": "search" }}
+                      value={searchQuery}
+                      onChange={(e) => setsearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && onSearch()}
                     />
                   </div>
                 </Box>
