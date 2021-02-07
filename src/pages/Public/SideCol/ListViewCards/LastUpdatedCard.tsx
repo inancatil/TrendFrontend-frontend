@@ -31,21 +31,20 @@ export default function LastUpdatedCard() {
     .sort((a, b) => compare(new Date(a.date), new Date(b.date), false))
     .slice(0, 5)
     .map((bp) => (
-      <Link
-        key={bp.id}
-        to={{
-          pathname: `/blog/${bp.title}`,
-          state: { postDetails: bp },
-        }}
-      >
-        <ListItem>
-          <ListItemIcon className={classes.listIcon}>•</ListItemIcon>
+      <ListItem key={bp.id} disableGutters>
+        <ListItemIcon className={classes.listIcon}>•</ListItemIcon>
+        <Link
+          to={{
+            pathname: `/blog/${bp.title}`,
+            state: { postDetails: bp },
+          }}
+        >
           <ListItemText
             className={classes.item}
             primary={_.upperFirst(bp.title)}
           />
-        </ListItem>
-      </Link>
+        </Link>
+      </ListItem>
     ));
 
   return (

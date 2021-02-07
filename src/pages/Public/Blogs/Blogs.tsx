@@ -42,7 +42,15 @@ export default function Blogs() {
         (p) => p.category?.name === query.get("search")
       );
 
-      const mergedList = containedInTitle.concat(containedInCategory);
+      const containedInTags = blogPosts.filter((p) =>
+        p.tags.some((t) => t.name === query.get("search"))
+      );
+
+      const mergedList = [
+        ...containedInTitle,
+        ...containedInCategory,
+        ...containedInTags,
+      ];
       return mergedList;
     }
     return blogPosts;
