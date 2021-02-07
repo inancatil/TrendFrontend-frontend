@@ -3,7 +3,6 @@ import { Theme } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
-import { IF } from "../../../../tools/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

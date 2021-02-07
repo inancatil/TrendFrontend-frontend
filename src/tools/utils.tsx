@@ -82,7 +82,7 @@ export function compare(
 
 /**
  * Smooth scroll to top.
- * @param delay delay animation
+ * @param delay delay animation. Default is 0.
  * @param animDuration increase animSpeed to slow animation. Min is 1.
  */
 export const smoothScrollToTop = (

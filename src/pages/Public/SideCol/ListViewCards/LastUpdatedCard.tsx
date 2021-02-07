@@ -6,7 +6,6 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import _ from "lodash";
 import React from "react";
 import { Link } from "react-router-dom";
-import useHttpBlogPost from "../../../../hooks/api/useHttpBlogPost";
 import { compare } from "../../../../tools/utils";
 import { IBlogPost } from "../../../../types";
 import ListViewCard from "./ListViewCard";

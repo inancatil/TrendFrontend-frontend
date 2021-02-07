@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { smoothScrollToTop } from "../../../../tools/utils";
 import { IBlogPost } from "../../../../types";
 import Article from "./Article";
 import CustomPagination from "./CustomPagination";
@@ -24,6 +25,9 @@ export default function ListView({ blogPosts, isLoading }: IProps) {
   const classes = useStyles();
   const [curPage, setCurPage] = useState<number>(1);
   const numberOfPages = Math.ceil(blogPosts.length / NUM_OF_ARTICLES_PER_PAGE);
+  useEffect(() => {
+    smoothScrollToTop(100);
+  }, [curPage]);
   return (
     <div>
       {!isLoading ? (
