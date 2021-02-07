@@ -8,6 +8,7 @@ import {
   Paper,
   Theme,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import Image from "material-ui-image";
 import bgPhoto from "../../../../assets/images/photo1.jpg";
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function CustomCard({ postDetails }: IProps) {
+  const theme = useTheme();
   const classes = useStyles();
   const [raised, setRaised] = useState<boolean>(false);
   return (
@@ -93,7 +95,7 @@ export default function CustomCard({ postDetails }: IProps) {
               {moment(postDetails.date).format("MMM Do YY")}
             </Typography>
           </Box>
-          <Image src={bgPhoto} />
+          <Image src={bgPhoto} color={theme.palette.background.paper} />
         </Link>
       </Card>
     </Paper>
