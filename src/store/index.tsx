@@ -6,6 +6,7 @@ import thunk, { ThunkAction } from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 //import { composeWithDevTools } from "remote-redux-devtools";
 import { userReducer } from "./User/reducer";
+import { themeReducer } from "./Theme/reducer";
 
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { createSelectorHook } from "react-redux";
@@ -17,6 +18,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   userReducer,
+  themeReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

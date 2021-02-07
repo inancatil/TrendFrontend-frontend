@@ -20,6 +20,11 @@ import { Link, useHistory } from "react-router-dom";
 import { SearchIcon } from "@material-ui/data-grid";
 import InputBase from "@material-ui/core/InputBase";
 import Footer from "../Footer/Footer";
+import WbSunnyIcon from "@material-ui/icons/WbSunny";
+import NightsStayIcon from "@material-ui/icons/NightsStay";
+import { useSelector } from "../../../store";
+import { toggleDarkMode } from "../../../store/Theme/action";
+import { useDispatch } from "react-redux";
 
 const NAVBAR_HEIGHT = 75;
 const BOTTOM_MARGIN = 25;
@@ -118,6 +123,29 @@ function ElevationScroll(props: Props) {
     elevation: trigger ? 4 : 0,
   });
 }
+
+const DarkModeToggle = () => {
+  const dispatch = useDispatch();
+  const themeReducer = useSelector((state) => state.themeReducer);
+  const isDarkMode = themeReducer.type === "dark";
+  return (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      marginLeft={2}
+      marginRight={2}
+      style={{ cursor: "pointer" }}
+      onClick={() => dispatch(toggleDarkMode())}
+    >
+      {isDarkMode ? (
+        <NightsStayIcon color="primary" />
+      ) : (
+        <WbSunnyIcon color="primary" />
+      )}
+    </Box>
+  );
+};
 
 interface INavBarProps {
   children: React.ReactNode;
@@ -256,6 +284,7 @@ export default function NavBar(props: INavBarProps) {
                       About Me
                     </Button>
                   </Link>
+                  <DarkModeToggle />
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>
                       <SearchIcon />

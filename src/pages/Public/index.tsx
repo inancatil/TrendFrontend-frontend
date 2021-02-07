@@ -7,14 +7,17 @@ import NavBar from "./NavBar/NavBar";
 import Blogs from "./Blogs/Blogs";
 import AboutMe from "./AboutMe/AboutMe";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  palette: {
-    type: "light",
-  },
-});
+import { useSelector } from "../../store";
 
 export default function PublicRoutes() {
+  const themeReducer = useSelector((state) => state.themeReducer);
+
+  const theme = createMuiTheme({
+    palette: {
+      type: themeReducer.type,
+    },
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar>
