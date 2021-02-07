@@ -124,14 +124,14 @@ function ElevationScroll(props: Props) {
   });
 }
 
-const DarkModeToggle = () => {
+const DarkModeToggle = ({ isMobileSize }) => {
   const dispatch = useDispatch();
   const themeReducer = useSelector((state) => state.themeReducer);
   const isDarkMode = themeReducer.type === "dark";
   return (
     <Box
       display="flex"
-      justifyContent="center"
+      justifyContent={!isMobileSize ? "left" : "center"}
       alignItems="center"
       marginLeft={2}
       marginRight={2}
@@ -210,16 +210,7 @@ export default function NavBar(props: INavBarProps) {
             <ListItemText primary={"About Me"} />
           </ListItem>
         </Link>
-        <Link
-          to={"/contact"}
-          style={{
-            textDecoration: "none",
-          }}
-        >
-          <ListItem button>
-            <ListItemText primary={"Contact"} />
-          </ListItem>
-        </Link>
+        <DarkModeToggle isMobileSize={matches} />
       </List>
     </div>
   );
@@ -284,7 +275,7 @@ export default function NavBar(props: INavBarProps) {
                       About Me
                     </Button>
                   </Link>
-                  <DarkModeToggle />
+                  <DarkModeToggle isMobileSize={matches} />
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>
                       <SearchIcon />
