@@ -10,6 +10,7 @@ import clsx from "clsx";
 import "prismjs/themes/prism-okaidia.css";
 import { prismFormat } from "../../../../tools/utils";
 import Prism from "prismjs";
+import Box from "@material-ui/core/Box";
 
 interface IProps {
   code: string;
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       right: 15,
       top: 10,
+      zIndex: 1,
     },
   })
 );
@@ -89,10 +91,7 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
   }, []);
 
   return (
-    <pre
-      suppressContentEditableWarning={true}
-      className={clsx(["prism-code", codeFormat, classes.pre])}
-    >
+    <Box position="relative">
       {hasCopyButton && matches && (
         <Button
           variant="outlined"
@@ -104,12 +103,18 @@ export default function PrismBlock({ code, hasCopyButton = false }: IProps) {
           {btnText}
         </Button>
       )}
-      <code
+
+      <pre
         suppressContentEditableWarning={true}
-        className={clsx([classes.code])}
+        className={clsx(["prism-code", codeFormat, classes.pre])}
       >
-        {formattedCode}
-      </code>
-    </pre>
+        <code
+          suppressContentEditableWarning={true}
+          className={clsx([classes.code])}
+        >
+          {formattedCode}
+        </code>
+      </pre>
+    </Box>
   );
 }

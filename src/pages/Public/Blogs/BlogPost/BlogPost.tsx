@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createStyles, makeStyles } from "@material-ui/core";
 import useBlogPost from "../../../../hooks/useBlogPost";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import { IBlogPost } from "../../../../types";
 import { smoothScrollToTop } from "../../../../tools/utils";
 import CustomChip from "./CustomChip";
+import useHttpBlogPost from "../../../../hooks/api/useHttpBlogPost";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,32 +23,38 @@ const useStyles = makeStyles(() =>
 
 export default function BlogPost() {
   const classes = useStyles();
-  const { state: routerState } = useLocation<any>();
+  const { bptitle } = useParams<any>();
+  const { singlePost, getBlogPostByTitle, isLoading } = useHttpBlogPost();
   const { getAllContent } = useBlogPost();
-  const postDetails: IBlogPost = routerState.postDetails;
-
+  const postDetails = singlePost;
   useEffect(() => {
+    getBlogPostByTitle(bptitle);
     smoothScrollToTop(100);
-  }, []);
+  }, [bptitle, getBlogPostByTitle]);
 
+  console.log(postDetails);
   return (
     <>
-      <Typography variant="h1" className={classes.title} color="primary">
-        {postDetails.title}
-      </Typography>
-      <div className={classes.chipGroup}>
-        {postDetails.tags.map((tag: any) => (
-          <CustomChip
-            key={tag.id}
-            label={tag.name}
-            variant="outlined"
-            size="small"
-          />
-        ))}
-      </div>
-      <Paper elevation={6} className={classes.root}>
-        {getAllContent(postDetails.content)}
-      </Paper>
+      {postDetails !== null && !isLoading && (
+        <>
+          <Typography variant="h1" className={classes.title} color="primary">
+            {postDetails.title}
+          </Typography>
+          <div className={classes.chipGroup}>
+            {postDetails.tags.map((tag: any) => (
+              <CustomChip
+                key={tag.id}
+                label={tag.name}
+                variant="outlined"
+                size="small"
+              />
+            ))}
+          </div>
+          <Paper elevation={6} className={classes.root}>
+            {getAllContent(postDetails.content)}
+          </Paper>
+        </>
+      )}
     </>
   );
 }

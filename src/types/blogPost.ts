@@ -16,9 +16,11 @@ export interface IBlogPost {
     id: string;
     name: string;
   } | null;
+  url: string;
+  viewCount: string
 }
 
-export interface ICreateBlogPostResponse {
+export interface ISingleBlogPostResponse {
   blogPost: IBlogPost;
 }
 

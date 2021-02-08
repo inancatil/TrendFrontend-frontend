@@ -33,12 +33,7 @@ export default function Article({ postDetails }: IProps) {
       <Card className={classes.root} variant="outlined">
         <Box>
           <CardContent>
-            <Link
-              to={{
-                pathname: `/blog/${postDetails.title}`,
-                state: { postDetails },
-              }}
-            >
+            <Link to={`/blog/${postDetails.url}`}>
               <Typography variant="h4" className={classes.title} noWrap>
                 {postDetails.title}
               </Typography>

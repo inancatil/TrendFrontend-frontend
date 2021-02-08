@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "../../config/axios-config";
 import {
   IBlogPost,
-  ICreateBlogPostResponse,
+  ISingleBlogPostResponse,
   IGetAllBlogPostsResponse,
 } from "../../types";
 import useComponentMounted from "../useComponentMounted";
@@ -34,6 +34,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
   const [error, setError] = useState<string>("");
   const [isSuccessfull, setIsSuccessfull] = useState(false);
   const [blogPosts, setblogPosts] = useState<IBlogPost[]>([]);
+  const [singlePost, setSinglePost] = useState<IBlogPost | null>(null);
 
   const addNewBlogPost = useCallback(
     async (post: INewBlogPost) => {
@@ -45,7 +46,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           .post("/api/blogPosts", {
             ...post,
           })
-          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+          .then((res: AxiosResponse<ISingleBlogPostResponse>) => {
             isMounted && setIsSuccessfull(res.status === 201);
           })
           .catch((err) => {
@@ -85,6 +86,32 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     }
   }, [isMounted]);
 
+  const getBlogPostByTitle = useCallback(
+    async (title: string) => {
+      setIsLoading(true);
+      setIsSuccessfull(false);
+      console.log(title);
+      try {
+        await axios
+          .get(`/api/blogPosts/${title}`)
+          .then((res: AxiosResponse<ISingleBlogPostResponse>) => {
+            isMounted && setSinglePost(res.data.blogPost);
+            isMounted && setIsSuccessfull(res.status === 200);
+          })
+          .catch((err) => {
+            //Backend tarafındaki custom errors
+            isMounted && setError(err.response.data.message);
+          })
+          .finally(() => {
+            isMounted && setIsLoading(false);
+          });
+      } catch (err) {
+        isMounted && setError("Unknown Error");
+      }
+    },
+    [isMounted]
+  );
+
   const updateBlogPost = useCallback(
     async (id: string, post: INewBlogPost) => {
       setIsLoading(true);
@@ -95,7 +122,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
           .put(`/api/blogPosts/${id}`, {
             ...post,
           })
-          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+          .then((res: AxiosResponse<ISingleBlogPostResponse>) => {
             isMounted && setIsSuccessfull(res.status === 201);
           })
           .catch((err) => {
@@ -122,7 +149,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
       try {
         await axios
           .delete(`/api/blogPosts/${id}`)
-          .then((res: AxiosResponse<ICreateBlogPostResponse>) => {
+          .then((res: AxiosResponse<ISingleBlogPostResponse>) => {
             //Fetch all posts to update redux.
             //Can be manually done in reducer to decrease api call
             res.status === 201 && getAllBlogPosts();
@@ -148,6 +175,7 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
   }, [getAllBlogPosts, defaultParams.isFetchNeeded]);
 
   return {
+    singlePost,
     blogPosts,
     isLoading,
     error,
@@ -156,5 +184,6 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     getAllBlogPosts,
     updateBlogPost,
     deleteBlogPost,
+    getBlogPostByTitle,
   };
 }

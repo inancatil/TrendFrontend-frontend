@@ -62,11 +62,18 @@ export default function useBlogPost() {
     } else return <React.Fragment key={i}>{parse(tag)}</React.Fragment>;
   };
 
+  /**
+   * returns content as it is.
+   */
   const getAllContent = (code: string) => {
     return code
       .match(/<(.*?)( .*?|)>.*?<\/(\1)>/gs)! //matches all html tags and creates an array
       .map((el: string, i: number) => displayedContent(el, i, true));
   };
+
+  /**
+   *Returns first 3 html element to display for card view
+   */
   const summarizeContent = (code: string) => {
     return code
       .match(/<(.*?)( .*?|)>.*?<\/(\1)>/gs)! //matches all html tags and creates an array

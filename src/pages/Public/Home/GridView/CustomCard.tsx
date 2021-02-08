@@ -57,12 +57,7 @@ export default function CustomCard({ postDetails }: IProps) {
         onMouseLeave={() => setRaised(false)}
         className={classes.card}
       >
-        <Link
-          to={{
-            pathname: `/blog/${postDetails.title}`,
-            state: { postDetails },
-          }}
-        >
+        <Link to={`/blog/${postDetails.url}`}>
           <Box
             className={classes.box}
             position={"absolute"}

@@ -115,3 +115,12 @@ export function IF({ children, condition }) {
   }
   return null;
 }
+
+export const titleToUrlFormat = (title: string): string => {
+  const url = title
+    .replace(/[^a-zA-Z0-9 ]/g, "")
+    .trimEnd()
+    .replace(/\s/g, "-")
+    .toLowerCase();
+  return url;
+};

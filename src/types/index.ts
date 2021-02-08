@@ -9,7 +9,7 @@ export type { IUser } from "./user";
 
 export type {
   IBlogPost,
-  ICreateBlogPostResponse,
+  ISingleBlogPostResponse,
   IGetAllBlogPostsResponse,
 } from "./blogPost";
 
