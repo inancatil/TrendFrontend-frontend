@@ -36,12 +36,7 @@ export default function LastUpdatedCard({ blogPosts }: IProps) {
     .map((bp) => (
       <ListItem key={bp.id} disableGutters>
         <ListItemIcon className={classes.listIcon}>•</ListItemIcon>
-        <Link
-          to={{
-            pathname: `/blog/${bp.title}`,
-            state: { postDetails: bp },
-          }}
-        >
+        <Link to={`/blog/${bp.url}`}>
           <ListItemText
             className={classes.item}
             primary={_.upperFirst(bp.title)}
