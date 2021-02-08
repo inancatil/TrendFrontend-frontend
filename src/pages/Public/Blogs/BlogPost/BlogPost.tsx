@@ -10,7 +10,7 @@ import useHttpBlogPost from "../../../../hooks/api/useHttpBlogPost";
 
 const useStyles = makeStyles(() =>
   createStyles({
-    root: { padding: 25, marginBottom: 35 },
+    root: { padding: 25, marginBottom: 35, marginTop: 15 },
     title: {
       fontWeight: "bolder",
       lineHeight: 1.1,
@@ -21,6 +21,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
+//REFACTOR NEEDED
 export default function BlogPost() {
   const classes = useStyles();
   const { bptitle } = useParams<any>();
@@ -50,6 +51,9 @@ export default function BlogPost() {
               />
             ))}
           </div>
+          <Typography variant="h5" color="primary">
+            Total View: {postDetails.viewCount ? postDetails.viewCount : 0}
+          </Typography>
           <Paper elevation={6} className={classes.root}>
             {getAllContent(postDetails.content)}
           </Paper>
