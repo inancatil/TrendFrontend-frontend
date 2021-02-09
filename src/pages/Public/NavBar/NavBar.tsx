@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -131,10 +131,35 @@ function ElevationScroll(props: Props) {
   });
 }
 
+const useDarkToggleStyles = makeStyles((theme) => ({
+  animatedItem: {
+    animation: `$enterAnim 2000ms ${theme.transitions.easing.easeInOut}`,
+  },
+
+  "@keyframes enterAnim": {
+    "0%": {
+      transform: "translateY(0px)",
+    },
+    "50%": {
+      transform: "translateY(50px)",
+    },
+    "100%": {
+      transform: "translateY(0)",
+    },
+  },
+}));
+
 const DarkModeToggle = ({ isMobileSize }) => {
+  const classes = useDarkToggleStyles();
   const dispatch = useDispatch();
   const themeReducer = useSelector((state) => state.themeReducer);
+  const [isDark, setisDark] = React.useState(themeReducer.type === "dark");
   const isDarkMode = themeReducer.type === "dark";
+
+  useEffect(() => {
+    setisDark(!isDark);
+  }, [themeReducer]);
+
   return (
     <Box
       display="flex"
@@ -145,8 +170,10 @@ const DarkModeToggle = ({ isMobileSize }) => {
       style={{ cursor: "pointer" }}
       onClick={() => dispatch(toggleDarkMode())}
     >
-      <IconButton color="primary">
-        {isDarkMode ? <NightsStayIcon /> : <WbSunnyIcon />}
+      <IconButton color="primary" style={{ overflow: "hidden" }}>
+        <Box className={clsx(classes.animatedItem)}>
+          {isDark ? <NightsStayIcon /> : <WbSunnyIcon />}
+        </Box>
       </IconButton>
     </Box>
   );
