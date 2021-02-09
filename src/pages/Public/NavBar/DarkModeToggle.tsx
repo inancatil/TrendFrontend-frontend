@@ -67,7 +67,7 @@ export default function DarkModeToggle() {
       style={{ cursor: "pointer" }}
       onClick={() => dispatch(toggleDarkMode())}
     >
-      <IconButton color="primary" style={{ overflow: "hidden" }}>
+      <IconButton disableRipple color="primary" style={{ overflow: "hidden" }}>
         <Box
           style={{
             transform: isDarkMode ? "translateY(50px)" : "translateY(0)",

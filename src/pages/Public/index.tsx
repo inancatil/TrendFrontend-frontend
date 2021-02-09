@@ -13,6 +13,15 @@ export default function PublicRoutes() {
   const themeReducer = useSelector((state) => state.themeReducer);
 
   const theme = createMuiTheme({
+    overrides: {
+      MuiCssBaseline: {
+        "@global": {
+          button: {
+            outline: "none !important",
+          },
+        },
+      },
+    },
     palette: {
       type: themeReducer.type,
     },

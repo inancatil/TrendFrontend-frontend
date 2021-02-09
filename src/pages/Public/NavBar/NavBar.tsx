@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         width: "100%",
         height: "2px",
-        marginTop: 15,
+        marginTop: 25,
         backgroundColor: "#3f50b5",
         left: 0,
         animation: `$myEffect 500ms ${theme.transitions.easing.easeInOut}`,
