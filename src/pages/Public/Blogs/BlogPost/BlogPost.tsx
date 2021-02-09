@@ -33,7 +33,6 @@ export default function BlogPost() {
     smoothScrollToTop(100);
   }, [bptitle, getBlogPostByTitle]);
 
-  console.log(postDetails);
   return (
     <>
       {postDetails !== null && !isLoading && (

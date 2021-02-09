@@ -26,12 +26,12 @@ export default function Footer() {
     <Box className={classes.container}>
       <Container maxWidth="md" style={{ paddingLeft: 24, paddingRight: 24 }}>
         <Grid container spacing={3}>
-          <Grid item xs={4}>
+          <Grid item md={4} xs={12}>
             <Paper className={classes.paper} elevation={0}>
               <About />
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md={4} xs={12}>
             <Paper className={classes.paper} elevation={0}>
               Vestibulum quam ligula, commodo non ultrices vel, egestas in mi.
               Aliquam erat volutpat. Maecenas in lacus non sapien ornare congue.
@@ -40,7 +40,7 @@ export default function Footer() {
               ipsum velit, eu suscipit nunc imperdiet ac.
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md={4} xs={12}>
             <Paper className={classes.paper} elevation={0}>
               Donec et justo enim. In dictum mi vitae tellus gravida egestas.
               Quisque feugiat urna sed elit accumsan, eu placerat ex aliquet. In
