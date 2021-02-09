@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -20,11 +20,7 @@ import { Link, useHistory } from "react-router-dom";
 import { SearchIcon } from "@material-ui/data-grid";
 import InputBase from "@material-ui/core/InputBase";
 import Footer from "../Footer/Footer";
-import WbSunnyIcon from "@material-ui/icons/WbSunny";
-import NightsStayIcon from "@material-ui/icons/NightsStay";
-import { useSelector } from "../../../store";
-import { toggleDarkMode } from "../../../store/Theme/action";
-import { useDispatch } from "react-redux";
+import DarkModeToggle from "./DarkModeToggle";
 
 const NAVBAR_HEIGHT = 75;
 const BOTTOM_MARGIN = 25;
@@ -131,54 +127,6 @@ function ElevationScroll(props: Props) {
   });
 }
 
-const useDarkToggleStyles = makeStyles((theme) => ({
-  animatedItem: {
-    animation: `$enterAnim 2000ms ${theme.transitions.easing.easeInOut}`,
-  },
-
-  "@keyframes enterAnim": {
-    "0%": {
-      transform: "translateY(0px)",
-    },
-    "50%": {
-      transform: "translateY(50px)",
-    },
-    "100%": {
-      transform: "translateY(0)",
-    },
-  },
-}));
-
-const DarkModeToggle = ({ isMobileSize }) => {
-  const classes = useDarkToggleStyles();
-  const dispatch = useDispatch();
-  const themeReducer = useSelector((state) => state.themeReducer);
-  const [isDark, setisDark] = React.useState(themeReducer.type === "dark");
-  const isDarkMode = themeReducer.type === "dark";
-
-  useEffect(() => {
-    setisDark(!isDark);
-  }, [themeReducer]);
-
-  return (
-    <Box
-      display="flex"
-      justifyContent={!isMobileSize ? "left" : "center"}
-      alignItems="center"
-      marginLeft={2}
-      marginRight={2}
-      style={{ cursor: "pointer" }}
-      onClick={() => dispatch(toggleDarkMode())}
-    >
-      <IconButton color="primary" style={{ overflow: "hidden" }}>
-        <Box className={clsx(classes.animatedItem)}>
-          {isDark ? <NightsStayIcon /> : <WbSunnyIcon />}
-        </Box>
-      </IconButton>
-    </Box>
-  );
-};
-
 interface INavBarProps {
   children: React.ReactNode;
 }
@@ -227,7 +175,7 @@ export default function NavBar(props: INavBarProps) {
             <ListItemText primary={"About Me"} />
           </ListItem>
         </Link>
-        <DarkModeToggle isMobileSize={matches} />
+        <DarkModeToggle />
       </List>
     </div>
   );
@@ -277,7 +225,7 @@ export default function NavBar(props: INavBarProps) {
                       About Me
                     </Button>
                   </Link>
-                  <DarkModeToggle isMobileSize={matches} />
+                  <DarkModeToggle />
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>
                       <SearchIcon />
@@ -319,10 +267,19 @@ export default function NavBar(props: INavBarProps) {
         </AppBar>
       </ElevationScroll>
       <Toolbar style={{ height: NAVBAR_HEIGHT, marginBottom: BOTTOM_MARGIN }} />
-      <Container maxWidth="md" style={{ paddingLeft: 24, paddingRight: 24 }}>
-        {props.children!}
-      </Container>
-      <Footer />
+      <Box
+        display="flex"
+        flexDirection="column"
+        height={`calc(100vh - ${NAVBAR_HEIGHT + 15}px)`}
+      >
+        <Container
+          maxWidth="md"
+          style={{ paddingLeft: 24, paddingRight: 24, marginBottom: 25 }}
+        >
+          {props.children!}
+        </Container>
+        <Footer />
+      </Box>
     </>
   );
 }

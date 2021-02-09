@@ -90,7 +90,6 @@ export default function useHttpBlogPost(params?: Partial<IProps>) {
     async (title: string) => {
       setIsLoading(true);
       setIsSuccessfull(false);
-      console.log(title);
       try {
         await axios
           .get(`/api/blogPosts/${title}`)

@@ -1,3 +1,4 @@
+import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -7,10 +8,9 @@ import About from "./About";
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
+    marginTop: "auto",
     backgroundColor: "gray",
     padding: 15,
-
-    marginTop: theme.spacing(3),
   },
   paper: {
     padding: theme.spacing(1),
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Footer() {
   const classes = useStyles();
   return (
-    <Container className={classes.container}>
+    <Box className={classes.container}>
       <Container maxWidth="md" style={{ paddingLeft: 24, paddingRight: 24 }}>
         <Grid container spacing={3}>
           <Grid item xs={4}>
@@ -52,6 +52,6 @@ export default function Footer() {
           </Grid>
         </Grid>
       </Container>
-    </Container>
+    </Box>
   );
 }

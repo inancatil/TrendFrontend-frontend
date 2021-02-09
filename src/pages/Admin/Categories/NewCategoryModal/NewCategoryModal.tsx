@@ -32,6 +32,7 @@ export default function NewCategoryModal({
   return (
     <div>
       <Dialog
+        fullWidth
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
