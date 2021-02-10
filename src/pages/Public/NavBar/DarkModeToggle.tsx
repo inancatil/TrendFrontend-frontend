@@ -67,26 +67,10 @@ export default function DarkModeToggle() {
       style={{ cursor: "pointer" }}
       onClick={() => dispatch(toggleDarkMode())}
     >
-      <IconButton disableRipple color="primary" style={{ overflow: "hidden" }}>
+      <IconButton disableRipple style={{ overflow: "hidden" }}>
         <Box
           style={{
-            transform: isDarkMode ? "translateY(50px)" : "translateY(0)",
-          }}
-          className={clsx(
-            classes.root,
-            {
-              [classes.enterAnim]: !isDarkMode && enableAnim,
-            },
-            {
-              [classes.exitAnim]: isDarkMode && enableAnim,
-            }
-          )}
-        >
-          <WbSunnyIcon />
-        </Box>
-        <Box
-          style={{
-            transform: isDarkMode ? "translateY(0)" : "translateY(50px)",
+            transform: !isDarkMode ? "translateY(50px)" : "translateY(0)",
           }}
           className={clsx(
             classes.root,
@@ -98,7 +82,23 @@ export default function DarkModeToggle() {
             }
           )}
         >
-          <NightsStayIcon />
+          <WbSunnyIcon style={{ color: "#ffeb3b" }} />
+        </Box>
+        <Box
+          style={{
+            transform: !isDarkMode ? "translateY(0)" : "translateY(50px)",
+          }}
+          className={clsx(
+            classes.root,
+            {
+              [classes.enterAnim]: !isDarkMode && enableAnim,
+            },
+            {
+              [classes.exitAnim]: isDarkMode && enableAnim,
+            }
+          )}
+        >
+          <NightsStayIcon color="primary" />
         </Box>
       </IconButton>
     </Box>
