@@ -273,7 +273,7 @@ export default function NavBar(props: INavBarProps) {
         height={`calc(100vh - ${NAVBAR_HEIGHT + 15}px)`}
       >
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           style={{ paddingLeft: 24, paddingRight: 24, marginBottom: 25 }}
         >
           {props.children!}

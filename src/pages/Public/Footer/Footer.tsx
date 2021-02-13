@@ -24,7 +24,7 @@ export default function Footer() {
   const classes = useStyles();
   return (
     <Box className={classes.container}>
-      <Container maxWidth="md" style={{ paddingLeft: 24, paddingRight: 24 }}>
+      <Container maxWidth="lg" style={{ paddingLeft: 24, paddingRight: 24 }}>
         <Grid container spacing={3}>
           <Grid item md={4} xs={12}>
             <Paper className={classes.paper} elevation={0}>

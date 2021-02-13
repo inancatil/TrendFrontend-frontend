@@ -12,6 +12,12 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { usePrevious } from "./../../../tools/utils";
 
 const useDarkToggleStyles = makeStyles((theme: Theme) => ({
+  iconButton: {
+    overflow: "hidden",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
   root: {
     position: "absolute",
   },
@@ -67,7 +73,12 @@ export default function DarkModeToggle() {
       style={{ cursor: "pointer" }}
       onClick={() => dispatch(toggleDarkMode())}
     >
-      <IconButton disableRipple style={{ overflow: "hidden" }}>
+      <IconButton
+        disableTouchRipple
+        disableRipple
+        disableFocusRipple
+        className={classes.iconButton}
+      >
         <Box
           style={{
             transform: !isDarkMode ? "translateY(50px)" : "translateY(0)",
