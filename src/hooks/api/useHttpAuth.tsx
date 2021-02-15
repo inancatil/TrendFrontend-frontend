@@ -6,36 +6,34 @@ import { useDispatch } from "react-redux";
 import * as userActions from "../../store/User/action";
 import { useSelector } from "../../store";
 import { LOGOUT } from "../../store/User/types";
+import { IUser } from "../../types";
+import useComponentMounted from "../useComponentMounted";
 
-export default function useHttpAuth() {
+type IProps = {
+  isFetchNeeded?: boolean;
+};
+
+export default function useHttpAuth(params?: Partial<IProps>) {
+  const defaultParams: IProps = {
+    isFetchNeeded: false,
+    ...params,
+  };
+
   const { isLoggedIn } = useSelector((state) => state.userReducer);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(
+    params?.isFetchNeeded ? true : false
+  );
   const [error, setError] = useState<string[]>([]);
   const dispatch = useDispatch();
-  const [mounted, setmounted] = useState(true);
-  //#region refresh token
-  // const refreshTokenTimeout = useRef<any>(null);
-
-  // const startRefreshTokenTimer = useCallback((tkn: string) => {
-  //   // parse json object from base64 encoded jwt token
-  //   const jwtToken = JSON.parse(atob(tkn.split(".")[1]));
-
-  //   // set a timeout to refresh the token a minute before it expires
-  //   const expires = new Date(jwtToken.exp * 1000);
-  //   const timeout = expires.getTime() - Date.now() - 60 * 1000;
-  //   refreshTokenTimeout.current = setTimeout(() => refreshToken(), timeout);
-  // }, []);
-
-  // function stopRefreshTokenTimer() {
-  //   clearTimeout(refreshTokenTimeout.current);
-  // }
-  //#endregion
+  const { isMounted } = useComponentMounted();
+  const [allUsers, setAllUsers] = useState<
+    Omit<IUser, "isLoggedIn" | "jwtToken">[]
+  >([]);
 
   const login = useCallback(
     async (email: string, password: string) => {
       setIsLoading(true);
 
-      setmounted(true);
       try {
         await axios
           .post("/api/users/authenticate", {
@@ -43,9 +41,10 @@ export default function useHttpAuth() {
             password,
           })
           .then((res: AxiosResponse<IAuthResponse>) => {
-            mounted && dispatch(userActions.login(res.data));
+            isMounted && dispatch(userActions.login(res.data));
           })
           .catch((err) => {
+            console.log(err);
             setError(err.response.data.error.messages);
           })
           .finally(() => {
@@ -55,17 +54,17 @@ export default function useHttpAuth() {
         setError(["Unknown Error"]);
       }
     },
-    [dispatch, mounted]
+    [dispatch, isMounted]
   );
 
   const logout = useCallback(async () => {
     setIsLoading(true);
-    setmounted(true);
+
     try {
       await axios
         .post("/api/users/revoke-token")
         .then((res: AxiosResponse<any>) => {
-          mounted && dispatch(userActions.logout());
+          isMounted && dispatch(userActions.logout());
         })
         .catch((err) => {
           //Backend tarafındaki custom errors
@@ -77,7 +76,7 @@ export default function useHttpAuth() {
     } catch (err) {
       setError(["Unknown Error"]);
     }
-  }, [dispatch, mounted]);
+  }, [dispatch, isMounted]);
 
   const refreshToken = useCallback(async () => {
     try {
@@ -101,14 +100,36 @@ export default function useHttpAuth() {
     }
   }, [dispatch]);
 
+  const getAllUsers = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await axios
+        .get("/api/users")
+        .then((res: AxiosResponse<any>) => {
+          isMounted && setAllUsers(res.data);
+        })
+        .catch((err) => {
+          //Backend tarafındaki custom errors
+          isMounted && setError(err.response.data.error.messages);
+        })
+        .finally(() => {
+          isMounted && setIsLoading(false);
+        });
+    } catch (err) {
+      isMounted && setError(["Unknown Error"]);
+      console.log("Unknown Error");
+    }
+  }, [isMounted]);
+
   const createNewUser = useCallback(
-    async (email: string, password: string, role: string) => {
+    async (name: string, email: string, password: string, role: string) => {
       setIsLoading(true);
       try {
         await axios
-          .post("/api/users/create-user", { email, password, role })
+          .post("/api/users/create-user", { name, email, password, role })
           .then((res: AxiosResponse<any>) => {
             console.log(res.data);
+            isMounted && getAllUsers();
           })
           .catch((err) => {
             //Backend tarafındaki custom errors
@@ -122,15 +143,12 @@ export default function useHttpAuth() {
         console.log("Unknown Error");
       }
     },
-    []
+    [getAllUsers, isMounted]
   );
 
-  //To fix updating redux state on unmounted component error
   useEffect(() => {
-    return () => {
-      setmounted(false);
-    };
-  }, []);
+    defaultParams.isFetchNeeded && getAllUsers();
+  }, [defaultParams.isFetchNeeded, getAllUsers]);
 
   return {
     login,
@@ -140,5 +158,7 @@ export default function useHttpAuth() {
     error,
     isLoading,
     createNewUser,
+    getAllUsers,
+    allUsers,
   };
 }

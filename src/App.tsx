@@ -16,6 +16,7 @@ import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import "suneditor/dist/css/suneditor.min.css";
 
 library.add(faFilePdf, fab);
+
 export default function App() {
   return (
     <Provider store={store}>

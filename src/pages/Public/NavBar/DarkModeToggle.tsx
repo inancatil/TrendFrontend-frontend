@@ -62,6 +62,7 @@ export default function DarkModeToggle() {
   const isDarkMode = themeReducer.type === "dark";
   const prevMode = usePrevious(isDarkMode);
   const enableAnim = isDarkMode !== prevMode && isMobileSize;
+
   return (
     <Box
       position="relative"
